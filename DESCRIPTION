@@ -1,0 +1,8 @@
+Package: rOMERO
+Title: OMERO R Gateway
+Version: 5.2.0
+Authors@R: person("Dominik", "Lindner", email = "d.lindner@dundee.ac.uk", role = c("aut", "cre"))
+Description: OMERO R Gateway
+Depends: R (>= 3.2.2)
+License: GPL
+LazyData: true

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>ome</groupId>
+        <artifactId>pom-omero-client</artifactId>
+        <version>5.1.13</version>
+    </parent>
+
+    <groupId>org.openmicroscopy</groupId>
+    <artifactId>rOMERO</artifactId>
+    <packaging>pom</packaging>
+    <version>5.2.0</version>
+
+    <name>rOMERO</name>
+    <description>OMERO R Gateway</description>
+
+    <dependencies>
+        <dependency>
+          <groupId>omero</groupId>
+          <artifactId>blitz</artifactId>
+          <version>5.2.0-rc2-ice35-b10</version>
+        </dependency>
+        <dependency>
+          <groupId>ome</groupId>
+          <artifactId>bioformats_package</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>commons-lang</groupId>
+          <artifactId>commons-lang</artifactId>
+          <version>2.5</version>
+        </dependency>
+        <dependency>
+          <groupId>commons-collections</groupId>
+          <artifactId>commons-collections</artifactId>
+          <version>3.2</version>
+        </dependency>
+        <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+          <version>17.0</version>
+        </dependency>
+    </dependencies>
+    <repositories>
+        <repository>
+          <id>ome.maven</id>
+          <url>http://artifacts.openmicroscopy.org/artifactory/maven/</url>
+        </repository>
+        <repository>
+          <id>ome.staging</id>
+          <url>http://artifacts.openmicroscopy.org/artifactory/simple/ome.staging</url>
+        </repository>
+    </repositories>
+
+    <build>
+      <plugins>
+
+        <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-jar</id>
+            <phase>never</phase>
+            <configuration>
+              <finalName>unwanted</finalName>
+              <classifier>unwanted</classifier>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.4</version>
+          <executions>
+              <execution>
+                  <id>copy-dependencies</id>
+                  <goals>
+                    <goal>copy-dependencies</goal>
+                  </goals>
+                  <configuration>
+                    <outputDirectory>${project.basedir}/lib</outputDirectory>
+                  </configuration>
+              </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </build>
+
+</project>
+
