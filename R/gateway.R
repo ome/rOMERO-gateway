@@ -1,17 +1,12 @@
 library(rJava)
 .jinit()
 
-files <- list.files(path="/home/dominik/workspace/rOMERO/lib", pattern="*.jar", full.names=T, recursive=FALSE)
+files <- list.files(path="lib", pattern="*.jar", full.names=T, recursive=FALSE)
 lapply(files, function(f) {
   .jaddClassPath(f)
 })
 
-SimpleLogger <- J("omero.log.SimpleLogger")
-LoginCredentials <- J("omero.gateway.LoginCredentials")
-SecurityContext <- J("omero.gateway.SecurityContext")
-Gateway <- J("omero.gateway.Gateway")
-ExperimenterData <- J("omero.gateway.model.ExperimenterData")
-BrowseFacility <- J("omero.gateway.facility.BrowseFacility")
+source("R/initJavaClasses.R")
 
 e <- new.env()
 
@@ -40,11 +35,60 @@ disconnect <- function() {
   gateway$disconnect()
 }
 
+getUserId <- function() {
+  return(get("user", e)$getId())
+}
+
 listDatasets <- function() {
   gateway <- get("gateway", e)
   ctx <- get("ctx", e)
   browse <- gateway$getFacility(BrowseFacility$class)
   datasets <- browse$getDatasets(ctx);
-  return(datasets)
+  return(as.list(datasets))
 }
 
+getDataset <- function(datasetId) {
+  gateway <- get("gateway", e)
+  ctx <- get("ctx", e)
+  browse <- gateway$getFacility(BrowseFacility$class)
+  ids <- new(ArrayList)
+  ids$add( .jnew("java/lang/Long", .jlong(datasetId)) )
+  datasets <- browse$getDatasets(ctx, ids)
+  return(datasets$get(as.integer(0)))
+}
+
+listImages <- function(datasetId) {
+  gateway <- get("gateway", e)
+  ctx <- get("ctx", e)
+  browse <- gateway$getFacility(BrowseFacility$class)
+  
+  ids <- new(ArrayList)
+  ids$add( .jnew("java/lang/Long", .jlong(datasetId)) )
+  images <- browse$getImagesForDatasets(ctx, ids)
+  return(as.list(images))
+}
+
+listROIs <- function(image) {
+  gateway <- get("gateway", e)
+  ctx <- get("ctx", e)
+  roifac <- gateway$getFacility(ROIFacility$class);
+  rois <- roifac$loadShapes(ctx, .jlong(image$getId()));
+  return(as.list(rois))
+}
+
+listImageAnnotations <- function(image) {
+  gateway <- get("gateway", e)
+  ctx <- get("ctx", e)
+  mf <- gateway$getFacility(MetadataFacility$class);
+  annos <- mf$getAnnotations(ctx, .jcast(image, "omero/gateway/model/ImageData"))
+  return(as.list(annos))
+}
+
+addFile <- function(file, dataset) {
+  gateway <- get("gateway", e)
+  ctx <- get("ctx", e)
+  dm <- gateway$getFacility(DataManagerFacility$class);
+  jf <- new(JFile, as.character(file))
+  anno <- dm$attachFile(ctx, jf, .jnull(), .jnull(), .jnull(), .jcast(dataset, "omero/gateway/model/DatasetData"), .jnull())
+  return(anno) 
+}

@@ -1,0 +1,19 @@
+# Genereal Java classes
+ArrayList <- J("java.util.ArrayList")
+JFile <- J("java.io.File")
+
+# General Gateway classes
+SimpleLogger <- J("omero.log.SimpleLogger")
+LoginCredentials <- J("omero.gateway.LoginCredentials")
+SecurityContext <- J("omero.gateway.SecurityContext")
+Gateway <- J("omero.gateway.Gateway")
+BrowseFacility <- J("omero.gateway.facility.BrowseFacility")
+ROIFacility <- J("omero.gateway.facility.ROIFacility")
+MetadataFacility <- J("omero.gateway.facility.MetadataFacility")
+DataManagerFacility <- J("omero.gateway.facility.DataManagerFacility")
+
+# Gateway POJOs
+ExperimenterData <- J("omero.gateway.model.ExperimenterData")
+MapAnnotationData <- J("omero.gateway.model.MapAnnotationData")
+TagAnnotationData <- J("omero.gateway.model.TagAnnotationData")
+FileAnnotationData <- J("omero.gateway.model.FileAnnotationData")
