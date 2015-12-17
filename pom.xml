@@ -4,20 +4,22 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
         http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <properties>
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
 	<bioformats.version>5.1.7</bioformats.version>
     </properties>
 
     <parent>
         <groupId>ome</groupId>
         <artifactId>pom-omero-client</artifactId>
-        <version>5.2.1</version>
+        <version>5.2.4</version>
     </parent>
 
     <groupId>org.openmicroscopy</groupId>
     <artifactId>rOMERO</artifactId>
     <packaging>pom</packaging>
-    <version>5.2.1</version>
+    <version>5.2.4</version>
 
     <name>rOMERO</name>
     <description>OMERO R Gateway</description>
