@@ -13,6 +13,7 @@ MetadataFacility <- J("omero.gateway.facility.MetadataFacility")
 DataManagerFacility <- J("omero.gateway.facility.DataManagerFacility")
 
 # Gateway POJOs
+DataObject <- J("omero.gateway.model.DataObject")
 ExperimenterData <- J("omero.gateway.model.ExperimenterData")
 MapAnnotationData <- J("omero.gateway.model.MapAnnotationData")
 TagAnnotationData <- J("omero.gateway.model.TagAnnotationData")
