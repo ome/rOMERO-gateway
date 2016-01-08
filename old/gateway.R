@@ -1,12 +1,4 @@
-library(rJava)
-.jinit()
-
-files <- list.files(path="lib", pattern="*.jar", full.names=T, recursive=FALSE)
-lapply(files, function(f) {
-  .jaddClassPath(f)
-})
-
-source("R/initJavaClasses.R")
+source("../R/initJavaClasses.R")
 
 e <- new.env()
 

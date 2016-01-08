@@ -1,5 +1,15 @@
 setClassUnion("jclassOrNULL", c("jobjRef", "NULL"))
 
+#' OMEROServer class
+#' Provides access to an OMERO server
+#' 
+#' @slot host The host name
+#' @slot port The port number
+#' @slot username The username
+#' @slot password The password
+#' @slot gateway Reference to the Gateway
+#' @slot user The logged in user
+#' @slot ctx The current SecurityContext
 OMEROServer <- setClass(
   
   "OMEROServer",
@@ -61,6 +71,12 @@ setGeneric(name="loadObject",
            }
 )
 
+#' Connect to an OMERO server
+#' 
+#' @param server The server.
+#' @return The server in "connected" state (if successful)
+#' @examples
+#' connect(server)
 setMethod(f="connect",
           signature="OMEROServer",
           definition=function(server)
@@ -82,6 +98,12 @@ setMethod(f="connect",
           }
 )
 
+#' Disconnect from an OMERO server
+#' 
+#' @param server The server.
+#' @return The server in "disconnected" state (if successful)
+#' @examples
+#' disconnect(server)
 setMethod(f="disconnect",
           signature="OMEROServer",
           definition=function(server)
@@ -92,6 +114,12 @@ setMethod(f="disconnect",
           }
 )
 
+#' Get the reference to the Java Gatway
+#' 
+#' @param server The server.
+#' @return The Java Gateway
+#' @examples
+#' getGateway(server)
 setMethod(f="getGateway",
           signature="OMEROServer",
           definition=function(server)
@@ -100,6 +128,12 @@ setMethod(f="getGateway",
           }
 )
 
+#' Get the current SecurityContext
+#' 
+#' @param server The server.
+#' @return The SecurityContext
+#' @examples
+#' getContext(server)
 setMethod(f="getContext",
           signature="OMEROServer",
           definition=function(server)
@@ -108,6 +142,13 @@ setMethod(f="getContext",
           }
 )
 
+#' Load an object from the server
+#' 
+#' @param OMEROServer 
+#'
+#' @return The OME remote object @seealso \linkS4class{OMERO}
+#' @examples
+#' loadObject(server, "DatasetData", 100)
 setMethod(f="loadObject",
           signature="OMEROServer",
           definition=function(server, type, id)
@@ -117,14 +158,8 @@ setMethod(f="loadObject",
             browse <- gateway$getFacility(BrowseFacility$class)
 
             object <- browse$findObject(ctx, type, .jlong(id))
-            return(object)
+            return(OMERO(server=server, dataobject=object))
           }
 )
 
-# Test
-# test <- OMEROServer(username = "user", password = "test")
-# test <- connect(test)
-# object <- loadObject(test, "omero.gateway.model.DatasetData", 101L)
-# object
-# test <- disconnect(test)
 
