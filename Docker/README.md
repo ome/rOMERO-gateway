@@ -9,10 +9,13 @@ You can run the image anytime with:
 This will immediately give you an R prompt.
 
 #### Load the Gateway methods
-Now source the ```gateway.R``` script:
-``` source("R/gateway.R") ```
+Now source the ```init.R``` script:
+``` source("init.R") ```
 
 #### Connect to an OMERO server
-```connect("user", "test", "localhost")```
+```
+server <- OMEROServer(host = "localhost", username = "user", password = "test")
+server <- connect(server)
+```
 
 
