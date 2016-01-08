@@ -12,5 +12,5 @@ WORKDIR /home/docker/rOMERO
 ENV JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
 RUN mvn install
 
-CMD ["R"]
-
+ENTRYPOINT ["/usr/bin/R"]
+CMD ["source('init.R')"]
