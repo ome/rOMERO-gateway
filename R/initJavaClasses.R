@@ -1,7 +1,3 @@
-library(rJava)
-.jinit()
-.jaddClassPath(dir( "lib", full.names=TRUE ))
-
 # Genereal Java classes
 ArrayList <- J("java.util.ArrayList")
 JFile <- J("java.io.File")

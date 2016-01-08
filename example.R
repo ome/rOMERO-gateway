@@ -1,6 +1,4 @@
-source('R/initJavaClasses.R')
-source('R/OMEROServer.R')
-source('R/OMERO.R')
+source("init.R")
 
 server <- OMEROServer(username = "user", password = "test")
 server <- connect(server)
