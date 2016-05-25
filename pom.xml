@@ -7,19 +7,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-	<bioformats.version>5.1.7</bioformats.version>
+	     <bioformats.version>5.1.10</bioformats.version>
     </properties>
 
     <parent>
         <groupId>ome</groupId>
         <artifactId>pom-omero-client</artifactId>
-        <version>5.2.4</version>
+        <version>5.2.3</version>
     </parent>
 
     <groupId>org.openmicroscopy</groupId>
     <artifactId>rOMERO</artifactId>
     <packaging>pom</packaging>
-    <version>5.2.4</version>
+    <version>5.2.3</version>
 
     <name>rOMERO</name>
     <description>OMERO R Gateway</description>
@@ -79,4 +79,3 @@
     </build>
 
 </project>
-
