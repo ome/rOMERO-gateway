@@ -1,12 +1,4 @@
-.First <- function() {
-  library(rJava)
-  .jinit(classpath = dir("lib", full.names=TRUE ))
-  
-  source("R/initJavaClasses.R")
-  source("R/OMEROServer.R")
-  source("R/OMERO.R")
-  
-  message("\n*** Welcome to rOMERO ***\n")
-}
-
-
+# For some reason automatically initializing rOMERO on startup crashes the Java 
+# session when run inside RStudio. 
+# Comment out the next line when working with RStudio and run init.R script manually
+source("R/init.R")

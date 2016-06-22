@@ -27,6 +27,11 @@ print(dataframes)
 df <- loadDataframe(image, dataframes$ID[1])
 print(df)
 
+# Load a partial dataframe, from row 1 to row 10, 
+# only including the first (1) and last (5) column
+partialDf <- loadDataframe(image, dataframes$ID[1], 1, 10, c(1,5))
+print(partialDf)
+
 # Disconnect from the server again
 disconnect(server)
 

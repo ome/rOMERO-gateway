@@ -85,14 +85,13 @@ setMethod(f="connect",
             gateway <- new (Gateway, log)
             
             lc <- new(LoginCredentials, server@username, server@password, server@host, server@port)
+            lc$setApplicationName("rOMERO")
             
             user <- gateway$connect(lc)
             
-            ctx <- new (SecurityContext, .jlong(user$getGroupId()))
-            
             server@gateway <- gateway
-            server@user <-user
-            server@ctx <- ctx
+            server@user <- user
+            server@ctx <- new (SecurityContext, .jlong(user$getGroupId()))
             
             return(server)
           }

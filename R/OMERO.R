@@ -46,7 +46,7 @@ setGeneric(
 
 setGeneric(
   name = "loadDataframe",
-  def = function(omero, id)
+  def = function(omero, id, rowFrom=1, rowTo, columns)
   {
     standardGeneric("loadDataframe")
   }
@@ -71,9 +71,6 @@ setMethod(
     headers <- names(df)
     types <- sapply(df, typeof) 
     classes <- sapply(df, class)
-    
-    print(types)
-    print(classes)
     
     jlistheaders <- new (ArrayList)
     for(i in 1:length(types)) {
@@ -170,15 +167,29 @@ setMethod(
 setMethod(
   f = "loadDataframe",
   signature = "OMERO",
-  definition = function(omero, id)
+  definition = function(omero, id, rowFrom, rowTo, columns)
   {
     server <- omero@server
     gateway <- getGateway(server)
     ctx <- getContext(server)
     fac <- gateway$getFacility(TablesFacility$class)
     
-    tabledata <- fac$getTable(ctx, .jlong(id))
-
+    if(missing(rowTo)) {
+      info <- fac$getTableInfo(ctx, .jlong(id))
+      rowTo <- info$getNumberOfRows() 
+    }
+    
+    if(missing(columns)) {
+      tabledata <- fac$getTable(ctx, .jlong(id), .jlong(rowFrom-1), .jlong(rowTo-1), .jnull())
+    }
+    else 
+    {
+      columns <- as.integer(columns)
+      columns <- sapply(columns, function(x) {x-1})
+      columns <- as.integer(columns)
+      tabledata <- fac$getTable(ctx, .jlong(id), .jlong(rowFrom-1), .jlong(rowTo-1), .jarray(columns))
+    }
+    
     nCols <- tabledata$getColumns()$length
     if(nCols==0)
       return (data.frame())
