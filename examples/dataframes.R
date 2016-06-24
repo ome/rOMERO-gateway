@@ -22,8 +22,12 @@ attachDataframe(image, iris, "Iris Example dataset")
 dataframes <- availableDataframes(image)
 print(dataframes)
 
-# Load the first dataframe (this will be the Iris example dataset
-# if there was no other dataframe attached before)
+# Get some more information about the first dataframe 
+# (this will be the Iris example dataset if there was 
+# no other dataframe attached before)
+describeDataframe(image, dataframes$ID[1])
+
+# Load the first dataframe 
 df <- loadDataframe(image, dataframes$ID[1])
 print(df)
 
