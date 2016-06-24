@@ -52,6 +52,14 @@ setGeneric(
   }
 )
 
+setGeneric(
+    name = "describeDataframe",
+    def = function(omero, id)
+    {
+      standardGeneric("describeDataframe")
+    }
+)
+
 #' Attaches a dataframe to an OME object
 #'
 #' @param omero The OME object
@@ -225,3 +233,50 @@ setMethod(
     return(result)
   }
 )
+
+#' Describes a dataframe attached to an OME object
+#'
+#' @param omero The OME object
+#' @param id The id of the dataframe
+#' @return NA
+#' @examples
+#' describeDataframe(omero, 1)
+setMethod(
+  f = "describeDataframe",
+  signature = "OMERO",
+  definition = function(omero, id)
+  {
+    server <- omero@server
+    gateway <- getGateway(server)
+    ctx <- getContext(server)
+    fac <- gateway$getFacility(TablesFacility$class)
+    
+    info <- fac$getTableInfo(ctx, .jlong(id))
+    
+    nRows <- info$getNumberOfRows()
+    nCols <- info$getColumns()$length
+    columns <- .jevalArray(info$getColumns())
+    
+    cat("Rows: ", nRows, "\n")
+    cat("Columns: ", nCols, "\n")
+    df <- data.frame(Name = character(), Description = character(), Type = character())
+    for(i in 1:nCols) {
+      columnName <- columns[[i]]$getName()
+      columnDescription <- columns[[i]]$getDescription()
+      type <- columns[[i]]$getType()$getName()
+      if(type == "java.lang.Double")
+        type = "numeric"
+      if(type == "java.lang.Integer")
+        type = "integer"
+      if(type == "java.lang.Long")
+        type ="integer"
+      if(type == "java.lang.Boolean")
+        type = "logical"
+      if(type == "java.lang.String")
+        type = "character"
+      df <- rbind(df, data.frame(Name = columnName, Description = columnDescription, Type = type))
+    }
+    print(df)
+  }
+)
+
