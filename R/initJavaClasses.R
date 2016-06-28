@@ -19,7 +19,6 @@ BrowseFacility <- J("omero.gateway.facility.BrowseFacility")
 ROIFacility <- J("omero.gateway.facility.ROIFacility")
 MetadataFacility <- J("omero.gateway.facility.MetadataFacility")
 DataManagerFacility <- J("omero.gateway.facility.DataManagerFacility")
-TablesFacility <- J("omero.gateway.facility.TablesFacility")
 
 # Gateway POJOs
 DataObject <- J("omero.gateway.model.DataObject")
@@ -28,5 +27,3 @@ MapAnnotationData <- J("omero.gateway.model.MapAnnotationData")
 TagAnnotationData <- J("omero.gateway.model.TagAnnotationData")
 FileAnnotationData <- J("omero.gateway.model.FileAnnotationData")
 ImageData <- J("omero.gateway.model.ImageData")
-TableData <- J("omero.gateway.model.TableData")
-TableDataColumn <- J("omero.gateway.model.TableDataColumn")
