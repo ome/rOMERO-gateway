@@ -79,6 +79,13 @@ setGeneric(name="loadCSV",
            }
 )
 
+setGeneric(name="attachFile",
+           def=function(server, omero, file)
+           {
+             standardGeneric("attachFile")
+           }
+)
+
 #' Connect to an OMERO server
 #' 
 #' @param server The server.
@@ -218,6 +225,32 @@ setMethod(f="loadCSV",
             file$delete()
             
             return(df)
+          }
+)
+
+#' Attach a file to an OME object
+#' 
+#' @param OMEROServer 
+#' @param omero The OME object
+#' @param file The file to attach
+#' @return The file annotation
+#' @examples
+#' attachFile(server, omero, file)
+setMethod(f="attachFile",
+          signature="OMEROServer",
+          definition=function(server, omero, file)
+          {
+            gateway <- getGateway(server)
+            ctx <- getContext(server)
+            
+            dm <- gateway$getFacility(DataManagerFacility$class)
+            
+            jf <- new(JFile, as.character(file))
+            
+            future <- dm$attachFile(ctx, jf, .jnull(), .jnull(), .jnull(), omero@dataobject)
+            anno <- future$get()
+            
+            return(anno) 
           }
 )
 
