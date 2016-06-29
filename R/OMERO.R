@@ -60,6 +60,13 @@ setGeneric(
     }
 )
 
+setGeneric(name="attachFile",
+           def=function(omero, file)
+           {
+             standardGeneric("attachFile")
+           }
+)
+
 #' Attaches a dataframe to an OME object
 #'
 #' @param omero The OME object
@@ -280,3 +287,28 @@ setMethod(
   }
 )
 
+#' Attach a file to an OME object
+#' 
+#' @param omero The OME object
+#' @param file The path to the file to attach
+#' @return The file annotation
+#' @examples
+#' attachFile(omero, "/tmp/file.txt")
+setMethod(f="attachFile",
+          signature="OMERO",
+          definition=function(omero, file)
+          {
+            server <- omero@server
+            gateway <- getGateway(server)
+            ctx <- getContext(server)
+            
+            dm <- gateway$getFacility(DataManagerFacility$class)
+            
+            jf <- new(JFile, as.character(file))
+            
+            future <- dm$attachFile(ctx, jf, .jnull(), .jnull(), .jnull(), omero@dataobject)
+            anno <- future$get()
+            
+            return(OMERO(server=server, dataobject=anno))
+          }
+)

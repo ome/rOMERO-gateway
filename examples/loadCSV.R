@@ -20,7 +20,7 @@ tmpfile <- "/tmp/summary.txt"
 sink(tmpfile)
 summary(df)
 sink()
-attachFile(server, image, tmpfile)
+attachFile(image, tmpfile)
 
 # Create a simple plot
 plot(sqrt(df$Area)~df$Width)
@@ -30,7 +30,7 @@ tmpfile <- "/tmp/boxplot.png"
 png(tmpfile)
 plot(sqrt(df$Area)~df$Width)
 dev.off()
-attachFile(server, image, tmpfile)
+attachFile(image, tmpfile)
 
 # Disconnect again from the server
 disconnect(server)
