@@ -27,3 +27,8 @@ Try some examples from the [examples directory](examples)
 
 (Note: If you use RStudio please comment out the last line in [.Rprofile](.Rprofile) and run [init.R](R/init.R) yourself after you started RStudio.)
 
+## Alternative
+Create a __Docker__ image:
+* Install [Docker](https://www.docker.com/)
+* Download this repository (see above)
+* Follow the steps mentioned on the [rOMERO Docker](https://github.com/dominikl/rOMERO/tree/master/Docker) page
