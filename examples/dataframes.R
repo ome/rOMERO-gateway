@@ -8,7 +8,7 @@ data("iris")
 data.frame(iris)
 
 # Connect to server
-server <- OMEROServer(host="localhost", credentialsFile = "examples/login_credentials.txt")
+server <- OMEROServer(credentialsFile = "examples/login_credentials.txt")
 server <- connect(server)
 
 # Load the image (can be any other OME object, too) we want to attach the
