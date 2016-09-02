@@ -7,6 +7,7 @@ setClassUnion("jclassOrNULL", c("jobjRef", "NULL"))
 #' @slot port The port number
 #' @slot username The username
 #' @slot password The password
+#' @slot credentialsFile Text file providing username and password
 #' @slot gateway Reference to the Gateway
 #' @slot user The logged in user
 #' @slot ctx The current SecurityContext
@@ -19,6 +20,7 @@ OMEROServer <- setClass(
     port = "integer",
     username = "character",
     password = "character",
+    credentialsFile = "character",
     gateway = "jclassOrNULL",
     user = "jclassOrNULL",
     ctx = "jclassOrNULL"
@@ -27,8 +29,9 @@ OMEROServer <- setClass(
   prototype = list(
     host = "localhost",
     port= 4064L,
-    username = "root",
-    password = "omero",
+    username = "",
+    password = "",
+    credentialsFile = NULL,
     gateway = NULL,
     user = NULL,
     ctx = NULL
@@ -89,6 +92,7 @@ setGeneric(name="attachFile",
 #' Connect to an OMERO server
 #' 
 #' @param server The server.
+#' @param credentialsFile An optional text file, providing the login credentials.
 #' @return The server in "connected" state (if successful)
 #' @examples
 #' connect(server)
@@ -98,8 +102,14 @@ setMethod(f="connect",
           {
             log <- new(SimpleLogger)
             gateway <- new (Gateway, log)
-            
-            lc <- new(LoginCredentials, server@username, server@password, server@host, server@port)
+             
+            if(!is.null(server@credentialsFile)) {
+              cred <- read.table(server@credentialsFile, header=FALSE, sep="=", row.names=1, strip.white=TRUE, na.strings="NA", stringsAsFactors=FALSE)
+              lc <- new(LoginCredentials, cred["username", 1], cred["password", 1], server@host, server@port)
+            }
+            else {
+              lc <- new(LoginCredentials, server@username, server@password, server@host, server@port)
+            }
             lc$setApplicationName("rOMERO")
             
             user <- gateway$connect(lc)
