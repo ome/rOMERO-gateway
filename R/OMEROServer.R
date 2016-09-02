@@ -27,11 +27,11 @@ OMEROServer <- setClass(
   ),
   
   prototype = list(
-    host = "localhost",
+    host = character(0),
     port= 4064L,
-    username = "",
-    password = "",
-    credentialsFile = NULL,
+    username = character(0),
+    password = character(0),
+    credentialsFile = character(0),
     gateway = NULL,
     user = NULL,
     ctx = NULL
@@ -96,14 +96,25 @@ setMethod(f="connect",
           {
             log <- new(SimpleLogger)
             gateway <- new (Gateway, log)
-             
-            if(!is.null(server@credentialsFile)) {
+
+            if (length(server@credentialsFile)>0) {
               cred <- read.table(server@credentialsFile, header=FALSE, sep="=", row.names=1, strip.white=TRUE, na.strings="NA", stringsAsFactors=FALSE)
-              lc <- new(LoginCredentials, cred["username", 1], cred["password", 1], server@host, server@port)
+              username <- cred["omero.user", 1]
+              password <- cred["omero.pass", 1]
+              hostname <- cred["omero.host", 1]
+              portnumber <- cred["omero.port", 1]
             }
-            else {
-              lc <- new(LoginCredentials, server@username, server@password, server@host, server@port)
-            }
+            
+            if(length(server@username)>0)
+              username <- server@username
+            if(length(server@password)>0)
+              password <- server@password
+            if(length(server@host)>0)
+              hostname <- server@host
+            if(length(server@port)>0)
+              portnumber <- server@port
+            
+            lc <- new(LoginCredentials, username, password, hostname, as.integer(portnumber))
             lc$setApplicationName("rOMERO")
             
             user <- gateway$connect(lc)
