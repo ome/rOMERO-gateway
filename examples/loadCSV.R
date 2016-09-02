@@ -3,7 +3,11 @@
 ####
 
 # Connect to the server
+<<<<<<< HEAD
 server <- OMEROServer(credentialsFile = "examples/login_credentials.txt")
+=======
+server <- OMEROServer(host="localhost", credentialsFile = "examples/login_credentials.txt")
+>>>>>>> Add possibility to use credentials file for username/password
 server <- connect(server)
 
 # Load the CSV with the original file ID 1
