@@ -19,6 +19,7 @@ BrowseFacility <- J("omero.gateway.facility.BrowseFacility")
 ROIFacility <- J("omero.gateway.facility.ROIFacility")
 MetadataFacility <- J("omero.gateway.facility.MetadataFacility")
 DataManagerFacility <- J("omero.gateway.facility.DataManagerFacility")
+TablesFacility <- J("omero.gateway.facility.TablesFacility")
 
 # Gateway POJOs
 DataObject <- J("omero.gateway.model.DataObject")
