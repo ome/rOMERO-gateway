@@ -1,81 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
         http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-	     <bioformats.version>5.1.10</bioformats.version>
+        <bioformats.version>5.4.0</bioformats.version>
+        <ice.version>ice36</ice.version>
     </properties>
 
     <parent>
         <groupId>ome</groupId>
         <artifactId>pom-omero-client</artifactId>
-        <version>5.2.9</version>
+        <version>5.3.1</version>
     </parent>
 
     <groupId>org.openmicroscopy</groupId>
     <artifactId>rOMERO</artifactId>
     <packaging>pom</packaging>
-    <version>5.2.4</version>
+    <version>5.3.0</version>
 
     <name>rOMERO</name>
     <description>OMERO R Gateway</description>
 
     <dependencies>
         <dependency>
-          <groupId>omero</groupId>
-          <artifactId>blitz</artifactId>
+            <groupId>omero</groupId>
+            <artifactId>blitz</artifactId>
         </dependency>
         <dependency>
-          <groupId>ome</groupId>
-          <artifactId>bioformats_package</artifactId>
-          <version>${bioformats.version}</version>
+            <groupId>ome</groupId>
+            <artifactId>formats-bsd</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ome</groupId>
+            <artifactId>formats-gpl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ome</groupId>
+            <artifactId>bioformats_package</artifactId>
+            <version>${bioformats.version}</version>
         </dependency>
     </dependencies>
 
     <repositories>
         <repository>
-          <id>ome.maven</id>
-          <url>http://artifacts.openmicroscopy.org/artifactory/maven/</url>
+            <id>ome.maven</id>
+            <name>ome.maven</name>
+            <url>http://artifacts.openmicroscopy.org/artifactory/maven/</url>
+        </repository>
+        <repository>
+            <id>unidata-releases</id>
+            <name>unidata-releases</name>
+            <url>https://artifacts.unidata.ucar.edu/content/repositories/unidata-releases</url>
         </repository>
     </repositories>
 
     <build>
-      <plugins>
-        <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>default-jar</id>
-            <phase>never</phase>
-            <configuration>
-              <finalName>unwanted</finalName>
-              <classifier>unwanted</classifier>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.6</version>
-          <executions>
-              <execution>
-                  <id>copy-dependencies</id>
-                  <goals>
-                    <goal>copy-dependencies</goal>
-                  </goals>
-                  <configuration>
-                    <outputDirectory>${project.basedir}/lib</outputDirectory>
-                  </configuration>
-              </execution>
-          </executions>
-        </plugin>
-      </plugins>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>never</phase>
+                        <configuration>
+                            <finalName>unwanted</finalName>
+                            <classifier>unwanted</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.basedir}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
