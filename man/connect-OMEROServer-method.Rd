@@ -8,7 +8,7 @@
 \S4method{connect}{OMEROServer}(server)
 }
 \arguments{
-\item{server}{The server.}
+\item{server}{The server}
 }
 \value{
 The server in "connected" state (if successful)
@@ -16,7 +16,3 @@ The server in "connected" state (if successful)
 \description{
 Connect to an OMERO server
 }
-\examples{
-connect(server)
-}
-

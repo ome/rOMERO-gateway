@@ -11,6 +11,7 @@ setClassUnion("jclassOrNULL", c("jobjRef", "NULL"))
 #' @slot gateway Reference to the Gateway
 #' @slot user The logged in user
 #' @slot ctx The current SecurityContext
+#' @export OMEROServer
 OMEROServer <- setClass(
   
   "OMEROServer",
@@ -85,11 +86,10 @@ setGeneric(name="loadCSV",
 
 #' Connect to an OMERO server
 #' 
-#' @param server The server.
-#' @param credentialsFile An optional text file, providing the login credentials.
+#' @param server The server
 #' @return The server in "connected" state (if successful)
-#' @examples
-#' connect(server)
+#' @export
+#' @import rJava
 setMethod(f="connect",
           signature="OMEROServer",
           definition=function(server)
@@ -129,10 +129,10 @@ setMethod(f="connect",
 
 #' Disconnect from an OMERO server
 #' 
-#' @param server The server.
+#' @param server The server
 #' @return The server in "disconnected" state (if successful)
-#' @examples
-#' disconnect(server)
+#' @export
+#' @import rJava
 setMethod(f="disconnect",
           signature="OMEROServer",
           definition=function(server)
@@ -145,10 +145,10 @@ setMethod(f="disconnect",
 
 #' Get the reference to the Java Gatway
 #' 
-#' @param server The server.
+#' @param server The server
 #' @return The Java Gateway
-#' @examples
-#' getGateway(server)
+#' @export
+#' @import rJava
 setMethod(f="getGateway",
           signature="OMEROServer",
           definition=function(server)
@@ -159,10 +159,10 @@ setMethod(f="getGateway",
 
 #' Get the current SecurityContext
 #' 
-#' @param server The server.
+#' @param server The server
 #' @return The SecurityContext
-#' @examples
-#' getContext(server)
+#' @export
+#' @import rJava
 setMethod(f="getContext",
           signature="OMEROServer",
           definition=function(server)
@@ -173,11 +173,12 @@ setMethod(f="getContext",
 
 #' Load an object from the server
 #' 
-#' @param OMEROServer 
-#'
+#' @param server The server
+#' @param type The object type
+#' @param id The object ID
 #' @return The OME remote object @seealso \linkS4class{OMERO}
-#' @examples
-#' loadObject(server, "DatasetData", 100)
+#' @export
+#' @import rJava
 setMethod(f="loadObject",
           signature="OMEROServer",
           definition=function(server, type, id)
@@ -193,7 +194,7 @@ setMethod(f="loadObject",
 
 #' Load a CSV file from the server
 #' 
-#' @param OMEROServer 
+#' @param server The server 
 #' @param id The original file ID
 #' @param header Flag to indicate that the file starts with a header line
 #' @param sep The separator character
@@ -202,8 +203,9 @@ setMethod(f="loadObject",
 #' @param fill Flag to indicate if blank fields should be added for rows with unequals length
 #' @param comment.char The comment character
 #' @return The dataframe constructed from the CSV file
-#' @examples
-#' loadCSV(server, 100)
+#' @export
+#' @import utils
+#' @import rJava
 setMethod(f="loadCSV",
           signature="OMEROServer",
           definition=function(server, id, header, sep, quote,

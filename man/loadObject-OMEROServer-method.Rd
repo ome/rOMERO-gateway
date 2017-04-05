@@ -8,7 +8,11 @@
 \S4method{loadObject}{OMEROServer}(server, type, id)
 }
 \arguments{
-\item{OMEROServer}{}
+\item{server}{The server}
+
+\item{type}{The object type}
+
+\item{id}{The object ID}
 }
 \value{
 The OME remote object @seealso \linkS4class{OMERO}
@@ -16,7 +20,3 @@ The OME remote object @seealso \linkS4class{OMERO}
 \description{
 Load an object from the server
 }
-\examples{
-loadObject(server, "DatasetData", 100)
-}
-
