@@ -2,6 +2,8 @@
 # Attach and load a dataframe to/from an OME object
 #
 
+library(romero.gateway)
+
 # Load "Iris" example dataset
 library(datasets)
 data("iris")

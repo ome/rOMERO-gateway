@@ -8,7 +8,7 @@
 \S4method{getContext}{OMEROServer}(server)
 }
 \arguments{
-\item{server}{The server.}
+\item{server}{The server}
 }
 \value{
 The SecurityContext
@@ -16,7 +16,3 @@ The SecurityContext
 \description{
 Get the current SecurityContext
 }
-\examples{
-getContext(server)
-}
-

@@ -82,7 +82,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.basedir}/lib</outputDirectory>
+                            <outputDirectory>${project.basedir}/inst/java</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>

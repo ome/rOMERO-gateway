@@ -1,2 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+examples
+pom.xml
+README.md
+.gitignore
+.Rbuildignore
+.Rhistory
+.Rprofile

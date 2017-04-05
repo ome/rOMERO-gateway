@@ -1,16 +1,22 @@
-Package: rOMERO
+Package: romero.gateway
+Type: Package
 Title: OMERO R Gateway
-Version: 5.2.0
-Authors@R: person("Dominik", "Lindner", email = "d.lindner@dundee.ac.uk", role = c("aut", "cre"))
+Version: 5.3.0
+Author: The OME Team
+Maintainer: The OME Team <ome-devel@lists.openmicroscopy.org.uk>
 Description: OMERO R Gateway
 Depends:
-    R (>= 3.1.1)
-Imports:
+    R (>= 3.1.1),
     rJava (>= 0.9-7)
+Imports:
+    rJava,
+    utils
+Suggests:
+    testthat
 Collate:
-    initJavaClasses.R
+    zzz.R
     OMEROServer.R
     OMERO.R
-License: GPL
-LazyData: true
-RoxygenNote: 5.0.1
+License: GPL 
+Encoding: UTF-8
+RoxygenNote: 6.0.1
