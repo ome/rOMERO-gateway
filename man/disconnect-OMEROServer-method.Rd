@@ -8,7 +8,7 @@
 \S4method{disconnect}{OMEROServer}(server)
 }
 \arguments{
-\item{server}{The server.}
+\item{server}{The server}
 }
 \value{
 The server in "disconnected" state (if successful)
@@ -16,7 +16,3 @@ The server in "disconnected" state (if successful)
 \description{
 Disconnect from an OMERO server
 }
-\examples{
-disconnect(server)
-}
-

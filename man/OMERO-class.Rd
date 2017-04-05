@@ -2,8 +2,8 @@
 % Please edit documentation in R/OMERO.R
 \docType{class}
 \name{OMERO-class}
-\alias{OMERO}
 \alias{OMERO-class}
+\alias{OMERO}
 \title{OME remote object class
 This is basically a wrapper around the Pojo's of the Java Gateway
 with a reference to the server.}
@@ -17,6 +17,6 @@ with a reference to the server.
 \describe{
 \item{\code{server}}{Reference to the server}
 
-\item{\code{server}}{The Java data object}
+\item{\code{dataobject}}{The Java data object}
 }}
 

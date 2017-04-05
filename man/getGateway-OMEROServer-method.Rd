@@ -8,7 +8,7 @@
 \S4method{getGateway}{OMEROServer}(server)
 }
 \arguments{
-\item{server}{The server.}
+\item{server}{The server}
 }
 \value{
 The Java Gateway
@@ -16,7 +16,3 @@ The Java Gateway
 \description{
 Get the reference to the Java Gatway
 }
-\examples{
-getGateway(server)
-}
-

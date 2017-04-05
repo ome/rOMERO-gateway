@@ -3,7 +3,8 @@
 #' with a reference to the server.
 #' 
 #' @slot server Reference to the server
-#' @slot server The Java data object
+#' @slot dataobject The Java data object
+#' @export OMERO
 OMERO <- setClass(
   
   "OMERO",
@@ -73,8 +74,8 @@ setGeneric(name="attachFile",
 #' @param df The dataframe
 #' @param name An optional name
 #' @return The OME object
-#' @examples
-#' attachDataframe(omero, df)
+#' @export
+#' @import rJava
 setMethod(
   f = "attachDataframe",
   signature = "OMERO",
@@ -144,8 +145,8 @@ setMethod(
 #'
 #' @param omero The OME object
 #' @return The names/ids of the attached dataframes
-#' @examples
-#' availableDataframes(omero)
+#' @export
+#' @import rJava
 setMethod(
   f = "availableDataframes",
   signature = "OMERO",
@@ -176,9 +177,12 @@ setMethod(
 #'
 #' @param omero The OME object
 #' @param id The id of the dataframe
+#' @param rowFrom Load data from row
+#' @param rowTo Load data to row
+#' @param columns Only specified columns
 #' @return The dataframe
-#' @examples
-#' loadDataframe(omero, 1)
+#' @export
+#' @import rJava
 setMethod(
   f = "loadDataframe",
   signature = "OMERO",
@@ -246,8 +250,8 @@ setMethod(
 #' @param omero The OME object
 #' @param id The id of the dataframe
 #' @return NA
-#' @examples
-#' describeDataframe(omero, 1)
+#' @export
+#' @import rJava
 setMethod(
   f = "describeDataframe",
   signature = "OMERO",
@@ -292,8 +296,8 @@ setMethod(
 #' @param omero The OME object
 #' @param file The path to the file to attach
 #' @return The file annotation
-#' @examples
-#' attachFile(omero, "/tmp/file.txt")
+#' @export
+#' @import rJava
 setMethod(f="attachFile",
           signature="OMERO",
           definition=function(omero, file)
