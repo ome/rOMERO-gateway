@@ -2,6 +2,8 @@
 # Connect to an OMERO server and import a CSV file
 ####
 
+library(romero.gateway)
+
 # Connect to the server
 server <- OMEROServer(credentialsFile = "examples/login_credentials.txt")
 server <- connect(server)

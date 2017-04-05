@@ -1,34 +1,38 @@
-# rOMERO
+# OMERO R Gateway
 
-This repository provides some examples for how to connect to OMERO in R (using rJava and the OMERO Java Gateway)
+R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [rJava](https://cran.r-project.org/web/packages/rJava/index.html)
 
 ## Prerequisites
 
 * [R](https://www.r-project.org/)
 * [Java](http://openjdk.java.net/)
 * [rJava](https://cran.r-project.org/web/packages/rJava/index.html)
+* [devtools](https://cran.r-project.org/web/packages/devtools/index.html)
 * [Apache Maven](https://maven.apache.org/) (recommended)
 * [Git](https://git-scm.com/) (recommended)
 
-## Setup
+## Build the `romero.gateway` R package
 * Install/Setup the software mentioned above
 * Download this repository: 
   * Using Git: ```git clone https://github.com/ome/rOMERO-gateway.git```
   * _Alternative_: Download as Zip and extract.
-* ```cd``` into the ```rOMERO``` directory
+* ```cd``` into the ```rOMERO-gateway``` directory
 * Download the dependencies
   * Using Maven: Run ```mvn install```
-  * _Alternative_: Create ```lib``` directory. Download [OMERO.Insight client](http://downloads.openmicroscopy.org/omero/5.3.0/). Extract the zip file. Copy all files within ```libs``` directory into the previously created ```rOMERO/lib``` directory
+  * _Alternative_: Create ```inst/java``` directory. Download [OMERO.Insight client](http://downloads.openmicroscopy.org/omero/5.3.0/). Extract the zip file. Copy all files within ```libs``` directory into the previously created ```rOMERO/inst/java``` directory
+* Launch the ```R``` console
+* Load devtools library ```library(devtools)```
+* Build the package ```devtools::build()```
+
+## Install the `romero.gateway` package into your local R repository
+* ```install.packages([PATH TO romero.gateway_x.y.z.tar.gz], repos = NULL, type="source")```
 
 ## Usage
-Just ```cd``` into the ```rOMERO``` directory and launch ```R``` ([.Rprofile](.Rprofile) will do all the initialization for you)
+* Like any other R package load the package ```library(romero.gateway)```
+* Try some examples from the [examples directory](examples)
 
-Try some examples from the [examples directory](examples)
+## Testing 
+* Install [testthat](https://cran.r-project.org/web/packages/testthat/index.html)
+* Modify [setup.csv](tests/testthat/setup.csv) to match your test server setup
+* Run ```devtools::test()```
 
-(Note: If you use RStudio please comment out the last line in [.Rprofile](.Rprofile) and run [init.R](R/init.R) yourself after you started RStudio.)
-
-## Alternative
-Create a __Docker__ image:
-* Install [Docker](https://www.docker.com/)
-* Download this repository (see above)
-* Follow the steps mentioned on the [rOMERO Docker](https://github.com/ome/rOMERO-gateway/tree/master/Docker) page
