@@ -6,7 +6,7 @@ R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [
 
 * [R](https://www.r-project.org/)
 * [Java](http://openjdk.java.net/)
-* [rJava](https://cran.r-project.org/web/packages/rJava/index.html)
+* [rJava](https://cran.r-project.org/web/packages/rJava/index.html) [(Installation)](#Installing-rJava)
 * [devtools](https://cran.r-project.org/web/packages/devtools/index.html)
 * [Apache Maven](https://maven.apache.org/) (recommended)
 * [Git](https://git-scm.com/) (recommended)
@@ -36,3 +36,12 @@ R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [
 * Modify [setup.csv](tests/testthat/setup.csv) to match your test server setup
 * Run ```devtools::test()```
 
+## Remarks
+
+#### Installing rJava
+Before installing the `rJava` package you probably have to set up Java for R first:
+```
+# as root
+export $JAVA_HOME=[path to JDK/JRE]
+R CMD javareconf
+```
