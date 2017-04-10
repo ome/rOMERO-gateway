@@ -11,8 +11,20 @@ R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [
 * [Apache Maven](https://maven.apache.org/) (recommended)
 * [Git](https://git-scm.com/) (recommended)
 
-## Build the `romero.gateway` R package
+## Build/Install the romero.gateway R package
 * Install/Setup the software mentioned above
+
+### Automated
+
+* Download and run [install.R](install.R):
+  
+  ```
+  R CMD BATCH install.R
+  ```
+  (Output will be written to install.Rout, check for errors)
+
+### Manual
+
 * Download this repository: 
   * Using Git: ```git clone https://github.com/ome/rOMERO-gateway.git```
   * _Alternative_: Download as Zip and extract.
@@ -23,9 +35,10 @@ R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [
 * Launch the ```R``` console
 * Load devtools library ```library(devtools)```
 * Build the package ```devtools::build()```
-
-## Install the `romero.gateway` package into your local R repository
-* ```install.packages([PATH TO romero.gateway_x.y.z.tar.gz], repos = NULL, type="source")```
+* Install the romero.gateway package into your local R repository
+  ```
+  install.packages([PATH TO romero.gateway_x.y.z.tar.gz], repos = NULL, type="source")
+  ```
 
 ## Usage
 * Like any other R package load the package ```library(romero.gateway)```

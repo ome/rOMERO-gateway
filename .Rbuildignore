@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 Docker
 examples
+jupyter
 pom.xml
 README.md
 .gitignore
