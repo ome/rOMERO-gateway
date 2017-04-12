@@ -46,6 +46,14 @@ setGeneric(
 )
 
 setGeneric(
+  name = "delete",
+  def = function(omero)
+  {
+    standardGeneric("delete")
+  }
+)
+
+setGeneric(
   name = "attachDataframe",
   def = function(omero, df, name="R Dataframe")
   {
@@ -63,7 +71,7 @@ setGeneric(
 
 setGeneric(
   name = "loadDataframe",
-  def = function(omero, id, rowFrom=1, rowTo, columns)
+  def = function(omero, id, rowFrom, rowTo, columns)
   {
     standardGeneric("loadDataframe")
   }
@@ -82,6 +90,14 @@ setGeneric(name="attachFile",
            {
              standardGeneric("attachFile")
            }
+)
+
+setGeneric(
+  name = "deleteFile",
+  def = function(omero, id)
+  {
+    standardGeneric("deleteFile")
+  }
 )
 
 setGeneric(name="getAnnotations",
@@ -122,6 +138,30 @@ setMethod(
   definition = function(omero)
   {
     return(.jlong(omero@dataobject$getId()))
+  }
+)
+
+#' Deletes an OME object
+#'
+#' @param omero The OME object
+#' @export
+#' @import rJava
+setMethod(
+  f = "delete",
+  signature = "OMERO",
+  definition = function(omero)
+  {
+    server <- omero@server
+    obj <- omero@dataobject
+    
+    gateway <- getGateway(server)
+    ctx <- getContext(server)
+    
+    fac <- gateway$getFacility(DataManagerFacility$class)
+    cb <- fac$delete(ctx, obj$asIObject())
+    # Wait max 30 sec
+    cb$loop(as.integer(100), .jlong(300))
+    res <- cb$getResponse()
   }
 )
 
@@ -198,7 +238,7 @@ setMethod(
   }
 )
 
-#' Get the dataframes (name/id) attached to an OME object
+#' Get the dataframes (name/id/annotationID) attached to an OME object
 #'
 #' @param omero The OME object
 #' @return The names/ids of the attached dataframes
@@ -218,14 +258,16 @@ setMethod(
     
     Name <- c()
     ID <- c()
+    AnnotationID <- c()
     it <- files$iterator()
     while(it$hasNext()) {
       file <- .jrcall(it, method = "next")
       Name <- c(Name, file$getFileName())
       ID <- c(ID, file$getFileID())
+      AnnotationID <- c(AnnotationID, file$getId())
     }
     
-    result <- data.frame(Name, ID, stringsAsFactors = FALSE)
+    result <- data.frame(Name, ID, AnnotationID, stringsAsFactors = FALSE)
     return(result)
   }
 )
@@ -249,6 +291,10 @@ setMethod(
     gateway <- getGateway(server)
     ctx <- getContext(server)
     fac <- gateway$getFacility(TablesFacility$class)
+    
+    if(missing(rowFrom)) {
+      rowFrom <- 1
+    }
     
     if(missing(rowTo)) {
       info <- fac$getTableInfo(ctx, .jlong(id))
@@ -302,7 +348,7 @@ setMethod(
   }
 )
 
-#' Describes a dataframe attached to an OME object
+#' Describe a dataframe attached to an OME object
 #'
 #' @param omero The OME object
 #' @param id The id of the dataframe
@@ -448,4 +494,25 @@ setMethod(f="getAnnotations",
             
             return(result)
           }
+)
+
+#' Delete a file attachend to an OME object
+#'
+#' @param omero The OME object
+#' @param id The file annotation(!) id
+#' @export
+#' @import rJava
+setMethod(
+  f = "deleteFile",
+  signature = "OMERO",
+  definition = function(omero, id)
+  {
+    server <- omero@server
+    gateway <- getGateway(server)
+    ctx <- getContext(server)
+    
+    browse <- gateway$getFacility(BrowseFacility$class)
+    annotation <- browse$findObject(ctx, 'FileAnnotationData', .jlong(id))
+    delete(OMERO(server=server, dataobject=annotation))
+  }
 )

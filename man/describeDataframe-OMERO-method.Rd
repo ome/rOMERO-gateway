@@ -3,7 +3,7 @@
 \docType{methods}
 \name{describeDataframe,OMERO-method}
 \alias{describeDataframe,OMERO-method}
-\title{Describes a dataframe attached to an OME object}
+\title{Describe a dataframe attached to an OME object}
 \usage{
 \S4method{describeDataframe}{OMERO}(omero, id)
 }
@@ -16,5 +16,5 @@
 NA
 }
 \description{
-Describes a dataframe attached to an OME object
+Describe a dataframe attached to an OME object
 }
