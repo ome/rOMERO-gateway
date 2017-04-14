@@ -38,6 +38,9 @@
   
   # Gateway POJOs
   env$DataObject <- J("omero.gateway.model.DataObject")
+  env$PlateData <- J("omero.gateway.model.PlateData")
+  env$WellData <- J("omero.gateway.model.WellData")
+  env$WellSampleData <- J("omero.gateway.model.WellSampleData")
   env$ExperimenterData <- J("omero.gateway.model.ExperimenterData")
   env$MapAnnotationData <- J("omero.gateway.model.MapAnnotationData")
   env$TagAnnotationData <- J("omero.gateway.model.TagAnnotationData")
