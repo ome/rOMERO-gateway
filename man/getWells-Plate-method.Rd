@@ -3,13 +3,16 @@
 \docType{methods}
 \name{getWells,Plate-method}
 \alias{getWells,Plate-method}
-\title{Get the Wells of the specific plate}
+\title{Get the wells of the specific plate}
 \usage{
 \S4method{getWells}{Plate}(plate)
 }
 \arguments{
-\item{plate}{The Plate}
+\item{plate}{The plate}
+}
+\value{
+The wells
 }
 \description{
-Get the Wells of the specific plate
+Get the wells of the specific plate
 }

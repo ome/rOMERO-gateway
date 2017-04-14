@@ -5,14 +5,14 @@
 \alias{getAnnotations,OMERO-method}
 \title{Get annotations attached to an OME object}
 \usage{
-\S4method{getAnnotations}{OMERO}(omero, type, name)
+\S4method{getAnnotations}{OMERO}(omero, typeFilter, nameFilter)
 }
 \arguments{
 \item{omero}{The OME object}
 
-\item{type}{The annotation type, e.g. FileAnnotation}
+\item{typeFilter}{Optional annotation type filter, e.g. FileAnnotation}
 
-\item{name}{Optional name, e.g. file name of a FileAnnotation}
+\item{nameFilter}{Optional name filter, e.g. file name of a FileAnnotation}
 }
 \value{
 The annotations
