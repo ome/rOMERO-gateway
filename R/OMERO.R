@@ -30,6 +30,22 @@ OMERO <- setClass(
 )
 
 setGeneric(
+  name = "cast",
+  def = function(omero)
+  {
+    standardGeneric("cast")
+  }
+)
+
+setGeneric(
+  name = "getOMEROID",
+  def = function(omero)
+  {
+    standardGeneric("getOMEROID")
+  }
+)
+
+setGeneric(
   name = "attachDataframe",
   def = function(omero, df, name="R Dataframe")
   {
@@ -66,6 +82,40 @@ setGeneric(name="attachFile",
            {
              standardGeneric("attachFile")
            }
+)
+
+#' Casts a general OMERO object into its proper
+#' type, e. g. Plate (if possible)
+#' @param omero The OME object
+#' @return The OMERO object casted to the proper type
+#' @export
+#' @import rJava
+setMethod(
+  f = "cast",
+  signature = "OMERO",
+  definition = function(omero)
+  {
+    if(omero@dataobject$getClass()$getSimpleName() == 'PlateData') {
+      p <- Plate(server=omero@server, dataobject=omero@dataobject)
+      return(p)
+    }
+    return(omero)
+  }
+)
+
+#' Get the ID of the OME object
+#'
+#' @param omero The OME object
+#' @return The OMERO object ID as Java long type
+#' @export
+#' @import rJava
+setMethod(
+  f = "getOMEROID",
+  signature = "OMERO",
+  definition = function(omero)
+  {
+    return(.jlong(omero@dataobject$getId()))
+  }
 )
 
 #' Attaches a dataframe to an OME object

@@ -188,7 +188,8 @@ setMethod(f="loadObject",
             browse <- gateway$getFacility(BrowseFacility$class)
 
             object <- browse$findObject(ctx, type, .jlong(id))
-            return(OMERO(server=server, dataobject=object))
+            ome <- OMERO(server=server, dataobject=object)
+            return(cast(ome))
           }
 )
 
