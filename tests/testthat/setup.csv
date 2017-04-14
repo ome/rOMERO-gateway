@@ -1,6 +1,10 @@
 Key,Value
-omero.host,localhost
+omero.host,eel.openmicroscopy.org
 omero.port,4064
-omero.user,root
-omero.pass,omero
-imageid,1
+omero.user,user-3
+omero.pass,ome
+imageid,70052
+numberofannotations,4
+fileannotationname,csv_1.csv
+plateid,1701
+platesize,96
