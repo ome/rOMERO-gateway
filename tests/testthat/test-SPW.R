@@ -13,7 +13,6 @@ server <- connect(server)
 test_that("Test Plate getWells",{
   plate <- loadObject(server, "PlateData", plateID)
   wells <- getWells(plate)
-  print(wells)
   expect_that(length(wells), equals(plateSize))
 })
 

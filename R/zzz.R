@@ -24,6 +24,7 @@
   env$Double <- J("java.lang.Double")
   env$String <- J("java.lang.String")
   env$Boolean <- J("java.lang.Boolean")
+  env$Class <- J("java.lang.Class")
   
   # General Gateway classes
   env$SimpleLogger <- J("omero.log.SimpleLogger")
@@ -42,6 +43,7 @@
   env$WellData <- J("omero.gateway.model.WellData")
   env$WellSampleData <- J("omero.gateway.model.WellSampleData")
   env$ExperimenterData <- J("omero.gateway.model.ExperimenterData")
+  env$AnnotationData <- J("omero.gateway.model.AnnotationData")
   env$MapAnnotationData <- J("omero.gateway.model.MapAnnotationData")
   env$TagAnnotationData <- J("omero.gateway.model.TagAnnotationData")
   env$FileAnnotationData <- J("omero.gateway.model.FileAnnotationData")

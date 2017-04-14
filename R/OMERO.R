@@ -84,6 +84,13 @@ setGeneric(name="attachFile",
            }
 )
 
+setGeneric(name="getAnnotations",
+           def=function(omero, typeFilter, nameFilter)
+           {
+             standardGeneric("getAnnotations")
+           }
+)
+
 #' Casts a general OMERO object into its proper
 #' type, e. g. Plate (if possible)
 #' @param omero The OME object
@@ -364,5 +371,81 @@ setMethod(f="attachFile",
             anno <- future$get()
             
             return(OMERO(server=server, dataobject=anno))
+          }
+)
+
+
+#' Get annotations attached to an OME object
+#' 
+#' @param omero The OME object
+#' @param typeFilter Optional annotation type filter, e.g. FileAnnotation
+#' @param nameFilter Optional name filter, e.g. file name of a FileAnnotation
+#' @return The annotations
+#' @export
+#' @import rJava
+setMethod(f="getAnnotations",
+          signature="OMERO",
+          definition=function(omero, typeFilter, nameFilter)
+          {
+            server <- omero@server
+            obj <- omero@dataobject
+            gateway <- getGateway(server)
+            ctx <- getContext(server)
+            fac <- gateway$getFacility(MetadataFacility$class)
+            
+            jannos <- NULL
+            
+            if(missing(typeFilter)) {
+              jannos <- fac$getAnnotations(ctx, obj)
+            }
+            else {
+              className <- paste("omero.gateway.model", typeFilter, sep=".")
+              clazz <- Class$forName(className)
+              jlist <- new (ArrayList)
+              jlist$add(clazz)
+              jannos <- fac$getAnnotations(ctx, obj, jlist, .jnull())
+            }
+            
+            result <- data.frame(Type = character(), Namespace = character(), Name = character(), Content = character(), ID = numeric(), FileID = numeric())
+            
+            it <- jannos$iterator()
+            while(it$hasNext()) {
+              anno <- .jrcall(it, method = "next")
+              javclass <- anno$getClass()
+              print(javclass)
+              annotype <- javclass$getName()
+              annotype <- gsub("omero\\.gateway\\.model\\.", "", annotype)
+              
+              clazz = javclass$getCanonicalName()
+              clazz <- gsub('\\.', '/', clazz)
+              
+              cast <- .jcast(anno, new.class = clazz)
+                             
+              annoname <- ''
+              fid <- NA
+              content <- NA
+              if(annotype == 'FileAnnotationData') {
+                annoname <- cast$getFileName()
+                fid <-  cast$getFileID()
+                content <- cast$getOriginalMimetype()
+              }
+              else if(annotype == 'TagAnnotationData') {
+                annoname <- cast$getTagValue()
+                content <- cast$getTagDescription()
+              }
+              else if(annotype == 'TextualAnnotationData') {
+                content <- cast$getText()
+              }
+              
+              omeid <- anno$getId()
+              ns <- anno$getNameSpace()
+              if(is.jnull(ns))
+                ns <- NA
+              
+              if(missing(nameFilter) || annoname == nameFilter)
+                result <- rbind(result, data.frame(Type = annotype, Namespace = ns, Name = annoname, Content = content, ID = as.numeric(omeid), FileID = as.numeric(fid)))
+            }
+            
+            return(result)
           }
 )
