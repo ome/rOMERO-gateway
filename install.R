@@ -3,10 +3,10 @@ repoURL <- 'https://github.com/ome/rOMERO-gateway.git'
 branchName <- 'master'
 
 # Install necessary packages
-libs <- c('rJava', 'devtools', 'git2r')
+libs <- c('rJava', 'devtools', 'git2r', 'testthat', 'roxygen2')
 toInstall <- libs[!(libs %in% installed.packages()[,"Package"])]
 if (length(toInstall) > 0) {
-  install.packages(toInstall)
+  install.packages(toInstall, repos='http://cran.us.r-project.org')
 }
 
 # Load packages
