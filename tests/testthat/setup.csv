@@ -3,8 +3,11 @@ omero.host,localhost
 omero.port,4064
 omero.user,root
 omero.pass,omero
+datasetid,1
+projectid,1
 imageid,1
-numberofannotations,1
-fileannotationname,csv_file_annotation.csv
+numberofannotations,4
+fileannotationname,test.csv
 plateid,1
-platesize,96
+platesize,60
+wellsize,4

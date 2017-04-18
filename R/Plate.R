@@ -49,16 +49,47 @@ setMethod(
     gateway <- getGateway(server)
     ctx <- getContext(server)
     browse <- gateway$getFacility(BrowseFacility$class)
-    jwells <- browse$getWells(ctx, getOMEROID(plate))
+    jwells <- browse$getWells(ctx, .jlong(getOMEROID(plate)))
     
     wells <- c()
     it <- jwells$iterator()
     while(it$hasNext()) {
       jwell <- .jrcall(it, method = "next")
-      well <- OMERO(server=server, dataobject=jwell)
-      wells <- c(wells, well)
+      if (jwell$asWell()$sizeOfWellSamples() > 0) {
+        well <- Well(server=server, dataobject=jwell)
+        wells <- c(wells, well)
+      }
+    }
+    return(wells)
+  }
+)
+
+#' Get all images of the specific plate
+#'
+#' @param omero The plate
+#' @return The image ids as matrix [[i, j]] where
+#'        i is the well index and j is the field index
+#' @export
+#' @import rJava
+setMethod(
+  f = "getImages",
+  signature = "Plate",
+  definition = function(omero)
+  {
+    wells <- getWells(omero)
+    well <- wells[[1]]
+    
+    n <- length(getImages(well))
+    m <- length(wells)
+    
+    result <- matrix(data=NA, nrow=m, ncol=n);
+    i <- 1
+    for(w in wells) {
+      fields <- getImages(w)
+      result[i, ] <- fields
+      i <- i + 1
     }
     
-    return(wells)
+    return(result)
   }
 )

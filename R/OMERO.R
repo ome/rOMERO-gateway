@@ -46,6 +46,14 @@ setGeneric(
 )
 
 setGeneric(
+  name = "getOMEROType",
+  def = function(omero)
+  {
+    standardGeneric("getOMEROType")
+  }
+)
+
+setGeneric(
   name = "delete",
   def = function(omero)
   {
@@ -100,12 +108,14 @@ setGeneric(
   }
 )
 
-setGeneric(name="getAnnotations",
-           def=function(omero, typeFilter, nameFilter)
-           {
-             standardGeneric("getAnnotations")
-           }
+setGeneric(
+  name = "getImages",
+  def = function(omero)
+  {
+    standardGeneric("getImages")
+  }
 )
+
 
 #' Casts a general OMERO object into its proper
 #' type, e. g. Plate (if possible)
@@ -119,8 +129,20 @@ setMethod(
   definition = function(omero)
   {
     if(omero@dataobject$getClass()$getSimpleName() == 'PlateData') {
-      p <- Plate(server=omero@server, dataobject=omero@dataobject)
-      return(p)
+      x <- Plate(server=omero@server, dataobject=omero@dataobject)
+      return(x)
+    }
+    else if(omero@dataobject$getClass()$getSimpleName() == 'WellData') {
+      x <- Well(server=omero@server, dataobject=omero@dataobject)
+      return(x)
+    }
+    else if(omero@dataobject$getClass()$getSimpleName() == 'DatasetData') {
+      x <- Dataset(server=omero@server, dataobject=omero@dataobject)
+      return(x)
+    }
+    else if(omero@dataobject$getClass()$getSimpleName() == 'ProjectData') {
+      x <- Project(server=omero@server, dataobject=omero@dataobject)
+      return(x)
     }
     return(omero)
   }
@@ -129,7 +151,7 @@ setMethod(
 #' Get the ID of the OME object
 #'
 #' @param omero The OME object
-#' @return The OMERO object ID as Java long type
+#' @return The OMERO object ID
 #' @export
 #' @import rJava
 setMethod(
@@ -137,7 +159,23 @@ setMethod(
   signature = "OMERO",
   definition = function(omero)
   {
-    return(.jlong(omero@dataobject$getId()))
+    return(as.integer(omero@dataobject$getId()))
+  }
+)
+
+#' Get the type of the OME object
+#'
+#' @param omero The OME object
+#' @return The OMERO type
+#' @export
+#' @import rJava
+setMethod(
+  f = "getOMEROType",
+  signature = "OMERO",
+  definition = function(omero)
+  {
+    obj <- omero@dataobject
+    return(obj$getClass()$getSimpleName())
   }
 )
 
@@ -430,11 +468,11 @@ setMethod(f="attachFile",
 #' @export
 #' @import rJava
 setMethod(f="getAnnotations",
-          signature="OMERO",
-          definition=function(omero, typeFilter, nameFilter)
+          signature=(object="OMERO"),
+          definition=function(object, typeFilter, nameFilter)
           {
-            server <- omero@server
-            obj <- omero@dataobject
+            server <- object@server
+            obj <- object@dataobject
             gateway <- getGateway(server)
             ctx <- getContext(server)
             fac <- gateway$getFacility(MetadataFacility$class)
@@ -458,7 +496,6 @@ setMethod(f="getAnnotations",
             while(it$hasNext()) {
               anno <- .jrcall(it, method = "next")
               javclass <- anno$getClass()
-              print(javclass)
               annotype <- javclass$getName()
               annotype <- gsub("omero\\.gateway\\.model\\.", "", annotype)
               
@@ -516,3 +553,7 @@ setMethod(
     delete(OMERO(server=server, dataobject=annotation))
   }
 )
+
+
+
+
