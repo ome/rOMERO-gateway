@@ -16,6 +16,7 @@
   
   # Genereal Java classes
   env$Collection <- J("java.util.Collection")
+  env$Collections <- J("java.util.Collections")
   env$Iterator <- J("java.util.Iterator")
   env$ArrayList <- J("java.util.ArrayList")
   env$JFile <- J("java.io.File")
@@ -40,6 +41,8 @@
   # Gateway POJOs
   env$DataObject <- J("omero.gateway.model.DataObject")
   env$PlateData <- J("omero.gateway.model.PlateData")
+  env$DatasetData <- J("omero.gateway.model.DatasetData")
+  env$ProjectData <- J("omero.gateway.model.ProjectData")
   env$WellData <- J("omero.gateway.model.WellData")
   env$WellSampleData <- J("omero.gateway.model.WellSampleData")
   env$ExperimenterData <- J("omero.gateway.model.ExperimenterData")

@@ -11,7 +11,7 @@
 \item{omero}{The OME object}
 }
 \value{
-The OMERO object ID as Java long type
+The OMERO object ID
 }
 \description{
 Get the ID of the OME object

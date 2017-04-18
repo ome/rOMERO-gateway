@@ -83,6 +83,14 @@ setGeneric(name="loadCSV",
            }
 )
 
+setGeneric(name="getAnnotations",
+           def=function(object, type, id, typeFilter, nameFilter)
+           {
+             standardGeneric("getAnnotations")
+           }
+)
+
+
 
 #' Connect to an OMERO server
 #' 
@@ -243,6 +251,26 @@ setMethod(f="loadCSV",
             file$delete()
             
             return(df)
+          }
+)
+
+#' Get annotations attached to an OME object
+#' 
+#' @param object The server 
+#' @param type The object type
+#' @param id The object ID
+#' @param typeFilter Optional annotation type filter, e.g. FileAnnotation
+#' @param nameFilter Optional name filter, e.g. file name of a FileAnnotation
+#' @return The annotations
+#' @export
+#' @import rJava
+setMethod(f="getAnnotations",
+          signature=(object="OMEROServer"),
+          definition=function(object, type, id, typeFilter, nameFilter)
+          {
+            obj <- loadObject(object, type, id)
+            annos <- getAnnotations(obj, typeFilter = typeFilter, nameFilter = nameFilter)
+            return(annos)
           }
 )
 
