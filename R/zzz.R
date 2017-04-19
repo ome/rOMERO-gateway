@@ -1,15 +1,6 @@
 .onAttach <- function(libname, pkgname) {
-  library("rJava")
-
-  # packageDir <- find.package(package='rOMERO')
-  # if (startsWith(packageDir, "/tmp")) {
-  #   packageDir <- "inst"
-  # }
-  # 
-  # #packageDir <- "inst/java"
-  # packageDir <- paste(packageDir, "/java", sep = '')
   
-  packageDir <- find.package(package='rOMERO')
+  packageDir <- find.package(package='romero.gateway')
   packageDir <- paste(packageDir, "/java", sep = '')
   if (!file.exists(packageDir)) {
     # package doesn't exist yet, i.e. this method is probably
@@ -19,9 +10,9 @@
   
   .jinit(classpath = dir(packageDir, full.names=TRUE ))
 
-  # Unfortunately have to add this stuff to global env
-  # because rOMERO env is locked
-  env <- globalenv()
+  # Unfortunately have to add this stuff to base env
+  # because romero.gateway env is locked
+  env <- baseenv()
   
   # Genereal Java classes
   env$Collection <- J("java.util.Collection")

@@ -1,0 +1,6 @@
+Key,Value
+omero.host,localhost
+omero.port,4064
+omero.user,root
+omero.pass,omero
+imageid,1
