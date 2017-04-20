@@ -23,6 +23,7 @@ Collate:
     zzz.R
     OMEROServer.R
     OMERO.R
+    Screen.R
     Plate.R
     Well.R
     Dataset.R

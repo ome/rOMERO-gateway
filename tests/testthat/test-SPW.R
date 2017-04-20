@@ -5,6 +5,7 @@ port <- strtoi(setup[grep("omero.port", setup$Key, ignore.case=T), ]$Value)
 user <- as.character(setup[grep("omero.user", setup$Key, ignore.case=T), ]$Value)
 pass <- as.character(setup[grep("omero.pass", setup$Key, ignore.case=T), ]$Value)
 plateID <- strtoi(setup[grep("plateid", setup$Key, ignore.case=T), ]$Value)
+screenID <- strtoi(setup[grep("screenid", setup$Key, ignore.case=T), ]$Value)
 plateSize <- strtoi(setup[grep("platesize", setup$Key, ignore.case=T), ]$Value)
 wellSize <- strtoi(setup[grep("wellsize", setup$Key, ignore.case=T), ]$Value)
 
@@ -21,6 +22,24 @@ test_that("Test Plate getImages",{
   plate <- loadObject(server, "PlateData", plateID)
   imgs <- getImages(plate)
   expect_that(dim(imgs), equals(c(plateSize, wellSize)))
+})
+
+test_that("Test Plate getImages of field 1",{
+  plate <- loadObject(server, "PlateData", plateID)
+  imgs <- getImages(plate, fieldIndex = 1)
+  expect_that(length(imgs), equals(plateSize))
+})
+
+test_that("Test Screen getPlates",{
+  screen <- loadObject(server, "ScreenData", screenID)
+  plates <- getPlates(screen)
+  expect_that(length(plates), equals(1))
+})
+
+test_that("Test Screen getImages",{
+  screen <- loadObject(server, "ScreenData", screenID)
+  imgs <- getImages(screen)
+  expect_that(length(imgs), equals(plateSize))
 })
 
 server <- disconnect(server)
