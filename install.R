@@ -1,5 +1,5 @@
 # Configuration
-repoURL <- 'https://github.com/ome/rOMERO-gateway.git'
+user <- 'ome'
 branchName <- 'master'
 
 # Install necessary packages
@@ -16,6 +16,7 @@ library(git2r)
 # Clone the git repository
 repoDir <- paste(tempdir(),'romero-gateway', sep="/")
 dir.create(repoDir)
+repoURL <- paste('https://github.com/', user, '/rOMERO-gateway.git', sep = '')
 ret <- git2r::clone(repoURL, branch=branchName, local_path = repoDir)
 if (is.null(ret)) {
   print('Git clone failed.')
