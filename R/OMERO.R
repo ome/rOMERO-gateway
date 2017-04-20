@@ -459,7 +459,8 @@ setMethod(f="attachFile",
 )
 
 
-#' Get annotations attached to an OME object
+#' Get annotations attached to an OME object.
+#' Type, Namespace, Name, Content, ID, FileID (in case of file annotations)
 #' 
 #' @param omero The OME object
 #' @param typeFilter Optional annotation type filter, e.g. FileAnnotation
