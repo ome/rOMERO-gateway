@@ -3,7 +3,8 @@
 \docType{methods}
 \name{getAnnotations,OMERO-method}
 \alias{getAnnotations,OMERO-method}
-\title{Get annotations attached to an OME object}
+\title{Get annotations attached to an OME object.
+Type, Namespace, Name, Content, ID, FileID (in case of file annotations)}
 \usage{
 \S4method{getAnnotations}{OMERO}(object, typeFilter, nameFilter)
 }
@@ -18,5 +19,6 @@
 The annotations
 }
 \description{
-Get annotations attached to an OME object
+Get annotations attached to an OME object.
+Type, Namespace, Name, Content, ID, FileID (in case of file annotations)
 }

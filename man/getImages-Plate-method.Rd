@@ -5,14 +5,19 @@
 \alias{getImages,Plate-method}
 \title{Get all images of the specific plate}
 \usage{
-\S4method{getImages}{Plate}(omero)
+\S4method{getImages}{Plate}(omero, fieldIndex)
 }
 \arguments{
 \item{omero}{The plate}
+
+\item{fieldIndex}{Optional field index (only take the 
+specific field into account)}
 }
 \value{
 The image ids as matrix [[i, j]] where
-       i is the well index and j is the field index
+       i is the well index and j is the field index;
+       unless fieldIndex was specified, then a list of
+       image ids is returned.
 }
 \description{
 Get all images of the specific plate

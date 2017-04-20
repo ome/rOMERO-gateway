@@ -41,6 +41,7 @@
   # Gateway POJOs
   env$DataObject <- J("omero.gateway.model.DataObject")
   env$PlateData <- J("omero.gateway.model.PlateData")
+  env$ScreenData <- J("omero.gateway.model.ScreenData")
   env$DatasetData <- J("omero.gateway.model.DatasetData")
   env$ProjectData <- J("omero.gateway.model.ProjectData")
   env$WellData <- J("omero.gateway.model.WellData")

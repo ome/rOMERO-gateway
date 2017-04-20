@@ -110,7 +110,7 @@ setGeneric(
 
 setGeneric(
   name = "getImages",
-  def = function(omero)
+  def = function(omero, fieldIndex)
   {
     standardGeneric("getImages")
   }
@@ -128,7 +128,11 @@ setMethod(
   signature = "OMERO",
   definition = function(omero)
   {
-    if(omero@dataobject$getClass()$getSimpleName() == 'PlateData') {
+    if(omero@dataobject$getClass()$getSimpleName() == 'ScreenData') {
+      x <- Screen(server=omero@server, dataobject=omero@dataobject)
+      return(x)
+    }
+    else if(omero@dataobject$getClass()$getSimpleName() == 'PlateData') {
       x <- Plate(server=omero@server, dataobject=omero@dataobject)
       return(x)
     }

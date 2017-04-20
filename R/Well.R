@@ -46,27 +46,34 @@ setGeneric(
 #' Get the fields of the specific well
 #'
 #' @param omero The well
+#' @param fieldIndex The field index; if specified only the
+#'    image of this field is returned
 #' @return The fields (image ids)
 #' @export
 #' @import rJava
 setMethod(
   f = "getImages",
   signature = "Well",
-  definition = function(omero)
+  definition = function(omero, fieldIndex)
   {
     server <- omero@server
     obj <- omero@dataobject
     jfields <- obj$getWellSamples()
     
-    fields <- c()
-    it <- jfields$iterator()
-    while(it$hasNext()) {
-      jfield <- .jrcall(it, method = "next")
-      img <- jfield$getImage()$getId()
-      fields <- c(fields, as.integer(img))
+    if (missing(fieldIndex)) {
+      fields <- c()
+      it <- jfields$iterator()
+      while(it$hasNext()) {
+        jfield <- .jrcall(it, method = "next")
+        img <- jfield$getImage()$getId()
+        fields <- c(fields, as.integer(img))
+      }
+      return(fields)
     }
-
-    return(fields)
+    else {
+      field <- jfields$get(as.integer(fieldIndex))
+      return(field)
+    }
   }
 )
 

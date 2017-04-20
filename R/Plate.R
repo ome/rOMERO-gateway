@@ -67,14 +67,18 @@ setMethod(
 #' Get all images of the specific plate
 #'
 #' @param omero The plate
+#' @param fieldIndex Optional field index (only take the 
+#'            specific field into account)
 #' @return The image ids as matrix [[i, j]] where
-#'        i is the well index and j is the field index
+#'        i is the well index and j is the field index;
+#'        unless fieldIndex was specified, then a list of
+#'        image ids is returned.
 #' @export
 #' @import rJava
 setMethod(
   f = "getImages",
   signature = "Plate",
-  definition = function(omero)
+  definition = function(omero, fieldIndex)
   {
     wells <- getWells(omero)
     well <- wells[[1]]
@@ -82,14 +86,23 @@ setMethod(
     n <- length(getImages(well))
     m <- length(wells)
     
-    result <- matrix(data=NA, nrow=m, ncol=n);
-    i <- 1
-    for(w in wells) {
-      fields <- getImages(w)
-      result[i, ] <- fields
-      i <- i + 1
+    if (missing(fieldIndex)) {
+      result <- matrix(data=NA, nrow=m, ncol=n);
+      i <- 1
+      for(w in wells) {
+        fields <- getImages(w)
+        result[i, ] <- fields
+        i <- i + 1
+      }
     }
-    
+    else {
+      result <- c()
+      for(w in wells) {
+        img <- getImages(w, fieldIndex)
+        result <- c(result, img)
+      }
+    }
+  
     return(result)
   }
 )
