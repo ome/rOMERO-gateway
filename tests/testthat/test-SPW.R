@@ -20,7 +20,7 @@ test_that("Test Plate getWells",{
 test_that("Test Plate getImages",{
   plate <- loadObject(server, "PlateData", plateID)
   imgs <- getImages(plate)
-  expect_that(dim(imgs), equals(c(60,4)))
+  expect_that(dim(imgs), equals(c(plateSize, wellSize)))
 })
 
 server <- disconnect(server)
