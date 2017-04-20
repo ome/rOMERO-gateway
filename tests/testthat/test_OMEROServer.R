@@ -1,4 +1,4 @@
-setup <- read.csv("setup.csv", header = TRUE)
+setup <- read.csv("setup.csv", comment.char = "#", header = TRUE)
 
 host <- as.character(setup[grep("omero.host", setup$Key, ignore.case=T), ]$Value)
 port <- strtoi(setup[grep("omero.port", setup$Key, ignore.case=T), ]$Value)
