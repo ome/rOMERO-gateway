@@ -61,18 +61,24 @@ setMethod(
     jfields <- obj$getWellSamples()
     
     if (missing(fieldIndex)) {
-      fields <- c()
+      size <- as.integer(jfields$size())
+      fields <- list(size)
       it <- jfields$iterator()
+      i <- 1
       while(it$hasNext()) {
         jfield <- .jrcall(it, method = "next")
-        img <- jfield$getImage()$getId()
-        fields <- c(fields, as.integer(img))
+        jimg <- jfield$getImage()
+        img <- Image(server=server, dataobject=jimg)
+        fields[[i]] <-img
+        i <- i + 1
       }
       return(fields)
     }
     else {
-      field <- jfields$get(as.integer(fieldIndex))
-      return(field)
+      jfield <- jfields$get(as.integer(fieldIndex))
+      jimg <- jfield$getImage()
+      img <- Image(server=server, dataobject=jimg)
+      return(img)
     }
   }
 )

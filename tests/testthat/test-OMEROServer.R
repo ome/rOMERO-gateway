@@ -20,6 +20,9 @@ test_that("Test OMEROServer connect",{
 test_that("Test OMEROServer loadObject",{
   image <- loadObject(server, "ImageData", imageID)
   expect_that(image@dataobject$getId(), equals(imageID))
+  
+  clazz <- class(image)[[1]]
+  expect_that(clazz, equals('Image'))
 })
 
 test_that("Test OMEROServer getAnnotations",{

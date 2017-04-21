@@ -11,7 +11,7 @@
 \item{omero}{The dataset}
 }
 \value{
-The image ids
+The images
 }
 \description{
 Get all images of the dataset

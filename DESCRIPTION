@@ -28,6 +28,7 @@ Collate:
     Well.R
     Dataset.R
     Project.R
+    Image.R
 License: GPL (>= 2)
 Encoding: UTF-8
 NeedsCompilation: no

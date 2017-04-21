@@ -16,30 +16,45 @@ test_that("Test Plate getWells",{
   plate <- loadObject(server, "PlateData", plateID)
   wells <- getWells(plate)
   expect_that(length(wells), equals(plateSize))
+  
+  clazz <- class(wells[[1]])[[1]]
+  expect_that(clazz, equals('Well'))
 })
 
 test_that("Test Plate getImages",{
   plate <- loadObject(server, "PlateData", plateID)
   imgs <- getImages(plate)
   expect_that(dim(imgs), equals(c(plateSize, wellSize)))
+  
+  clazz <- class(imgs[[1, 1]])[[1]]
+  expect_that(clazz, equals('Image'))
 })
 
 test_that("Test Plate getImages of field 1",{
   plate <- loadObject(server, "PlateData", plateID)
   imgs <- getImages(plate, fieldIndex = 1)
   expect_that(length(imgs), equals(plateSize))
+  
+  clazz <- class(imgs[[1]])[[1]]
+  expect_that(clazz, equals('Image'))
 })
 
 test_that("Test Screen getPlates",{
   screen <- loadObject(server, "ScreenData", screenID)
   plates <- getPlates(screen)
   expect_that(length(plates), equals(1))
+  
+  clazz <- class(plates[[1]])[[1]]
+  expect_that(clazz, equals('Plate'))
 })
 
 test_that("Test Screen getImages",{
   screen <- loadObject(server, "ScreenData", screenID)
   imgs <- getImages(screen)
   expect_that(length(imgs), equals(plateSize))
+  
+  clazz <- class(imgs[[1]])[[1]]
+  expect_that(clazz, equals('Image'))
 })
 
 server <- disconnect(server)

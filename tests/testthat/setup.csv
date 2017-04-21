@@ -5,20 +5,19 @@
 # - The image should have a couple of annotations (see numberofannotations),
 #   including a file annotation with a specific file name (see fileannotationname);
 #   its content doesn't matter.
-# - (At least) one screen (see screenid) with (exact) one plate (see plateid) with
-#   a specific number of (non-empty) wells  (see platesize), where each well has a
-#   specific number of fields (see wellsize)
+# - (At least) one plate (see plateid) with a specific number of (non-empty) wells
+#   (see platesize), where each well has a specific number of fields (see wellsize)
 Key,Value
-omero.host,localhost
+omero.host,eel.openmicroscopy.org
 omero.port,4064
-omero.user,root
-omero.pass,omero
-datasetid,1
-projectid,1
-imageid,1
+omero.user,user-3
+omero.pass,ome
+datasetid,18551
+projectid,2951
+imageid,70052
 numberofannotations,4
-fileannotationname,test.csv
-screenid,1
-plateid,1
+fileannotationname,csv_1.csv
+screenid,1151
+plateid,1701
 platesize,60
 wellsize,4
