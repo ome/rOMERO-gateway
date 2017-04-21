@@ -8,16 +8,16 @@
 # - (At least) one plate (see plateid) with a specific number of (non-empty) wells
 #   (see platesize), where each well has a specific number of fields (see wellsize)
 Key,Value
-omero.host,eel.openmicroscopy.org
+omero.host,localhost
 omero.port,4064
-omero.user,user-3
-omero.pass,ome
-datasetid,18551
-projectid,2951
-imageid,70052
+omero.user,root
+omero.pass,omero
+datasetid,1
+projectid,1
+imageid,1
 numberofannotations,4
-fileannotationname,csv_1.csv
-screenid,1151
-plateid,1701
+fileannotationname,test.csv
+screenid,1
+plateid,1
 platesize,60
 wellsize,4
