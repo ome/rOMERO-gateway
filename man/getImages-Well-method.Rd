@@ -5,10 +5,13 @@
 \alias{getImages,Well-method}
 \title{Get the fields of the specific well}
 \usage{
-\S4method{getImages}{Well}(omero)
+\S4method{getImages}{Well}(omero, fieldIndex)
 }
 \arguments{
 \item{omero}{The well}
+
+\item{fieldIndex}{The field index; if specified only the
+image of this field is returned}
 }
 \value{
 The fields (image ids)

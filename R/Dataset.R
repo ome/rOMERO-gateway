@@ -29,7 +29,7 @@ Dataset <- setClass(
 #' Get all images of the dataset
 #'
 #' @param omero The dataset
-#' @return The image ids
+#' @return The images
 #' @export
 #' @import rJava
 setMethod(
@@ -52,7 +52,8 @@ setMethod(
     it <- jimgs$iterator()
     while(it$hasNext()) {
       jimg <- .jrcall(it, method = "next")
-      result <- c(result, as.integer(jimg$getId()))
+      img <- Image(server=server, dataobject=jimg)
+      result <- c(result, img)
     }
     
     return(result)

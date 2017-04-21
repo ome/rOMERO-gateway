@@ -148,6 +148,10 @@ setMethod(
       x <- Project(server=omero@server, dataobject=omero@dataobject)
       return(x)
     }
+    else if(omero@dataobject$getClass()$getSimpleName() == 'ImageData') {
+      x <- Image(server=omero@server, dataobject=omero@dataobject)
+      return(x)
+    }
     return(omero)
   }
 )
