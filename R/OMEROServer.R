@@ -200,8 +200,10 @@ setMethod(f="loadObject",
             gateway <- getGateway(server)
             ctx <- getContext(server)
             browse <- gateway$getFacility(BrowseFacility$class)
-
-            object <- browse$findObject(ctx, type, .jlong(id))
+            if (type == 'ImageData')
+              object <- browse$getImage(ctx, .jlong(id))
+            else
+              object <- browse$findObject(ctx, type, .jlong(id))
             ome <- OMERO(server=server, dataobject=object)
             return(cast(ome))
           }
