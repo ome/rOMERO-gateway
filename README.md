@@ -16,12 +16,14 @@ R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [
 
 ### Automated
 
-* Download and run [install.R](install.R):
+* Download and run [install.R](install.R) script:
   
   ```
-  R CMD BATCH install.R
+  Rscript install.R
   ```
-  (Output will be written to install.Rout, check for errors)
+  
+  You can specify a particular branch to build/install with `--user=[github username] --branch=[branch name]`
+  or perform a local build of the cloned repository with `--local`
 
 ### Manual
 
