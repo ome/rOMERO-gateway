@@ -5,8 +5,11 @@
 # - The image should have a couple of annotations (see numberofannotations),
 #   including a file annotation with a specific file name (see fileannotationname);
 #   its content doesn't matter.
-# - (At least) one plate (see plateid) with a specific number of (non-empty) wells
-#   (see platesize), where each well has a specific number of fields (see wellsize)
+# - (At least) one screen (see screenid) with (exact) one plate (see plateid) with
+#   a specific number of (non-empty) wells (see platesize), where each well has a
+#   specific number of fields (see wellsize)
+# - A map annotation with a specific key-value-pair (see mapannotation) attached to
+#   the screen mentioned before
 Key,Value
 omero.host,localhost
 omero.port,4064
@@ -18,6 +21,7 @@ imageid,1
 numberofannotations,4
 fileannotationname,test.csv
 screenid,1
+mapannotation,'testkey:testvalue'
 plateid,1
 platesize,60
 wellsize,4

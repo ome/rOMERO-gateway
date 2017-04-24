@@ -19,6 +19,8 @@
   env$Collections <- J("java.util.Collections")
   env$Iterator <- J("java.util.Iterator")
   env$ArrayList <- J("java.util.ArrayList")
+  env$Set <- J("java.util.Set")
+  env$HashSet <- J("java.util.HashSet")
   env$JFile <- J("java.io.File")
   env$Integer <- J("java.lang.Integer")
   env$Long <- J("java.lang.Long")
@@ -37,6 +39,7 @@
   env$MetadataFacility <- J("omero.gateway.facility.MetadataFacility")
   env$DataManagerFacility <- J("omero.gateway.facility.DataManagerFacility")
   env$TablesFacility <- J("omero.gateway.facility.TablesFacility")
+  env$SearchFacility <- J("omero.gateway.facility.SearchFacility")
   
   # Gateway POJOs
   env$DataObject <- J("omero.gateway.model.DataObject")
@@ -54,6 +57,10 @@
   env$ImageData <- J("omero.gateway.model.ImageData")
   env$TableData <- J("omero.gateway.model.TableData")
   env$TableDataColumn <- J("omero.gateway.model.TableDataColumn")
+  env$SearchParameters <- J("omero.gateway.model.SearchParameters")
+  env$SearchScope <- J("omero.gateway.model.SearchScope")
+  env$SearchResultCollection <- J("omero.gateway.model.SearchResultCollection")
+  
   
   packageStartupMessage("\n*** Welcome to rOMERO ***\n")
 }

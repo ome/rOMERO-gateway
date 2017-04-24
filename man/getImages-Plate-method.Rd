@@ -14,10 +14,10 @@
 specific field into account)}
 }
 \value{
-The image ids as matrix [[i, j]] where
+The images as array [[i, j]] where
        i is the well index and j is the field index;
        unless fieldIndex was specified, then a list of
-       image ids is returned.
+       images is returned.
 }
 \description{
 Get all images of the specific plate
