@@ -5,7 +5,7 @@ branchName <- 'master'
 # -- Don't edit anything below this line --
 
 # Install necessary packages
-libs <- c('rJava', 'devtools', 'testthat', 'roxygen2', 'xml2', 'httr', 'git2r')
+libs <- c('rJava', 'devtools', 'testthat', 'roxygen2', 'xml2', 'httr', 'git2r', 'jpeg')
 toInstall <- libs[!(libs %in% installed.packages()[,"Package"])]
 if (length(toInstall) > 0) {
   install.packages(toInstall, repos='http://cran.us.r-project.org')

@@ -30,6 +30,7 @@
   env$Class <- J("java.lang.Class")
   
   # General Gateway classes
+  env$rtypes <- J("omero.rtypes")
   env$SimpleLogger <- J("omero.log.SimpleLogger")
   env$LoginCredentials <- J("omero.gateway.LoginCredentials")
   env$SecurityContext <- J("omero.gateway.SecurityContext")

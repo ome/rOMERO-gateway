@@ -26,3 +26,44 @@ Image <- setClass(
   }
 )
 
+setGeneric(
+  name = "getThumbnail",
+  def = function(image, width = 96, height = 96)
+  {
+    standardGeneric("getThumbnail")
+  }
+)
+
+#' Get the thumbnail for an Image
+#'
+#' @param image The image
+#' @param width The width (optional, default = 96)
+#' @param height The height (optional, default = 96)
+#' @return The thumbnail
+#' @export
+#' @import rJava
+setMethod(
+  f = "getThumbnail",
+  signature = "Image",
+  definition = function(image, width, height)
+  {
+    server <- image@server
+    obj <- image@dataobject
+    gateway <- getGateway(server)
+    ctx <- getContext(server)
+    
+    store <- gateway$getThumbnailService(ctx);
+    
+    dpix <- obj$getDefaultPixels()
+    
+    pixId <- dpix$getId()
+    store$setPixelsId(.jlong(pixId))
+    
+    x <- rtypes$rint(as.integer(width))
+    y <- rtypes$rint(as.integer(height))
+    bytes <- store$getThumbnail(x, y)
+    
+    img <- readJPEG(bytes)
+    return(img)
+  }
+)
