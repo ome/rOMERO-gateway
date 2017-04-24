@@ -90,6 +90,12 @@ setGeneric(name="getAnnotations",
            }
 )
 
+setGeneric(name="searchFor",
+           def=function(server, type, scope, query)
+           {
+             standardGeneric("searchFor")
+           }
+)
 
 
 #' Connect to an OMERO server
@@ -265,7 +271,7 @@ setMethod(f="loadCSV",
 #' @export
 #' @import rJava
 setMethod(f="getAnnotations",
-          signature=(object="OMEROServer"),
+          signature=("OMEROServer"),
           definition=function(object, type, id, typeFilter, nameFilter)
           {
             obj <- loadObject(object, type, id)
@@ -274,4 +280,67 @@ setMethod(f="getAnnotations",
           }
 )
 
+#' Search for OMERO objects
+#' 
+#' @param server The server 
+#' @param type The type of the objects to search for, e.g. Image (default: Image)
+#' @param scope Limit the scope to 'Name', 'Description' or 'Annotation' (optional)
+#' @param query The search query
+#' @return The search results (collection of OMERO objects)
+#' @export
+#' @import rJava
+setMethod(f="searchFor",
+          signature=("OMEROServer"),
+          definition=function(server, type, scope, query)
+          {
+            gateway <- getGateway(server)
+            ctx <- getContext(server)
+            sf <- gateway$getFacility(SearchFacility$class)
+            
+            types <- new(ArrayList)
+            scopes <- new(HashSet)
+
+            typeName <- attr(type, 'className')[1]
+            clazz <- ImageData$class
+            if(typeName == 'Project')
+              clazz <- ProjectData$class
+            else if(typeName == 'Dataset')
+              clazz <- DatasetData$class
+            else if(typeName == 'Screen')
+              clazz <- ScreenData$class
+            else if(typeName == 'Plate')
+              clazz <- PlateData$class
+            else if(typeName == 'Well')
+              clazz <- WellData$class
+            types$add(clazz)
+            
+            sscope <- NA
+            if(!missing(scope)) {
+              if(scope == 'Name')
+                sscope <- SearchScope$NAME
+              else if(scope == 'Description')
+                sscope <- SearchScope$DESCRIPTION
+              else if(scope == 'Annotation')
+                sscope <- SearchScope$ANNOTATION
+              
+              if(!missing(sscope))
+                scopes$add(sscope)
+            }
+          
+            params <- new(SearchParameters, scopes,  types, query)
+            
+            src <- sf$search(ctx, params)
+            jlist <- src$getDataObjects(as.integer(-1), .jnull(class = 'java/lang/Class'))
+            
+            result <- c()
+            it <- jlist$iterator()
+            while(it$hasNext()) {
+              dataobj <- .jrcall(it, method = "next")
+              obj <- OMERO(server=server, dataobject=dataobj)
+              result <- c(result, cast(obj))
+            }
+            
+            return(result)
+          }
+)
 
