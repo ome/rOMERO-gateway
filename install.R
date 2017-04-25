@@ -5,7 +5,7 @@ branchName <- 'master'
 # -- Don't edit anything below this line --
 
 # Install necessary packages
-libs <- c('rJava', 'devtools', 'git2r', 'testthat', 'roxygen2')
+libs <- c('rJava', 'devtools', 'git2r', 'testthat', 'roxygen2', 'xml2', 'httr', 'git2r')
 toInstall <- libs[!(libs %in% installed.packages()[,"Package"])]
 if (length(toInstall) > 0) {
   install.packages(toInstall, repos='http://cran.us.r-project.org')
@@ -51,7 +51,7 @@ if ( ret != 0) {
 }
 
 # Build the romero.gateway package
-packageFile <- devtools::build()
+packageFile <- devtools::build(path = '.')
 if (is.null(packageFile)) {
   print('Build failed.')
   quit(save = 'no', status = 1, runLast = FALSE)
