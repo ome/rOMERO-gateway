@@ -1,7 +1,23 @@
-language: generic
+sudo: required
+
+language: python
+
+python:
+  - "2.7"
 
 services:
   - docker
 
+env:
+  - OMEROBUILD=OMERO-DEV-merge-build
+
+before_install:
+  - docker --version
+  - pip install docker-compose
+  - docker-compose -v
+
 script:
-  - docker build -t test .
+  - docker-compose -f docker/docker-compose.yml up --build --abort-on-container-exit
+  - exitcode=$(docker inspect -f '{{.State.ExitCode}}' docker_test_1)
+  - docker-compose -f docker/docker-compose.yml rm -fv
+  - exit $exitcode
