@@ -16,16 +16,21 @@
   
   # Genereal Java classes
   env$Collection <- J("java.util.Collection")
+  env$Collections <- J("java.util.Collections")
   env$Iterator <- J("java.util.Iterator")
   env$ArrayList <- J("java.util.ArrayList")
+  env$Set <- J("java.util.Set")
+  env$HashSet <- J("java.util.HashSet")
   env$JFile <- J("java.io.File")
   env$Integer <- J("java.lang.Integer")
   env$Long <- J("java.lang.Long")
   env$Double <- J("java.lang.Double")
   env$String <- J("java.lang.String")
   env$Boolean <- J("java.lang.Boolean")
+  env$Class <- J("java.lang.Class")
   
   # General Gateway classes
+  env$rtypes <- J("omero.rtypes")
   env$SimpleLogger <- J("omero.log.SimpleLogger")
   env$LoginCredentials <- J("omero.gateway.LoginCredentials")
   env$SecurityContext <- J("omero.gateway.SecurityContext")
@@ -35,16 +40,28 @@
   env$MetadataFacility <- J("omero.gateway.facility.MetadataFacility")
   env$DataManagerFacility <- J("omero.gateway.facility.DataManagerFacility")
   env$TablesFacility <- J("omero.gateway.facility.TablesFacility")
+  env$SearchFacility <- J("omero.gateway.facility.SearchFacility")
   
   # Gateway POJOs
   env$DataObject <- J("omero.gateway.model.DataObject")
+  env$PlateData <- J("omero.gateway.model.PlateData")
+  env$ScreenData <- J("omero.gateway.model.ScreenData")
+  env$DatasetData <- J("omero.gateway.model.DatasetData")
+  env$ProjectData <- J("omero.gateway.model.ProjectData")
+  env$WellData <- J("omero.gateway.model.WellData")
+  env$WellSampleData <- J("omero.gateway.model.WellSampleData")
   env$ExperimenterData <- J("omero.gateway.model.ExperimenterData")
+  env$AnnotationData <- J("omero.gateway.model.AnnotationData")
   env$MapAnnotationData <- J("omero.gateway.model.MapAnnotationData")
   env$TagAnnotationData <- J("omero.gateway.model.TagAnnotationData")
   env$FileAnnotationData <- J("omero.gateway.model.FileAnnotationData")
   env$ImageData <- J("omero.gateway.model.ImageData")
   env$TableData <- J("omero.gateway.model.TableData")
   env$TableDataColumn <- J("omero.gateway.model.TableDataColumn")
+  env$SearchParameters <- J("omero.gateway.model.SearchParameters")
+  env$SearchScope <- J("omero.gateway.model.SearchScope")
+  env$SearchResultCollection <- J("omero.gateway.model.SearchResultCollection")
+  
   
   packageStartupMessage("\n*** Welcome to rOMERO ***\n")
 }

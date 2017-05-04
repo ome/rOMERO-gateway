@@ -3,7 +3,7 @@
 \docType{methods}
 \name{availableDataframes,OMERO-method}
 \alias{availableDataframes,OMERO-method}
-\title{Get the dataframes (name/id) attached to an OME object}
+\title{Get the dataframes (name/id/annotationID) attached to an OME object}
 \usage{
 \S4method{availableDataframes}{OMERO}(omero)
 }
@@ -14,5 +14,5 @@
 The names/ids of the attached dataframes
 }
 \description{
-Get the dataframes (name/id) attached to an OME object
+Get the dataframes (name/id/annotationID) attached to an OME object
 }

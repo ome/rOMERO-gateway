@@ -30,6 +30,38 @@ OMERO <- setClass(
 )
 
 setGeneric(
+  name = "cast",
+  def = function(omero)
+  {
+    standardGeneric("cast")
+  }
+)
+
+setGeneric(
+  name = "getOMEROID",
+  def = function(omero)
+  {
+    standardGeneric("getOMEROID")
+  }
+)
+
+setGeneric(
+  name = "getOMEROType",
+  def = function(omero)
+  {
+    standardGeneric("getOMEROType")
+  }
+)
+
+setGeneric(
+  name = "delete",
+  def = function(omero)
+  {
+    standardGeneric("delete")
+  }
+)
+
+setGeneric(
   name = "attachDataframe",
   def = function(omero, df, name="R Dataframe")
   {
@@ -47,7 +79,7 @@ setGeneric(
 
 setGeneric(
   name = "loadDataframe",
-  def = function(omero, id, rowFrom=1, rowTo, columns)
+  def = function(omero, id, rowFrom, rowTo, columns)
   {
     standardGeneric("loadDataframe")
   }
@@ -66,6 +98,117 @@ setGeneric(name="attachFile",
            {
              standardGeneric("attachFile")
            }
+)
+
+setGeneric(
+  name = "deleteFile",
+  def = function(omero, id)
+  {
+    standardGeneric("deleteFile")
+  }
+)
+
+setGeneric(
+  name = "getImages",
+  def = function(omero, fieldIndex)
+  {
+    standardGeneric("getImages")
+  }
+)
+
+
+#' Casts a general OMERO object into its proper
+#' type, e. g. Plate (if possible)
+#' @param omero The OME object
+#' @return The OMERO object casted to the proper type
+#' @export
+#' @import rJava
+setMethod(
+  f = "cast",
+  signature = "OMERO",
+  definition = function(omero)
+  {
+    if(omero@dataobject$getClass()$getSimpleName() == 'ScreenData') {
+      x <- Screen(server=omero@server, dataobject=omero@dataobject)
+      return(x)
+    }
+    else if(omero@dataobject$getClass()$getSimpleName() == 'PlateData') {
+      x <- Plate(server=omero@server, dataobject=omero@dataobject)
+      return(x)
+    }
+    else if(omero@dataobject$getClass()$getSimpleName() == 'WellData') {
+      x <- Well(server=omero@server, dataobject=omero@dataobject)
+      return(x)
+    }
+    else if(omero@dataobject$getClass()$getSimpleName() == 'DatasetData') {
+      x <- Dataset(server=omero@server, dataobject=omero@dataobject)
+      return(x)
+    }
+    else if(omero@dataobject$getClass()$getSimpleName() == 'ProjectData') {
+      x <- Project(server=omero@server, dataobject=omero@dataobject)
+      return(x)
+    }
+    else if(omero@dataobject$getClass()$getSimpleName() == 'ImageData') {
+      x <- Image(server=omero@server, dataobject=omero@dataobject)
+      return(x)
+    }
+    return(omero)
+  }
+)
+
+#' Get the ID of the OME object
+#'
+#' @param omero The OME object
+#' @return The OMERO object ID
+#' @export
+#' @import rJava
+setMethod(
+  f = "getOMEROID",
+  signature = "OMERO",
+  definition = function(omero)
+  {
+    return(as.integer(omero@dataobject$getId()))
+  }
+)
+
+#' Get the type of the OME object
+#'
+#' @param omero The OME object
+#' @return The OMERO type
+#' @export
+#' @import rJava
+setMethod(
+  f = "getOMEROType",
+  signature = "OMERO",
+  definition = function(omero)
+  {
+    obj <- omero@dataobject
+    return(obj$getClass()$getSimpleName())
+  }
+)
+
+#' Deletes an OME object
+#'
+#' @param omero The OME object
+#' @export
+#' @import rJava
+setMethod(
+  f = "delete",
+  signature = "OMERO",
+  definition = function(omero)
+  {
+    server <- omero@server
+    obj <- omero@dataobject
+    
+    gateway <- getGateway(server)
+    ctx <- getContext(server)
+    
+    fac <- gateway$getFacility(DataManagerFacility$class)
+    cb <- fac$delete(ctx, obj$asIObject())
+    # Wait max 30 sec
+    cb$loop(as.integer(100), .jlong(300))
+    res <- cb$getResponse()
+  }
 )
 
 #' Attaches a dataframe to an OME object
@@ -141,7 +284,7 @@ setMethod(
   }
 )
 
-#' Get the dataframes (name/id) attached to an OME object
+#' Get the dataframes (name/id/annotationID) attached to an OME object
 #'
 #' @param omero The OME object
 #' @return The names/ids of the attached dataframes
@@ -161,14 +304,16 @@ setMethod(
     
     Name <- c()
     ID <- c()
+    AnnotationID <- c()
     it <- files$iterator()
     while(it$hasNext()) {
       file <- .jrcall(it, method = "next")
       Name <- c(Name, file$getFileName())
       ID <- c(ID, file$getFileID())
+      AnnotationID <- c(AnnotationID, file$getId())
     }
     
-    result <- data.frame(Name, ID, stringsAsFactors = FALSE)
+    result <- data.frame(Name, ID, AnnotationID, stringsAsFactors = FALSE)
     return(result)
   }
 )
@@ -192,6 +337,10 @@ setMethod(
     gateway <- getGateway(server)
     ctx <- getContext(server)
     fac <- gateway$getFacility(TablesFacility$class)
+    
+    if(missing(rowFrom)) {
+      rowFrom <- 1
+    }
     
     if(missing(rowTo)) {
       info <- fac$getTableInfo(ctx, .jlong(id))
@@ -245,7 +394,7 @@ setMethod(
   }
 )
 
-#' Describes a dataframe attached to an OME object
+#' Describe a dataframe attached to an OME object
 #'
 #' @param omero The OME object
 #' @param id The id of the dataframe
@@ -316,3 +465,104 @@ setMethod(f="attachFile",
             return(OMERO(server=server, dataobject=anno))
           }
 )
+
+
+#' Get annotations attached to an OME object.
+#' Type, Namespace, Name, Content, ID, FileID (in case of file annotations)
+#' 
+#' @param omero The OME object
+#' @param typeFilter Optional annotation type filter, e.g. FileAnnotation
+#' @param nameFilter Optional name filter, e.g. file name of a FileAnnotation
+#' @return The annotations
+#' @export
+#' @import rJava
+setMethod(f="getAnnotations",
+          signature=(object="OMERO"),
+          definition=function(object, typeFilter, nameFilter)
+          {
+            server <- object@server
+            obj <- object@dataobject
+            gateway <- getGateway(server)
+            ctx <- getContext(server)
+            fac <- gateway$getFacility(MetadataFacility$class)
+            
+            jannos <- NULL
+            
+            if(missing(typeFilter)) {
+              jannos <- fac$getAnnotations(ctx, obj)
+            }
+            else {
+              className <- paste("omero.gateway.model", typeFilter, sep=".")
+              clazz <- Class$forName(className)
+              jlist <- new (ArrayList)
+              jlist$add(clazz)
+              jannos <- fac$getAnnotations(ctx, obj, jlist, .jnull())
+            }
+            
+            result <- data.frame(Type = character(), Namespace = character(), Name = character(), Content = character(), ID = numeric(), FileID = numeric())
+            
+            it <- jannos$iterator()
+            while(it$hasNext()) {
+              anno <- .jrcall(it, method = "next")
+              javclass <- anno$getClass()
+              annotype <- javclass$getName()
+              annotype <- gsub("omero\\.gateway\\.model\\.", "", annotype)
+              
+              clazz = javclass$getCanonicalName()
+              clazz <- gsub('\\.', '/', clazz)
+              
+              cast <- .jcast(anno, new.class = clazz)
+                             
+              annoname <- ''
+              fid <- NA
+              content <- NA
+              if(annotype == 'FileAnnotationData') {
+                annoname <- cast$getFileName()
+                fid <-  cast$getFileID()
+                content <- cast$getOriginalMimetype()
+              }
+              else if(annotype == 'TagAnnotationData') {
+                annoname <- cast$getTagValue()
+                content <- cast$getTagDescription()
+              }
+              else if(annotype == 'TextualAnnotationData') {
+                content <- cast$getText()
+              }
+              
+              omeid <- anno$getId()
+              ns <- anno$getNameSpace()
+              if(is.jnull(ns))
+                ns <- NA
+              
+              if(missing(nameFilter) || annoname == nameFilter)
+                result <- rbind(result, data.frame(Type = annotype, Namespace = ns, Name = annoname, Content = content, ID = as.numeric(omeid), FileID = as.numeric(fid)))
+            }
+            
+            return(result)
+          }
+)
+
+#' Delete a file attachend to an OME object
+#'
+#' @param omero The OME object
+#' @param id The file annotation(!) id
+#' @export
+#' @import rJava
+setMethod(
+  f = "deleteFile",
+  signature = "OMERO",
+  definition = function(omero, id)
+  {
+    server <- omero@server
+    gateway <- getGateway(server)
+    ctx <- getContext(server)
+    
+    browse <- gateway$getFacility(BrowseFacility$class)
+    annotation <- browse$findObject(ctx, 'FileAnnotationData', .jlong(id))
+    delete(OMERO(server=server, dataobject=annotation))
+  }
+)
+
+
+
+
