@@ -32,6 +32,12 @@ test_that("Test OMERO loadDataframe",{
   expect_that(nrow(df), equals(nrow(iris)))
 })
 
+test_that("Test OMERO loadDataframe with condition",{
+  df <- loadDataframe(image, available$ID[1], condition = "(Species=='versicolor')")
+  iris2 <- iris[ which(iris$Species=='versicolor'), ]
+  expect_that(nrow(df), equals(nrow(iris2)))
+})
+
 test_that("Test OMERO describeDataframe",{
   info <- describeDataframe(image, available$ID[1])
   expect_that(nrow(info), equals(5))
