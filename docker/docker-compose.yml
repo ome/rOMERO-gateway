@@ -18,5 +18,6 @@ services:
     links:
       - omeroserver
     volumes:
-      - ../.:/home/omero/test
-    command: /home/omero/test/docker/runtest
+      - $HOME/.m2:/home/t/.m2
+      - ../.:/home/t/test
+    command: /home/t/test/docker/runtest
