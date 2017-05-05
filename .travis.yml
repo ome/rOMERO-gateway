@@ -8,9 +8,6 @@ python:
 services:
   - docker
 
-env:
-  - OMEROBUILD=OMERO-DEV-merge-build
-
 before_install:
   - docker --version
   - pip install docker-compose

@@ -9,7 +9,6 @@ services:
       - postgres
     environment:
       - SKIP_UPGRADE_CHECK=true
-      - OMEROBUILD=${OMEROBUILD}
     ports:
       - 4064:4064
       - 4063:4063
@@ -20,7 +19,6 @@ services:
       - omeroserver
     environment:
       - SKIP_UPGRADE_CHECK=true
-      - OMEROBUILD=${OMEROBUILD}
       - COMPONENT=server
       - RUNSCRIPT=py
       - SERVER_HOST=omeroserver
