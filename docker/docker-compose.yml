@@ -14,15 +14,9 @@ services:
       - 4063:4063
 
   test:
-    image: openmicroscopy/omero-test-daemon-c7:0.2.0
+    build: ..
     links:
       - omeroserver
-    environment:
-      - SKIP_UPGRADE_CHECK=true
-      - COMPONENT=server
-      - RUNSCRIPT=py
-      - SERVER_HOST=omeroserver
-      - SERVER_PORT=4064
     volumes:
       - ../.:/home/omero/test
     command: /home/omero/test/docker/runtest
