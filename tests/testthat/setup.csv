@@ -11,17 +11,17 @@
 # - A map annotation with a specific key-value-pair (see mapannotation) attached to
 #   the screen mentioned before
 Key,Value
-omero.host,localhost
+omero.host,omeroserver
 omero.port,4064
 omero.user,root
 omero.pass,omero
 datasetid,1
 projectid,1
 imageid,1
-numberofannotations,4
+numberofannotations,2
 fileannotationname,test.csv
 screenid,1
 mapannotation,'testkey:testvalue'
 plateid,1
-platesize,60
+platesize,64
 wellsize,4

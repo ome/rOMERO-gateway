@@ -1,0 +1,23 @@
+version: '2'
+services:
+  postgres:
+    image: postgres
+
+  omeroserver:
+    image: openmicroscopy/omero-test-daemon-c7:0.2.0
+    links:
+      - postgres
+    environment:
+      - SKIP_UPGRADE_CHECK=true
+    ports:
+      - 4064:4064
+      - 4063:4063
+
+  test:
+    build: ..
+    links:
+      - omeroserver
+    volumes:
+      - $HOME/.m2:/home/t/.m2
+      - ../.:/home/t/test
+    command: /home/t/test/docker/runtest

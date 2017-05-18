@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+cat <<EOF | R --no-save
+library(devtools)
+devtools::test()
+EOF
