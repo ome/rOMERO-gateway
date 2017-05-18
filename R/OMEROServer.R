@@ -200,10 +200,34 @@ setMethod(f="loadObject",
             gateway <- getGateway(server)
             ctx <- getContext(server)
             browse <- gateway$getFacility(BrowseFacility$class)
-            if (type == 'ImageData')
+            if (type == 'ImageData') {
               object <- browse$getImage(ctx, .jlong(id))
-            else
+            }
+            else if (type == 'ProjectData' || type == 'DatasetData' || type == 'PlateData' || type == 'ScreenData') {
+              ids <- new (ArrayList)
+              ids$add(new (Long, .jlong(id)))
+              if (type == 'ProjectData')
+                clazz <- ProjectData$class
+              if (type == 'DatasetData')
+                clazz <- DatasetData$class
+              if (type == 'ScreenData')
+                clazz <- ScreenData$class
+              if (type == 'PlateData')
+                clazz <- PlateData$class
+              tmp <- browse$getHierarchy(ctx, clazz, ids, .jnull(class = 'omero/sys/Parameters'))
+              it <- tmp$iterator()
+              object <- .jrcall(it, method = "next")
+            }
+            else if(type == 'WellData') {
+              ids <- new (ArrayList)
+              ids$add(new (Long, .jlong(id)))
+              tmp <- browse$getWells(ctx, ids)
+              it <- tmp$iterator()
+              object <- .jrcall(it, method = "next")
+            }
+            else { 
               object <- browse$findObject(ctx, type, .jlong(id))
+            }
             ome <- OMERO(server=server, dataobject=object)
             return(cast(ome))
           }
