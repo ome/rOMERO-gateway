@@ -5,8 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
+        <omero.version>5.3.3-ice35-SNAPSHOT</omero.version>
         <bioformats.version>5.5.0</bioformats.version>
-        <ice.version>ice36</ice.version>
+        <ice.version>ice35</ice.version>
     </properties>
 
     <parent>
@@ -18,7 +19,7 @@
     <groupId>org.openmicroscopy</groupId>
     <artifactId>rOMERO</artifactId>
     <packaging>pom</packaging>
-    <version>5.3.2</version>
+    <version>5.3.3</version>
 
     <name>rOMERO</name>
     <description>OMERO R Gateway</description>
@@ -54,6 +55,11 @@
             <name>unidata-releases</name>
             <url>https://artifacts.unidata.ucar.edu/content/repositories/unidata-releases</url>
         </repository>
+        <repository>
+          <id>zeroc</id>
+          <name>ZeroC Nexus Repository</name>
+          <url>http://repo.zeroc.com/nexus/content/repositories/releases</url>
+       </repository>
     </repositories>
 
     <build>
