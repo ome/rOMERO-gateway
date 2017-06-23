@@ -26,27 +26,19 @@ Screen <- setClass(
   }
 )
 
-setGeneric(
-  name = "getPlates",
-  def = function(screen)
-  {
-    standardGeneric("getPlates")
-  }
-)
-
 #' Get the plates of the specific screen
 #'
-#' @param screen The screen
+#' @param object The screen
 #' @return The plates
 #' @export
 #' @import rJava
 setMethod(
   f = "getPlates",
   signature = "Screen",
-  definition = function(screen)
+  definition = function(object)
   {
-    server <- screen@server
-    obj <- screen@dataobject
+    server <- object@server
+    obj <- object@dataobject
     gateway <- getGateway(server)
     ctx <- getContext(server)
     browse <- gateway$getFacility(BrowseFacility$class)

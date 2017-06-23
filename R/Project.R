@@ -59,3 +59,40 @@ setMethod(
     return(result)
   }
 )
+
+#' Get the datasets of the project
+#' 
+#' @param object The project 
+#' @return The datasets (collection of OMERO objects)
+#' @export
+#' @import rJava
+setMethod(f="getDatasets",
+          signature=("Project"),
+          definition=function(object)
+          {
+            obj <- object@dataobject
+            
+            gateway <- getGateway(object@server)
+            ctx <- getContext(object@server)
+            
+            fac <- gateway$getFacility(BrowseFacility$class)
+            
+            id <- new(Long, .jlong(obj$getId()))
+            jlist <- Collections$singletonList(id)
+            jprojects <- fac$getHierarchy(ctx, ProjectData$class, jlist, .jnull())
+            
+            it <- jprojects$iterator()
+            jproject <- .jrcall(it, method = "next")
+            datasets <- c()
+            it <- jproject$getDatasets()$iterator()
+            while(it$hasNext()) {
+              jdataset <- .jrcall(it, method = "next")
+              if(.jinstanceof(jdataset, DatasetData)) {
+                dataset <- Dataset(server=object@server, dataobject=jdataset)
+                datasets <- c(datasets, dataset)
+              }
+            }
+            
+            return(datasets)
+          }
+)

@@ -21,5 +21,19 @@ test_that("Test Project getImages",{
   expect_that(clazz, equals('Image'))
 })
 
+test_that("Test Project getDatasets",{
+  proj <- loadObject(server, "ProjectData", projectID)
+  
+  datasets <- getDatasets(proj)
+  expect_that(length(datasets), equals(1))
+
+  dataset <- datasets[[1]]
+  clazz <- class(dataset)[[1]]
+  expect_that(clazz, equals('Dataset'))
+
+  id <- getOMEROID(dataset)
+  expect_that(id, equals(datasetID))
+})
+
 
 
