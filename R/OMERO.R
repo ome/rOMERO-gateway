@@ -79,7 +79,7 @@ setGeneric(
 
 setGeneric(
   name = "loadDataframe",
-  def = function(omero, id, rowFrom, rowTo, columns)
+  def = function(omero, id, condition, rowFrom, rowTo, columns)
   {
     standardGeneric("loadDataframe")
   }
@@ -322,6 +322,9 @@ setMethod(
 #'
 #' @param omero The OME object
 #' @param id The id of the dataframe
+#' @param condition Only load rows which match the given condition (in which
+#' case rowFrom, rowTo and columns parameter will be ignored), for example
+#' (ColumnXYZ=='abc') (i.e. rows with value abc in the column with name ColumnXYZ)
 #' @param rowFrom Load data from row
 #' @param rowTo Load data to row
 #' @param columns Only specified columns
@@ -331,31 +334,41 @@ setMethod(
 setMethod(
   f = "loadDataframe",
   signature = "OMERO",
-  definition = function(omero, id, rowFrom, rowTo, columns)
+  definition = function(omero, id, condition, rowFrom, rowTo, columns)
   {
     server <- omero@server
     gateway <- getGateway(server)
     ctx <- getContext(server)
     fac <- gateway$getFacility(TablesFacility$class)
-    
-    if(missing(rowFrom)) {
-      rowFrom <- 1
+
+    if (!missing(condition)) {
+        rows <- fac$query(ctx, .jlong(id), condition)
+        jlist <- new (ArrayList)
+        for (row in rows) {
+          jlist$add(new (Long, .jlong(row)))
+        }
+        tabledata <- fac$getTable(ctx, .jlong(id), jlist)
     }
-    
-    if(missing(rowTo)) {
-      info <- fac$getTableInfo(ctx, .jlong(id))
-      rowTo <- info$getNumberOfRows() 
-    }
-    
-    if(missing(columns)) {
-      tabledata <- fac$getTable(ctx, .jlong(id), .jlong(rowFrom-1), .jlong(rowTo-1), .jnull())
-    }
-    else 
-    {
-      columns <- as.integer(columns)
-      columns <- sapply(columns, function(x) {x-1})
-      columns <- as.integer(columns)
-      tabledata <- fac$getTable(ctx, .jlong(id), .jlong(rowFrom-1), .jlong(rowTo-1), .jarray(columns))
+    else {
+      if(missing(rowFrom)) {
+        rowFrom <- 1
+      }
+      
+      if(missing(rowTo)) {
+        info <- fac$getTableInfo(ctx, .jlong(id))
+        rowTo <- info$getNumberOfRows()
+      }
+      
+      if (missing(columns)) {
+        tabledata <- fac$getTable(ctx, .jlong(id), .jlong(rowFrom-1), .jlong(rowTo-1), .jnull())
+      }
+      else 
+      {
+        columns <- as.integer(columns)
+        columns <- sapply(columns, function(x) {x-1})
+        columns <- as.integer(columns)
+        tabledata <- fac$getTable(ctx, .jlong(id), .jlong(rowFrom-1), .jlong(rowTo-1), .jarray(columns))
+      }
     }
     
     nCols <- tabledata$getColumns()$length
