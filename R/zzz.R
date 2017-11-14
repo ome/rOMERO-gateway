@@ -62,6 +62,8 @@
   env$SearchScope <- J("omero.gateway.model.SearchScope")
   env$SearchResultCollection <- J("omero.gateway.model.SearchResultCollection")
   
-  
-  packageStartupMessage("\n*** Welcome to rOMERO ***\n")
+  romeroVersion <- packageVersion("romero.gateway")
+  omeroVersion <- packageDescription("romero.gateway", fields = "OMERO_Version")
+  msg <- paste("\n*** Welcome to rOMERO ", romeroVersion, " (~ OMERO ",omeroVersion,") ***\n", sep="")
+  packageStartupMessage(msg)
 }
