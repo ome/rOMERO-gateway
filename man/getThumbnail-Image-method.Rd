@@ -5,10 +5,14 @@
 \alias{getThumbnail,Image-method}
 \title{Get the thumbnail for an Image}
 \usage{
-\S4method{getThumbnail}{Image}(image)
+\S4method{getThumbnail}{Image}(image, width = 96, height = 96)
 }
 \arguments{
 \item{image}{The image}
+
+\item{width}{The width (optional, default = 96)}
+
+\item{height}{The height (optional, default = 96)}
 }
 \value{
 The thumbnail
