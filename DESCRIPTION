@@ -1,8 +1,8 @@
 Package: romero.gateway
 Type: Package
-Version: 5.3.0
+Version: 0.1.0
 OMERO_Version: 5.4.0
-Date: 2017-04-05
+Date: 2017-11-14
 Title: OMERO R Gateway
 Description: R Wrapper around the OMERO Java Gateway, which
   enables access to an OMERO server within R.
@@ -10,8 +10,12 @@ Author: Dominik Lindner
 Maintainer: Dominik Lindner <d.lindner@dundee.ac.uk>
 Authors@R: c(person("Dominik", "Lindner", role = c("aut", "cre", "ctb"),
                  email = "d.lindner@dundee.ac.uk"),
-              person("Jean-Marie", "Burel", role = "ctb",
-                 email = "j.burel@dundee.ac.uk"))
+             person("Jean-Marie", "Burel", role = "ctb",
+                 email = "j.burel@dundee.ac.uk"),
+             person("Josh", "Moore", role = "ctb",
+                 email = "josh@glencoesoftware.com"),
+             person("Balaji", "Ramalingam", role = "ctb",
+                 email = "b.ramalingam@dundee.ac.uk"))
 Depends:
     R (>= 3.1.1),
     rJava (>= 0.9-7),
