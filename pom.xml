@@ -16,11 +16,11 @@
     </parent>
 
     <groupId>org.openmicroscopy</groupId>
-    <artifactId>rOMERO</artifactId>
+    <artifactId>romero-gateway</artifactId>
     <packaging>pom</packaging>
-    <version>5.4.0</version>
+    <version>0.1.0</version>
 
-    <name>rOMERO</name>
+    <name>rOMERO-gateway</name>
     <description>OMERO R Gateway</description>
 
     <dependencies>
