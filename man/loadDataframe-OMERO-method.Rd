@@ -5,12 +5,16 @@
 \alias{loadDataframe,OMERO-method}
 \title{Load a dataframe attached to an OME object}
 \usage{
-\S4method{loadDataframe}{OMERO}(omero, id, rowFrom, rowTo, columns)
+\S4method{loadDataframe}{OMERO}(omero, id, condition, rowFrom, rowTo, columns)
 }
 \arguments{
 \item{omero}{The OME object}
 
 \item{id}{The id of the dataframe}
+
+\item{condition}{Only load rows which match the given condition (in which
+case rowFrom, rowTo and columns parameter will be ignored), for example
+(ColumnXYZ=='abc') (i.e. rows with value abc in the column with name ColumnXYZ)}
 
 \item{rowFrom}{Load data from row}
 

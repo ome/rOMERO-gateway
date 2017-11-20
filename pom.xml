@@ -5,22 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <bioformats.version>5.5.2</bioformats.version>
+        <bioformats.version>5.7.1</bioformats.version>
         <ice.version>ice36</ice.version>
     </properties>
 
     <parent>
         <groupId>ome</groupId>
         <artifactId>pom-omero-client</artifactId>
-        <version>5.3.4</version>
+        <version>5.4.0</version>
     </parent>
 
     <groupId>org.openmicroscopy</groupId>
-    <artifactId>rOMERO</artifactId>
+    <artifactId>romero-gateway</artifactId>
     <packaging>pom</packaging>
-    <version>5.3.3</version>
+    <version>0.1.0</version>
 
-    <name>rOMERO</name>
+    <name>rOMERO-gateway</name>
     <description>OMERO R Gateway</description>
 
     <dependencies>
