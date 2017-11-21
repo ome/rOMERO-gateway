@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+cat <<EOF | R --no-save
+library(devtools)
+library(romero.gateway)
+
+# Retry connecting until server is up and running
+for (i in 1:60) {
+  server <- tryCatch(
+            {
+              server <- OMEROServer(host='omeroserver', port=4064, username='root', password='omero')
+              server <- connect(server)
+              return(server)
+            },
+            error=function(cond) {
+              Sys.sleep(10)
+              return(NA)
+            },
+            warning=function(cond) {
+            },
+            finally={
+            }
+          )
+  if (!is.na(server))
+    break
+}
+
+devtools::test()
+EOF
