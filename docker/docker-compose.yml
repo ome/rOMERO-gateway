@@ -12,6 +12,7 @@ services:
     ports:
       - 4064:4064
       - 4063:4063
+    command: /home/t/test/docker/init_testserver.sh
 
   test:
     build: ..
