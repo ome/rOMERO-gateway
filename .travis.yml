@@ -13,14 +13,8 @@ cache:
   - $HOME/.m2
 
 before_install:
-  - docker --version
-  - pip install docker-compose
-  - docker-compose -v
+  - git clone --recurse-submodules git://github.com/openmicroscopy/test-omero .omero
 
 script:
   - mkdir -f ~/.m2 && chmod 777 ~/.m2
-  - docker-compose -f docker/docker-compose.yml up --build --abort-on-container-exit
-  - exitcode=$(docker inspect -f '{{.State.ExitCode}}' docker_test_1)
-  - docker-compose -f docker/docker-compose.yml exec omeroserver bash /home/t/test/docker/init_testserver.sh
-  - docker-compose -f docker/docker-compose.yml rm -fv
-  - exit $exitcode
+  - .omero/lib-docker

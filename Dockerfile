@@ -59,3 +59,4 @@ RUN chown t /usr/local/lib/R/site-library
 USER t
 WORKDIR /src
 RUN Rscript install.R --local
+CMD ["/src/tests/runtest"]

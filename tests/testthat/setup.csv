@@ -11,7 +11,7 @@
 # - A map annotation with a specific key-value-pair (see mapannotation) attached to
 #   the screen mentioned before
 Key,Value
-omero.host,omeroserver
+omero.host,omero
 omero.port,4064
 omero.user,root
 omero.pass,omero

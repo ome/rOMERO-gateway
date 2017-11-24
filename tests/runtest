@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+OMERO_HOST=${OMERO_HOST:-localhost}
+OMERO_PORT=${OMERO_PORT:-4064}
+OMERO_USER=${OMERO_USER:-root}
+OMERO_PASS=${OMERO_PASS:-omero}
+
 cat <<EOF | R --no-save
 library(devtools)
 library(romero.gateway)
@@ -8,7 +13,7 @@ library(romero.gateway)
 for (i in 1:60) {
   server <- tryCatch(
             {
-              server <- OMEROServer(host='omeroserver', port=4064, username='root', password='omero')
+              server <- OMEROServer(host='$OMERO_HOST', port=$OMERO_PORT, username='$OMERO_USER', password='$OMERO_PASS')
               server <- connect(server)
               return(server)
             },
