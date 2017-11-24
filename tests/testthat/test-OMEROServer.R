@@ -8,13 +8,14 @@ pass <- as.character(setup[grep("omero.pass", setup$Key, ignore.case=T), ]$Value
 imageID <- strtoi(setup[grep("imageid", setup$Key, ignore.case=T), ]$Value)
 nAnnos <- strtoi(setup[grep("numberofannotations", setup$Key, ignore.case=T), ]$Value)
 
-screenID <- strtoi(setup[grep("screenid", setup$Key, ignore.case=T), ]$Value)
-plateID <- strtoi(setup[grep("plateid", setup$Key, ignore.case=T), ]$Value)
 projectID <- strtoi(setup[grep("projectid", setup$Key, ignore.case=T), ]$Value)
 datasetID <- strtoi(setup[grep("datasetid", setup$Key, ignore.case=T), ]$Value)
 
+screenID <- strtoi(setup[grep("screenid", setup$Key, ignore.case=T), ]$Value)
+plateID <- strtoi(setup[grep("plateid", setup$Key, ignore.case=T), ]$Value)
+
 mapannotation <- as.character(setup[grep("mapannotation", setup$Key, ignore.case=T), ]$Value)
-  
+
 server <- NULL
 
 test_that("Test OMEROServer connect",{
@@ -77,6 +78,54 @@ test_that("Test OMEROServer searchFor",{
   id <- getOMEROID(obj)
   expect_that(clazz, equals('Screen'))
   expect_that(id, equals(screenID))
+})
+
+test_that("Test OMEROServer getProjects",{
+  projects <- getProjects(server)
+  
+  expect_that(length(projects), equals(1))
+  
+  clazz <- class(projects[[1]])[[1]]
+  expect_that(clazz, equals('Project'))
+  
+  id <- getOMEROID(projects[[1]])
+  expect_that(id, equals(projectID))
+})
+
+test_that("Test OMEROServer getDatasets",{
+  datasets <- getDatasets(server)
+  
+  expect_that(length(datasets), equals(1))
+  
+  clazz <- class(datasets[[1]])[[1]]
+  expect_that(clazz, equals('Dataset'))
+  
+  id <- getOMEROID(datasets[[1]])
+  expect_that(id, equals(datasetID))
+})
+
+test_that("Test OMEROServer getScreens",{
+  screens <- getScreens(server)
+  
+  expect_that(length(screens), equals(1))
+  
+  clazz <- class(screens[[1]])[[1]]
+  expect_that(clazz, equals('Screen'))
+  
+  id <- getOMEROID(screens[[1]])
+  expect_that(id, equals(screenID))
+})
+
+test_that("Test OMEROServer getPlates",{
+  plates <- getPlates(server)
+  
+  expect_that(length(plates), equals(1))
+  
+  clazz <- class(plates[[1]])[[1]]
+  expect_that(clazz, equals('Plate'))
+  
+  id <- getOMEROID(plates[[1]])
+  expect_that(id, equals(plateID))
 })
 
 test_that("Test OMEROServer disconnect",{

@@ -97,6 +97,34 @@ setGeneric(name="searchFor",
            }
 )
 
+setGeneric(name="getScreens",
+           def=function(server)
+           {
+             standardGeneric("getScreens")
+           }
+)
+
+setGeneric(name="getPlates",
+           def=function(object)
+           {
+             standardGeneric("getPlates")
+           }
+)
+
+setGeneric(name="getProjects",
+           def=function(server)
+           {
+             standardGeneric("getProjects")
+           }
+)
+
+setGeneric(name="getDatasets",
+           def=function(object)
+           {
+             standardGeneric("getDatasets")
+           }
+)
+
 
 #' Connect to an OMERO server
 #' 
@@ -367,6 +395,132 @@ setMethod(f="searchFor",
             }
             
             return(result)
+          }
+)
+
+#' Get all screens of the logged in user
+#' 
+#' @param server The server 
+#' @return The screens (collection of OMERO objects)
+#' @export
+#' @import rJava
+setMethod(f="getScreens",
+          signature=("OMEROServer"),
+          definition=function(server)
+          {
+            gateway <- getGateway(server)
+            ctx <- getContext(server)
+            
+            browse <- gateway$getFacility(BrowseFacility$class)
+            
+            jscreens <- browse$getHierarchy(ctx, ScreenData$class, .jlong(-1))
+            
+            screens <- c()
+            it <- jscreens$iterator()
+            while(it$hasNext()) {
+              jscreen <- .jrcall(it, method = "next")
+              if(.jinstanceof(jscreen, ScreenData)) {
+                screen <- Screen(server=server, dataobject=jscreen)
+                screens <- c(screens, screen)
+              }
+            }
+            return(screens)
+           }
+)
+
+#' Get all plates of the logged in user
+#' 
+#' @param object The server 
+#' @return The plates (collection of OMERO objects)
+#' @export
+#' @import rJava
+setMethod(f="getPlates",
+          signature=("OMEROServer"),
+          definition=function(object)
+          {
+            gateway <- getGateway(object)
+            ctx <- getContext(object)
+            
+            browse <- gateway$getFacility(BrowseFacility$class)
+            
+            jplates <- browse$getHierarchy(ctx, PlateData$class, .jlong(-1))
+            
+            plates <- c()
+            it <- jplates$iterator()
+            while(it$hasNext()) {
+              jplate <- .jrcall(it, method = "next")
+              if(.jinstanceof(jplate, PlateData)) {
+                jscreens <- jplate$getScreens()
+                if (is.jnull(jscreens)) {
+                  plate <- Plate(server=object, dataobject=jplate)
+                  plates <- c(plates, plate)
+                }
+              }
+            }
+            
+            return(plates)
+          }
+)
+
+#' Get all projects of the logged in user
+#' 
+#' @param server The server 
+#' @return The projects (collection of OMERO objects)
+#' @export
+#' @import rJava
+setMethod(f="getProjects",
+          signature=("OMEROServer"),
+          definition=function(server)
+          {
+            gateway <- getGateway(server)
+            ctx <- getContext(server)
+            
+            browse <- gateway$getFacility(BrowseFacility$class)
+            
+            jprojects <- browse$getHierarchy(ctx, ProjectData$class, .jlong(-1))
+            
+            projects <- c()
+            it <- jprojects$iterator()
+            while(it$hasNext()) {
+              jproject <- .jrcall(it, method = "next")
+              if(.jinstanceof(jproject, ProjectData)) {
+                project <- Project(server=server, dataobject=jproject)
+                projects <- c(projects, project)
+              }
+            }
+            
+            return(projects)
+          }
+)
+
+#' Get all datasets of the logged in user
+#' 
+#' @param object The server 
+#' @return The datasets (collection of OMERO objects)
+#' @export
+#' @import rJava
+setMethod(f="getDatasets",
+          signature=("OMEROServer"),
+          definition=function(object)
+          {
+            gateway <- getGateway(object)
+            ctx <- getContext(object)
+            
+            browse <- gateway$getFacility(BrowseFacility$class)
+            
+            jdatasets <- browse$getHierarchy(ctx, DatasetData$class, .jlong(-1))
+            
+            datasets <- c()
+            it <- jdatasets$iterator()
+            while(it$hasNext()) {
+              jdataset <- .jrcall(it, method = "next")
+              if(.jinstanceof(jdataset, DatasetData)) {
+                dataset <- Dataset(server=object, dataobject=jdataset)
+                datasets <- c(datasets, dataset)
+              }
+            }
+            
+            return(datasets)
           }
 )
 

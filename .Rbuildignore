@@ -5,7 +5,11 @@ examples
 jupyter
 pom.xml
 README.md
+.travis.yml
+tests
+install.R
 .gitignore
 .Rbuildignore
 .Rhistory
 .Rprofile
+

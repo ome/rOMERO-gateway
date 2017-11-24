@@ -1,0 +1,28 @@
+#!/usr/bin/python
+
+from argparse import ArgumentParser
+from fileinput import input
+from os.path import dirname
+from os.path import join
+from os.path import pardir
+from re import compile
+
+desc_file = join(dirname(__file__), pardir, "DESCRIPTION")
+pom_file = join(dirname(__file__), pardir, "pom.xml")
+
+
+desc_re = compile("^(Version:\s)\S+(.*)$")
+pom_re = compile("^(\s{4}<version.)\S+(</version>.?)$")
+
+
+def replace_version(file, re, version):
+    for line in input([file], inplace=1):
+        replacement = r"\g<1>%s\g<2>" % version
+        print re.sub(replacement, line),
+
+if __name__ == "__main__":
+    parser = ArgumentParser()
+    parser.add_argument("version")
+    args = parser.parse_args()
+    replace_version(desc_file, desc_re, args.version)
+    replace_version(pom_file, pom_re, args.version)
