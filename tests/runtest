@@ -10,29 +10,39 @@ library(devtools)
 library(romero.gateway)
 
 # Retry connecting until server is up and running
+ready <- FALSE
 for (i in 1:60) {
   server <- tryCatch(
             {
               server <- OMEROServer(
                 host='$OMERO_SERVER_HOST',
-                port=$OMERO_SERVER_PORT,
+                port=as.integer($OMERO_SERVER_PORT),
                 username='$OMERO_SERVER_USER',
                 password='$OMERO_SERVER_PASS')
-              server <- connect(server)
-              return(server)
+              connect(server)
             },
             error=function(cond) {
-              Sys.sleep(10)
-              return(NA)
+              return(NULL)
             },
             warning=function(cond) {
             },
             finally={
             }
           )
-  if (!is.na(server))
+  if (!is.null(server)) {
+    ready <- TRUE
+    disconnect(server)
     break
+  }
+  else {
+    Sys.sleep(10)
+  }
 }
 
-devtools::test()
+if (ready) {
+  devtools::test()
+} else {
+  message("Could not get connection to server")
+}
+
 EOF
