@@ -13,7 +13,7 @@ cache:
   - $HOME/.m2
 
 before_install:
-  - git clone --recurse-submodules git://github.com/openmicroscopy/test-omero .omero
+  - git clone --recurse-submodules git://github.com/openmicroscopy/omero-test-infra .omero
 
 script:
   - mkdir -f ~/.m2 && chmod 777 ~/.m2
