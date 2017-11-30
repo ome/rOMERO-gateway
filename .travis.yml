@@ -16,5 +16,4 @@ before_install:
   - git clone --recurse-submodules git://github.com/openmicroscopy/omero-test-infra .omero
 
 script:
-  - mkdir -f ~/.m2 && chmod 777 ~/.m2
   - .omero/lib-docker
