@@ -1,6 +1,7 @@
 # Specifiy a branch to build/install:
 user <- 'ome'
 branchName <- 'master'
+version <- NULL
 
 # -- Don't edit anything below this line --
 
@@ -19,15 +20,32 @@ args <- commandArgs(trailingOnly = TRUE)
 localBuild <- FALSE
 if (length(args) > 0) {
   for (arg in args) {
+    if (arg == '--help') {
+      cat('\n', 'Downloads, builds and installs the romero-gateway package', '\n', '\n')
+      cat('Options:', '\n', '\n')
+      cat('--local              Build local branch', '\n')
+      cat('--version=[VERSION]  Build a specific version (see github tags), e.g. v0.2.0', '\n', '\n')
+      cat('Specify a user repository and/or branch:', '\n')
+      cat('--user=[USER]        Use forked repository of a certain user (default: ome)', '\n')
+      cat('--branch=[BRANCH]    Use branch within the specified user repository (default: master)', '\n', '\n')
+      cat('When no options are specified the \'master\' branch (i.e. the current development snapshot) https://github.com/ome/rOMERO-gateway/tree/master will used.', '\n', '\n')
+      quit(save = 'no', status = 0, runLast = FALSE)
+    }
     if (arg == '--local')
       localBuild <- TRUE
     if (startsWith(arg, '--user='))
       user <- gsub("--user=", "", arg)
     if (startsWith(arg, '--branch='))
       branchName <- gsub("--branch=", "", arg)
+    if (startsWith(arg, '--version='))
+      version <- gsub("--version=", "", arg)
   }
 }
 if (!localBuild) {
+  if( !is.null(version)) {
+    user <- 'ome'
+    branchName <- 'master'
+  }
   cat('Building romero.gateway based on branch', branchName, 'from user', user, '\n')
   # Clone the git repository
   repoDir <- paste(tempdir(),'romero-gateway', sep="/")
@@ -37,6 +55,15 @@ if (!localBuild) {
   if (is.null(ret)) {
     print('Git clone failed.')
     quit(save = 'no', status = 1, runLast = FALSE)
+  }
+  if( !is.null(version)) {
+    for( tag in tags(ret)) {
+      if (tag@name == version) {
+        print(paste('Checking out version', tag@name))
+        git2r::checkout(tag)
+        break
+      }
+    }
   }
   setwd(repoDir)
 } else {

@@ -22,8 +22,7 @@ R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [
   Rscript install.R
   ```
   
-  You can specify a particular branch to build/install with `--user=[github username] --branch=[branch name]`
-  or perform a local build of the cloned repository with `--local`
+  You can specify a particular branch or version to build/install or perform a local build of the cloned repository. Run `Rscript install.R --help` to see more details.
 
 ### Manual
 
