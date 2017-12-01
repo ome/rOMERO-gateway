@@ -33,7 +33,7 @@ R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [
 * ```cd``` into the ```rOMERO-gateway``` directory
 * Download the dependencies
   * Using Maven: Run ```mvn install```
-  * _Alternative_: Create ```inst/java``` directory. Download [OMERO.insight client](http://downloads.openmicroscopy.org/omero/5.3.0/). Extract the zip file. Copy all files within ```libs``` directory into the previously created ```rOMERO/inst/java``` directory
+  * _Alternative_: Create ```inst/java``` directory. Download [OMERO.insight client](https://downloads.openmicroscopy.org/latest/omero/). Extract the zip file. Copy all files within ```libs``` directory into the previously created ```rOMERO/inst/java``` directory
 * Launch the ```R``` console
 * Load devtools library ```library(devtools)```
 * Build the package ```devtools::build()```
