@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+OMERO_SERVER_HOST=${OMERO_SERVER_HOST:-omero}
+OMERO_SERVER_PORT=${OMERO_SERVER_PORT:-4064}
+OMERO_SERVER_USER=${OMERO_SERVER_USER:-root}
+OMERO_SERVER_PASS=${OMERO_SERVER_PASS:-omero}
+
+cat <<EOF | R --no-save
+library(devtools)
+library(romero.gateway)
+
+# Retry connecting until server is up and running
+ready <- FALSE
+for (i in 1:60) {
+  server <- tryCatch(
+            {
+              server <- OMEROServer(
+                host='$OMERO_SERVER_HOST',
+                port=as.integer($OMERO_SERVER_PORT),
+                username='$OMERO_SERVER_USER',
+                password='$OMERO_SERVER_PASS')
+              connect(server)
+            },
+            error=function(cond) {
+              return(NULL)
+            },
+            warning=function(cond) {
+            },
+            finally={
+            }
+          )
+  if (!is.null(server)) {
+    ready <- TRUE
+    disconnect(server)
+    break
+  }
+  else {
+    Sys.sleep(10)
+  }
+}
+
+if (ready) {
+  devtools::test()
+} else {
+  message("Could not get connection to server")
+}
+
+EOF

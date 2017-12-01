@@ -11,7 +11,7 @@
 # - A map annotation with a specific key-value-pair (see mapannotation) attached to
 #   the screen mentioned before
 Key,Value
-omero.host,localhost
+omero.host,omero
 omero.port,4064
 omero.user,root
 omero.pass,omero
@@ -25,4 +25,4 @@ mapannotation,'testkey:testvalue'
 plateid,1
 platesize,64
 wellsize,4
-wellid,12
+wellid,46

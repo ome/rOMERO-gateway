@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Set up the data structure needed for the tests
+# (see setup.csv)
+
+set -e
+set -u
+set -x
+
+OMERO_DIST=${OMERO_DIST:-/opt/omero/server/OMERO.server}
+WORKDIR=$(mktemp -d)
+
+function cleanup {
+  rm -rf "$WORKDIR"
+  echo "Deleted temp working directory $WORKDIR"
+}
+
+trap cleanup EXIT
+
+export PATH=$PATH:${OMERO_DIST}/bin
+omero login root@localhost -w omero
+DATASET=$(omero obj new Dataset name=TestDataset)
+PROJECT=$(omero obj new Project name=TestProject)
+omero obj new ProjectDatasetLink parent=$PROJECT child=$DATASET
+touch "$WORKDIR/8bit-unsigned&pixelType=uint8&sizeZ=3&sizeC=5&sizeT=7&sizeX=512&sizeY=512.fake"
+IMAGE=$(omero import --output=ids  "$WORKDIR/8bit-unsigned&pixelType=uint8&sizeZ=3&sizeC=5&sizeT=7&sizeX=512&sizeY=512.fake" -T Dataset:id:1)
+
+COMMENT=$(omero obj new CommentAnnotation textValue=BlaBla)
+omero obj new ImageAnnotationLink parent=$IMAGE child=$COMMENT
+touch "$WORKDIR/test.csv"
+FILE=$(omero upload "$WORKDIR/test.csv")
+ATTACH=$(omero obj new FileAnnotation file=$FILE)
+omero obj new ImageAnnotationLink parent=$IMAGE child=$ATTACH
+
+SCREEN=$(omero obj new Screen name=TestScreen)
+touch "$WORKDIR/SPW&plates=1&plateRows=8&plateCols=8&fields=4&plateAcqs=1.fake"
+omero import "$WORKDIR/SPW&plates=1&plateRows=8&plateCols=8&fields=4&plateAcqs=1.fake" -T Screen:id:1
+
+MAP=$(omero obj new MapAnnotation)
+omero obj map-set $MAP mapValue testkey testvalue
+omero obj new ScreenAnnotationLink parent=$SCREEN child=$MAP
