@@ -2,6 +2,7 @@
 user <- 'ome'
 branchName <- 'master'
 version <- NULL
+buildonly <- NULL
 
 # -- Don't edit anything below this line --
 
@@ -24,7 +25,8 @@ if (length(args) > 0) {
       cat('\n', 'Downloads, builds and installs the romero-gateway package', '\n', '\n')
       cat('Options:', '\n', '\n')
       cat('--local              Build local branch', '\n')
-      cat('--version=[VERSION]  Build a specific version (see github tags), e.g. v0.2.0', '\n', '\n')
+      cat('--version=[VERSION]  Build a specific version (see github tags), e.g. v0.2.0', '\n')
+      cat('--buildonly=[PATH]   Directory where the romero.gateway_x.y.z.tar.gz package should be saved (if specified the package is only built, not installed), e. g. ~/ (for the user\'s home directory)', '\n', '\n')
       cat('Specify a user repository and/or branch:', '\n')
       cat('--user=[USER]        Use forked repository of a certain user (default: ome)', '\n')
       cat('--branch=[BRANCH]    Use branch within the specified user repository (default: master)', '\n', '\n')
@@ -39,6 +41,8 @@ if (length(args) > 0) {
       branchName <- gsub("--branch=", "", arg)
     if (startsWith(arg, '--version='))
       version <- gsub("--version=", "", arg)
+    if (startsWith(arg, '--buildonly='))
+      buildonly <- gsub("--buildonly=", "", arg)
   }
 }
 if (!localBuild) {
@@ -82,6 +86,16 @@ packageFile <- devtools::build(path = '.')
 if (is.null(packageFile)) {
   print('Build failed.')
   quit(save = 'no', status = 1, runLast = FALSE)
+}
+
+if (!is.null(buildonly)) {
+  res <- file.copy(packageFile, buildonly)
+  if (res)
+    quit(save = 'no', status = 0, runLast = FALSE)
+  else {
+    print('Copy package failed.')
+    quit(save = 'no', status = 1, runLast = FALSE)
+  }
 }
 
 # Install it
