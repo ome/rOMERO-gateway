@@ -2,6 +2,7 @@
 #' @slot server Reference to the server
 #' @slot dataobject The Java data object
 #' @export Well
+#' @import rJava
 Well <- setClass( 
   'Well',
   contains = 'OMERO',
@@ -50,7 +51,6 @@ setGeneric(
 #'    image of this field is returned
 #' @return The fields (image ids)
 #' @export
-#' @import rJava
 setMethod(
   f = "getImages",
   signature = "Well",
@@ -88,7 +88,6 @@ setMethod(
 #' @param well The well
 #' @return The row index
 #' @export
-#' @import rJava
 setMethod(
   f = "getRow",
   signature = "Well",
@@ -105,7 +104,6 @@ setMethod(
 #' @param well The well
 #' @return The column index
 #' @export
-#' @import rJava
 setMethod(
   f = "getColumn",
   signature = "Well",
@@ -119,10 +117,9 @@ setMethod(
 
 #' Get the number of fields
 #'
-#' @param well The well
+#' @param x The well
 #' @return The number of fields
 #' @export
-#' @import rJava
 setMethod(
   f = "length",
   signature = "Well",

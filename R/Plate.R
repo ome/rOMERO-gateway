@@ -39,7 +39,6 @@ setGeneric(
 #' @param plate The plate
 #' @return The wells
 #' @export
-#' @import rJava
 setMethod(
   f = "getWells",
   signature = "Plate",

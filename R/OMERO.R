@@ -5,6 +5,7 @@
 #' @slot server Reference to the server
 #' @slot dataobject The Java data object
 #' @export OMERO
+#' @import rJava
 OMERO <- setClass(
   
   "OMERO",
@@ -122,7 +123,6 @@ setGeneric(
 #' @param omero The OME object
 #' @return The OMERO object casted to the proper type
 #' @export
-#' @import rJava
 setMethod(
   f = "cast",
   signature = "OMERO",
@@ -161,7 +161,6 @@ setMethod(
 #' @param omero The OME object
 #' @return The OMERO object ID
 #' @export
-#' @import rJava
 setMethod(
   f = "getOMEROID",
   signature = "OMERO",
@@ -176,7 +175,6 @@ setMethod(
 #' @param omero The OME object
 #' @return The OMERO type
 #' @export
-#' @import rJava
 setMethod(
   f = "getOMEROType",
   signature = "OMERO",
@@ -191,7 +189,6 @@ setMethod(
 #'
 #' @param omero The OME object
 #' @export
-#' @import rJava
 setMethod(
   f = "delete",
   signature = "OMERO",
@@ -218,7 +215,6 @@ setMethod(
 #' @param name An optional name
 #' @return The OME object
 #' @export
-#' @import rJava
 setMethod(
   f = "attachDataframe",
   signature = "OMERO",
@@ -289,7 +285,6 @@ setMethod(
 #' @param omero The OME object
 #' @return The names/ids of the attached dataframes
 #' @export
-#' @import rJava
 setMethod(
   f = "availableDataframes",
   signature = "OMERO",
@@ -330,7 +325,6 @@ setMethod(
 #' @param columns Only specified columns
 #' @return The dataframe
 #' @export
-#' @import rJava
 setMethod(
   f = "loadDataframe",
   signature = "OMERO",
@@ -413,7 +407,6 @@ setMethod(
 #' @param id The id of the dataframe
 #' @return NA
 #' @export
-#' @import rJava
 setMethod(
   f = "describeDataframe",
   signature = "OMERO",
@@ -459,7 +452,6 @@ setMethod(
 #' @param file The path to the file to attach
 #' @return The file annotation
 #' @export
-#' @import rJava
 setMethod(f="attachFile",
           signature="OMERO",
           definition=function(omero, file)
@@ -483,12 +475,11 @@ setMethod(f="attachFile",
 #' Get annotations attached to an OME object.
 #' Type, Namespace, Name, Content, ID, FileID (in case of file annotations)
 #' 
-#' @param omero The OME object
+#' @param object The OME object
 #' @param typeFilter Optional annotation type filter, e.g. FileAnnotation
 #' @param nameFilter Optional name filter, e.g. file name of a FileAnnotation
 #' @return The annotations
 #' @export
-#' @import rJava
 setMethod(f="getAnnotations",
           signature=(object="OMERO"),
           definition=function(object, typeFilter, nameFilter)
@@ -560,7 +551,6 @@ setMethod(f="getAnnotations",
 #' @param omero The OME object
 #' @param id The file annotation(!) id
 #' @export
-#' @import rJava
 setMethod(
   f = "deleteFile",
   signature = "OMERO",

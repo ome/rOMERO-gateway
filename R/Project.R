@@ -2,6 +2,7 @@
 #' @slot server Reference to the server
 #' @slot dataobject The Java data object
 #' @export Project
+#' @import rJava
 Project <- setClass( 
   'Project',
   contains = 'OMERO',
@@ -31,7 +32,6 @@ Project <- setClass(
 #' @param omero The project
 #' @return The image ids
 #' @export
-#' @import rJava
 setMethod(
   f = "getImages",
   signature = "Project",
@@ -65,7 +65,6 @@ setMethod(
 #' @param object The project 
 #' @return The datasets (collection of OMERO objects)
 #' @export
-#' @import rJava
 setMethod(f="getDatasets",
           signature=("Project"),
           definition=function(object)

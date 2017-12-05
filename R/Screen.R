@@ -2,6 +2,7 @@
 #' @slot server Reference to the server
 #' @slot dataobject The Java data object
 #' @export Screen
+#' @import rJava
 Screen <- setClass( 
   'Screen',
   contains = 'OMERO',
@@ -31,7 +32,6 @@ Screen <- setClass(
 #' @param object The screen
 #' @return The plates
 #' @export
-#' @import rJava
 setMethod(
   f = "getPlates",
   signature = "Screen",
@@ -72,7 +72,6 @@ setMethod(
 #' @param fieldIndex The fieldIndex (default = 1)
 #' @return The image ids
 #' @export
-#' @import rJava
 setMethod(
   f = "getImages",
   signature = "Screen",

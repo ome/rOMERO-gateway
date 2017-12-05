@@ -2,6 +2,8 @@
 #' @slot server Reference to the server
 #' @slot dataobject The Java data object
 #' @export Image
+#' @import rJava
+#' @importFrom jpeg readJPEG
 Image <- setClass( 
   'Image',
   contains = 'OMERO',
@@ -41,7 +43,6 @@ setGeneric(
 #' @param height The height (optional, default = 96)
 #' @return The thumbnail
 #' @export
-#' @import rJava
 setMethod(
   f = "getThumbnail",
   signature = "Image",

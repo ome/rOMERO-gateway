@@ -2,6 +2,7 @@
 #' @slot server Reference to the server
 #' @slot dataobject The Java data object
 #' @export Dataset
+#' @import rJava
 Dataset <- setClass( 
   'Dataset',
   contains = 'OMERO',
@@ -31,7 +32,6 @@ Dataset <- setClass(
 #' @param omero The dataset
 #' @return The images
 #' @export
-#' @import rJava
 setMethod(
   f = "getImages",
   signature = "Dataset",
