@@ -1,3 +1,4 @@
+#' @import methods
 #' @importFrom utils packageVersion packageDescription
 .onAttach <- function(libname, pkgname) {
   

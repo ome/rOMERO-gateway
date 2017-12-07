@@ -2,6 +2,9 @@
 #' @slot server Reference to the server
 #' @slot dataobject The Java data object
 #' @export Plate
+#' @exportClass Plate
+#' @seealso \linkS4class{OMERO}
+#' @import rJava
 Plate <- setClass( 
   'Plate',
   contains = 'OMERO',
@@ -26,6 +29,12 @@ Plate <- setClass(
   }
 )
 
+#' Get the wells of the specific plate
+#'
+#' @param plate The plate
+#' @return The wells @seealso \linkS4class{Well}
+#' @export
+#' @exportMethod getWells
 setGeneric(
   name = "getWells",
   def = function(plate)
@@ -37,8 +46,9 @@ setGeneric(
 #' Get the wells of the specific plate
 #'
 #' @param plate The plate
-#' @return The wells
+#' @return The wells @seealso \linkS4class{Well}
 #' @export
+#' @exportMethod getWells
 setMethod(
   f = "getWells",
   signature = "Plate",
@@ -63,7 +73,7 @@ setMethod(
   }
 )
 
-#' Get all images of the specific plate
+#' Get all images of a plate
 #'
 #' @param omero The plate
 #' @param fieldIndex Optional field index (only take the 
@@ -71,7 +81,7 @@ setMethod(
 #' @return The images as array [[i, j]] where
 #'        i is the well index and j is the field index;
 #'        unless fieldIndex was specified, then a list of
-#'        images is returned.
+#'        images is returned. @seealso \linkS4class{Image}
 #' @export
 #' @import rJava
 setMethod(

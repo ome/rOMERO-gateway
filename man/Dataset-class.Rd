@@ -16,3 +16,6 @@ Dataset
 \item{\code{dataobject}}{The Java data object}
 }}
 
+\seealso{
+\linkS4class{OMERO}
+}

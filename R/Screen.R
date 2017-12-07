@@ -2,6 +2,8 @@
 #' @slot server Reference to the server
 #' @slot dataobject The Java data object
 #' @export Screen
+#' @exportClass Screen
+#' @seealso \linkS4class{OMERO}
 #' @import rJava
 Screen <- setClass( 
   'Screen',
@@ -30,8 +32,10 @@ Screen <- setClass(
 #' Get the plates of the specific screen
 #'
 #' @param object The screen
-#' @return The plates
-#' @export
+#' @return The plates @seealso \linkS4class{Plate}
+#' @export getPlates
+#' @exportMethod getPlates
+#' @import rJava
 setMethod(
   f = "getPlates",
   signature = "Screen",
@@ -66,12 +70,16 @@ setMethod(
   }
 )
 
-#' Get all images of the specific screen
+#' Get all images of a screen
 #'
 #' @param omero The screen
 #' @param fieldIndex The fieldIndex (default = 1)
-#' @return The image ids
-#' @export
+#' @return A list of image arrays [[i, j]] (one array per plate)
+#'        where i is the well index and j is the field index;
+#'        unless fieldIndex was specified, then a list of
+#'        images is returned. @seealso \linkS4class{Image}
+#' @export getImages
+#' @exportMethod getImages
 setMethod(
   f = "getImages",
   signature = "Screen",

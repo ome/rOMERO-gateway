@@ -11,7 +11,7 @@
 \item{object}{The screen}
 }
 \value{
-The plates
+The plates @seealso \linkS4class{Plate}
 }
 \description{
 Get the plates of the specific screen

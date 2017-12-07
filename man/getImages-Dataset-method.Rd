@@ -3,7 +3,7 @@
 \docType{methods}
 \name{getImages,Dataset-method}
 \alias{getImages,Dataset-method}
-\title{Get all images of the dataset}
+\title{Get all images of a dataset}
 \usage{
 \S4method{getImages}{Dataset}(omero)
 }
@@ -11,8 +11,8 @@
 \item{omero}{The dataset}
 }
 \value{
-The images
+The images @seealso \linkS4class{Image}
 }
 \description{
-Get all images of the dataset
+Get all images of a dataset
 }

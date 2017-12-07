@@ -2,6 +2,8 @@
 #' @slot server Reference to the server
 #' @slot dataobject The Java data object
 #' @export Image
+#' @exportClass Image
+#' @seealso \linkS4class{OMERO}
 #' @import rJava
 #' @importFrom jpeg readJPEG
 Image <- setClass( 
@@ -28,6 +30,14 @@ Image <- setClass(
   }
 )
 
+#' Get the thumbnail for an Image (as JPEG)
+#'
+#' @param image The image
+#' @param width The width (optional, default = 96)
+#' @param height The height (optional, default = 96)
+#' @return The thumbnail
+#' @export getThumbnail
+#' @exportMethod getThumbnail
 setGeneric(
   name = "getThumbnail",
   def = function(image, width = 96, height = 96)
@@ -36,13 +46,14 @@ setGeneric(
   }
 )
 
-#' Get the thumbnail for an Image
+#' Get the thumbnail for an Image (as JPEG)
 #'
 #' @param image The image
 #' @param width The width (optional, default = 96)
 #' @param height The height (optional, default = 96)
 #' @return The thumbnail
-#' @export
+#' @export getThumbnail
+#' @exportMethod getThumbnail
 setMethod(
   f = "getThumbnail",
   signature = "Image",

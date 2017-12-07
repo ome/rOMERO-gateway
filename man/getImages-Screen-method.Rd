@@ -3,7 +3,7 @@
 \docType{methods}
 \name{getImages,Screen-method}
 \alias{getImages,Screen-method}
-\title{Get all images of the specific screen}
+\title{Get all images of a screen}
 \usage{
 \S4method{getImages}{Screen}(omero, fieldIndex = 1)
 }
@@ -13,8 +13,11 @@
 \item{fieldIndex}{The fieldIndex (default = 1)}
 }
 \value{
-The image ids
+A list of image arrays [[i, j]] (one array per plate)
+       where i is the well index and j is the field index;
+       unless fieldIndex was specified, then a list of
+       images is returned. @seealso \linkS4class{Image}
 }
 \description{
-Get all images of the specific screen
+Get all images of a screen
 }

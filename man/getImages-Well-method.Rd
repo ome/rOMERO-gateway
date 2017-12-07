@@ -14,7 +14,7 @@
 image of this field is returned}
 }
 \value{
-The fields (image ids)
+The field images @seealso \linkS4class{Image}
 }
 \description{
 Get the fields of the specific well

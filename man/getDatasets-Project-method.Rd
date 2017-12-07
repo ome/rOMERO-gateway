@@ -3,7 +3,7 @@
 \docType{methods}
 \name{getDatasets,Project-method}
 \alias{getDatasets,Project-method}
-\title{Get the datasets of the project}
+\title{Get all datasets of a project}
 \usage{
 \S4method{getDatasets}{Project}(object)
 }
@@ -11,8 +11,8 @@
 \item{object}{The project}
 }
 \value{
-The datasets (collection of OMERO objects)
+The datasets @seealso \linkS4class{Dataset}
 }
 \description{
-Get the datasets of the project
+Get all datasets of a project
 }

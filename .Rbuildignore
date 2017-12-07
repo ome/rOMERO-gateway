@@ -6,6 +6,7 @@ jupyter
 pom.xml
 README.md
 .travis.yml
+.omeroci
 tests
 install.R
 .gitignore

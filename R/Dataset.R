@@ -2,6 +2,8 @@
 #' @slot server Reference to the server
 #' @slot dataobject The Java data object
 #' @export Dataset
+#' @exportClass Dataset
+#' @seealso \linkS4class{OMERO}
 #' @import rJava
 Dataset <- setClass( 
   'Dataset',
@@ -27,11 +29,12 @@ Dataset <- setClass(
   }
 )
 
-#' Get all images of the dataset
+#' Get all images of a dataset
 #'
 #' @param omero The dataset
-#' @return The images
-#' @export
+#' @return The images @seealso \linkS4class{Image}
+#' @export getImages
+#' @exportMethod getImages
 setMethod(
   f = "getImages",
   signature = "Dataset",
