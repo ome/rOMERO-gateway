@@ -62,4 +62,3 @@ WORKDIR /src
 
 RUN Rscript install.R --local
 CMD ["/src/tests/runtest"]
-
