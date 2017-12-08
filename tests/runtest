@@ -12,6 +12,7 @@ devtools::check(check_dir = '$checkdir')
 EOF
 
 if grep -q 'ERROR\|WARNING' $checkdir/romero.gateway.Rcheck/00check.log; then
+  echo "Error/Warnings found with devtools::check()"
   exit 1
 else
   exit 0
