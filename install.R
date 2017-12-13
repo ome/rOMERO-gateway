@@ -1,4 +1,7 @@
-# Specifiy a branch to build/install:
+# Specifiy a user/branch or version to build/install
+# and/or a path ('buildonly' option) to just save the package
+# without installing it.
+# All these options can also be specified via command line argumnents.
 user <- 'ome'
 branchName <- 'master'
 version <- NULL
@@ -6,17 +9,7 @@ buildonly <- NULL
 
 # -- Don't edit anything below this line --
 
-# Install necessary packages
-libs <- c('rJava', 'devtools', 'testthat', 'roxygen2', 'xml2', 'httr', 'git2r', 'jpeg')
-toInstall <- libs[!(libs %in% installed.packages()[,"Package"])]
-if (length(toInstall) > 0) {
-  install.packages(toInstall, repos='http://cran.us.r-project.org')
-}
-
-# Load packages
-library(devtools)
-library(git2r)
-
+# Check command line options
 args <- commandArgs(trailingOnly = TRUE)
 localBuild <- FALSE
 if (length(args) > 0) {
@@ -45,6 +38,20 @@ if (length(args) > 0) {
       buildonly <- gsub("--buildonly=", "", arg)
   }
 }
+
+# Install necessary packages
+libs <- c('rJava', 'devtools', 'testthat', 'roxygen2', 'xml2', 'httr', 'git2r', 'jpeg')
+toInstall <- libs[!(libs %in% installed.packages()[,"Package"])]
+if (length(toInstall) > 0) {
+  install.packages(toInstall, repos='http://cran.us.r-project.org')
+}
+
+# Load packages
+library(devtools)
+library(git2r)
+
+# Build the package
+
 if (!localBuild) {
   if( !is.null(version)) {
     user <- 'ome'
