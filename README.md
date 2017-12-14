@@ -16,7 +16,7 @@ R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [
 
 ### Automated
 
-* Download and run [install.R](install.R) script:
+* Download and run [install.R](install.R) script (requires Maven and Git):
   
   ```
   Rscript install.R
