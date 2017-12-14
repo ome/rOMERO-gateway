@@ -61,8 +61,8 @@ R CMD javareconf
 ```
 
 #### Additional dependencies
-In order to build/install some R packages required by the R gateway, additional system libraries may
+In order to build/install some necessary R packages, additional system libraries may
 have to be installed first. E.g. the R packages `httr` and `xml2` need the development libraries for
-`curl` and `xml2`, so for example on a Debian system you most likely have to install `libcurl4-openssl-dev`
+`curl` and `xml2`, so for example on a Debian system you most likely have to install `libcurl4-dev`
 and `libxml2-dev` first.
 
