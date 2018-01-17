@@ -5,20 +5,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <bioformats.version>5.4.0</bioformats.version>
+        <bioformats.version>5.5.2</bioformats.version>
         <ice.version>ice36</ice.version>
     </properties>
 
     <parent>
         <groupId>ome</groupId>
         <artifactId>pom-omero-client</artifactId>
-        <version>5.3.1</version>
+        <version>5.3.4</version>
     </parent>
 
     <groupId>org.openmicroscopy</groupId>
     <artifactId>rOMERO</artifactId>
     <packaging>pom</packaging>
-    <version>5.3.0</version>
+    <version>5.3.3</version>
 
     <name>rOMERO</name>
     <description>OMERO R Gateway</description>
@@ -82,7 +82,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.basedir}/lib</outputDirectory>
+                            <outputDirectory>${project.basedir}/inst/java</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>

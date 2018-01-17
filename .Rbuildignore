@@ -1,2 +1,11 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+Docker
+examples
+jupyter
+pom.xml
+README.md
+.gitignore
+.Rbuildignore
+.Rhistory
+.Rprofile

@@ -1,0 +1,28 @@
+# Adjust this to match your test server setup.
+# The server is expected to have:
+# - (At least) one project (see projectid), containing (exact) one dataset
+#   (see datasetid), containing (exact) one image (see imageid).
+# - The image should have a couple of annotations (see numberofannotations),
+#   including a file annotation with a specific file name (see fileannotationname);
+#   its content doesn't matter.
+# - (At least) one screen (see screenid) with (exact) one plate (see plateid) with
+#   a specific number of (non-empty) wells (see platesize), where each well has a
+#   specific number of fields (see wellsize)
+# - A map annotation with a specific key-value-pair (see mapannotation) attached to
+#   the screen mentioned before
+Key,Value
+omero.host,localhost
+omero.port,4064
+omero.user,root
+omero.pass,omero
+datasetid,1
+projectid,1
+imageid,1
+numberofannotations,2
+fileannotationname,test.csv
+screenid,1
+mapannotation,'testkey:testvalue'
+plateid,1
+platesize,64
+wellsize,4
+wellid,12

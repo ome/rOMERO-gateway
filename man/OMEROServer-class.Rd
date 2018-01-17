@@ -2,8 +2,8 @@
 % Please edit documentation in R/OMEROServer.R
 \docType{class}
 \name{OMEROServer-class}
-\alias{OMEROServer}
 \alias{OMEROServer-class}
+\alias{OMEROServer}
 \title{OMEROServer class
 Provides access to an OMERO server}
 \description{
@@ -20,6 +20,8 @@ Provides access to an OMERO server
 \item{\code{username}}{The username}
 
 \item{\code{password}}{The password}
+
+\item{\code{credentialsFile}}{Text file providing username and password}
 
 \item{\code{gateway}}{Reference to the Gateway}
 
