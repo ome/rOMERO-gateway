@@ -68,6 +68,9 @@ if (!localBuild) {
     quit(save = 'no', status = 1, runLast = FALSE)
   }
   if( !is.null(version)) {
+    if ( !startsWith(version, 'v')) {
+      version <- paste0('v', version)
+    }
     for( tag in tags(ret)) {
       if (tag@name == version) {
         print(paste('Checking out version', tag@name))
