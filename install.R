@@ -71,12 +71,18 @@ if (!localBuild) {
     if ( !startsWith(version, 'v')) {
       version <- paste0('v', version)
     }
+    found <- FALSE
     for( tag in tags(ret)) {
       if (tag@name == version) {
         print(paste('Checking out version', tag@name))
         git2r::checkout(tag)
+        found <- TRUE
         break
       }
+    }
+    if ( !found ) {
+      print(paste('Can find version', version))
+      quit(save = 'no', status = 1, runLast = FALSE)
     }
   }
   setwd(repoDir)
