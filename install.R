@@ -81,7 +81,7 @@ if (!localBuild) {
       }
     }
     if ( !found ) {
-      print(paste('Can find version', version))
+      print(paste('Cannot find version', version))
       quit(save = 'no', status = 1, runLast = FALSE)
     }
   }
