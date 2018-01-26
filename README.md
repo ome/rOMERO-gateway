@@ -16,14 +16,13 @@ R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [
 
 ### Automated
 
-* Download and run [install.R](install.R) script:
+* Download and run [install.R](install.R) script (requires Maven and Git):
   
   ```
   Rscript install.R
   ```
   
-  You can specify a particular branch to build/install with `--user=[github username] --branch=[branch name]`
-  or perform a local build of the cloned repository with `--local`
+  You can specify a particular branch or version to build/install or perform a local build of the cloned repository. Run `Rscript install.R --help` to see more details.
 
 ### Manual
 
@@ -60,3 +59,10 @@ Before installing the `rJava` package you probably have to set up Java for R fir
 export $JAVA_HOME=[path to JDK/JRE]
 R CMD javareconf
 ```
+
+#### Additional dependencies
+In order to build/install some necessary R packages, additional system libraries may
+have to be installed first. E.g. the R packages `httr` and `xml2` need the development libraries for
+`curl` and `xml2`, so for example on a Debian system you most likely have to install `libcurl4-dev`
+and `libxml2-dev` first.
+

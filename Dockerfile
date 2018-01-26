@@ -58,5 +58,5 @@ RUN useradd -ms /bin/bash t && chown -R t /src/
 RUN chown t /usr/local/lib/R/site-library
 USER t
 WORKDIR /src
-RUN Rscript install.R --local
-CMD ["/src/tests/runtest"]
+#RUN Rscript install.R --local
+#CMD ["/src/tests/runtest"]
