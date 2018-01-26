@@ -3,7 +3,7 @@
 \docType{methods}
 \name{getThumbnail,Image-method}
 \alias{getThumbnail,Image-method}
-\title{Get the thumbnail for an Image}
+\title{Get the thumbnail for an Image (as JPEG)}
 \usage{
 \S4method{getThumbnail}{Image}(image, width = 96, height = 96)
 }
@@ -18,5 +18,5 @@
 The thumbnail
 }
 \description{
-Get the thumbnail for an Image
+Get the thumbnail for an Image (as JPEG)
 }

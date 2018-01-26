@@ -1,3 +1,5 @@
+#' @import methods
+#' @importFrom utils packageVersion packageDescription
 .onAttach <- function(libname, pkgname) {
   
   packageDir <- find.package(package='romero.gateway')
@@ -62,8 +64,8 @@
   env$SearchScope <- J("omero.gateway.model.SearchScope")
   env$SearchResultCollection <- J("omero.gateway.model.SearchResultCollection")
   
-  romeroVersion <- packageVersion("romero.gateway")
-  omeroVersion <- packageDescription("romero.gateway", fields = "OMERO_Version")
+  romeroVersion <- utils::packageVersion("romero.gateway")
+  omeroVersion <- utils::packageDescription("romero.gateway", fields = "OMERO_Version")
   msg <- paste("\n*** Welcome to rOMERO ", romeroVersion, " (~ OMERO ",omeroVersion,") ***\n", sep="")
   packageStartupMessage(msg)
 }

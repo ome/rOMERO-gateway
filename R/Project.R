@@ -2,6 +2,9 @@
 #' @slot server Reference to the server
 #' @slot dataobject The Java data object
 #' @export Project
+#' @exportClass Project
+#' @seealso \linkS4class{OMERO}
+#' @import rJava
 Project <- setClass( 
   'Project',
   contains = 'OMERO',
@@ -26,12 +29,13 @@ Project <- setClass(
   }
 )
 
-#' Get all images of the project
+
+#' Get all images of a project
 #'
 #' @param omero The project
-#' @return The image ids
-#' @export
-#' @import rJava
+#' @return The images @seealso \linkS4class{Image}
+#' @export getImages
+#' @exportMethod getImages
 setMethod(
   f = "getImages",
   signature = "Project",
@@ -60,12 +64,12 @@ setMethod(
   }
 )
 
-#' Get the datasets of the project
+#' Get all datasets of a project
 #' 
-#' @param object The project 
-#' @return The datasets (collection of OMERO objects)
-#' @export
-#' @import rJava
+#' @param object The project
+#' @return The datasets @seealso \linkS4class{Dataset}
+#' @export getDatasets
+#' @exportMethod getDatasets
 setMethod(f="getDatasets",
           signature=("Project"),
           definition=function(object)

@@ -3,7 +3,7 @@
 \docType{methods}
 \name{getImages,Project-method}
 \alias{getImages,Project-method}
-\title{Get all images of the project}
+\title{Get all images of a project}
 \usage{
 \S4method{getImages}{Project}(omero)
 }
@@ -11,8 +11,8 @@
 \item{omero}{The project}
 }
 \value{
-The image ids
+The images @seealso \linkS4class{Image}
 }
 \description{
-Get all images of the project
+Get all images of a project
 }

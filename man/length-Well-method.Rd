@@ -8,7 +8,7 @@
 \S4method{length}{Well}(x)
 }
 \arguments{
-\item{well}{The well}
+\item{x}{The well}
 }
 \value{
 The number of fields

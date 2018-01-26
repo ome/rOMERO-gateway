@@ -5,13 +5,13 @@
 \alias{getPlates,Screen-method}
 \title{Get the plates of the specific screen}
 \usage{
-\S4method{getPlates}{Screen}(screen)
+\S4method{getPlates}{Screen}(object)
 }
 \arguments{
-\item{screen}{The screen}
+\item{object}{The screen}
 }
 \value{
-The plates
+The plates @seealso \linkS4class{Plate}
 }
 \description{
 Get the plates of the specific screen

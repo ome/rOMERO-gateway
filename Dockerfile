@@ -13,6 +13,7 @@ COPY man /src/man/
 COPY pom.xml /src/
 COPY tests /src/tests/
 COPY install.R /src/
+COPY .Rbuildignore /src/
 
 # Dependencies necessary for install.R
 RUN echo "deb-src http://deb.debian.org/debian testing main" >> /etc/apt/sources.list

@@ -3,7 +3,8 @@
 \docType{methods}
 \name{getAnnotations,OMEROServer-method}
 \alias{getAnnotations,OMEROServer-method}
-\title{Get annotations attached to an OME object}
+\title{Get annotations attached to an OME object.
+Type, Namespace, Name, Content, ID, FileID (in case of file annotations)}
 \usage{
 \S4method{getAnnotations}{OMEROServer}(object, type, id, typeFilter, nameFilter)
 }
@@ -12,7 +13,7 @@
 
 \item{type}{The object type}
 
-\item{id}{The object ID}
+\item{id}{The object id}
 
 \item{typeFilter}{Optional annotation type filter, e.g. FileAnnotation}
 
@@ -22,5 +23,6 @@
 The annotations
 }
 \description{
-Get annotations attached to an OME object
+Get annotations attached to an OME object.
+Type, Namespace, Name, Content, ID, FileID (in case of file annotations)
 }

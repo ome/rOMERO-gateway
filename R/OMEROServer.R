@@ -12,6 +12,9 @@ setClassUnion("jclassOrNULL", c("jobjRef", "NULL"))
 #' @slot user The logged in user
 #' @slot ctx The current SecurityContext
 #' @export OMEROServer
+#' @exportClass OMEROServer
+#' @import rJava
+#' @importFrom utils read.csv read.table
 OMEROServer <- setClass(
   
   "OMEROServer",
@@ -40,6 +43,12 @@ OMEROServer <- setClass(
   
 )
 
+#' Connect to an OMERO server
+#' 
+#' @param server The server
+#' @return The server in "connected" state (if successful)
+#' @export connect
+#' @exportMethod connect
 setGeneric(name="connect",
            def=function(server)
            {
@@ -47,6 +56,12 @@ setGeneric(name="connect",
            }
 )
 
+#' Disconnect from an OMERO server
+#' 
+#' @param server The server
+#' @return The server in "disconnected" state (if successful)
+#' @export disconnect
+#' @exportMethod disconnect
 setGeneric(name="disconnect",
            def=function(server)
            {
@@ -54,6 +69,12 @@ setGeneric(name="disconnect",
            }
 )
 
+#' Get the reference to the Java Gatway
+#' 
+#' @param server The server
+#' @return The Java Gateway
+#' @export getGateway
+#' @exportMethod getGateway
 setGeneric(name="getGateway",
            def=function(server)
            {
@@ -61,6 +82,12 @@ setGeneric(name="getGateway",
            }
 )
 
+#' Get the current SecurityContext
+#' 
+#' @param server The server
+#' @return The SecurityContext
+#' @export getContext
+#' @exportMethod getContext
 setGeneric(name="getContext",
            def=function(server)
            {
@@ -68,6 +95,14 @@ setGeneric(name="getContext",
            }
 )
 
+#' Load an object from the server
+#' 
+#' @param server The server
+#' @param type The object type
+#' @param id The object ID
+#' @return The OME remote object @seealso \linkS4class{OMERO}
+#' @export loadObject
+#' @exportMethod loadObject
 setGeneric(name="loadObject",
            def=function(server, type, id)
            {
@@ -75,6 +110,19 @@ setGeneric(name="loadObject",
            }
 )
 
+#' Load a CSV file from the server
+#' 
+#' @param server The server 
+#' @param id The original file ID
+#' @param header Flag to indicate that the file starts with a header line
+#' @param sep The separator character
+#' @param quote The quote character
+#' @param dec The decimal point character
+#' @param fill Flag to indicate if blank fields should be added for rows with unequals length
+#' @param comment.char The comment character
+#' @return The dataframe constructed from the CSV file
+#' @export loadCSV
+#' @exportMethod loadCSV
 setGeneric(name="loadCSV",
            def=function(server, id, header = TRUE, sep = ",", quote = "\"",
                         dec = ".", fill = TRUE, comment.char = "")
@@ -83,6 +131,17 @@ setGeneric(name="loadCSV",
            }
 )
 
+#' Get annotations attached to an OME object.
+#' Type, Namespace, Name, Content, ID, FileID (in case of file annotations)
+#' 
+#' @param object The OME object
+#' @param type  The object type
+#' @param id  The object id
+#' @param typeFilter Optional annotation type filter, e.g. FileAnnotation
+#' @param nameFilter Optional name filter, e.g. file name of a FileAnnotation
+#' @return The annotations
+#' @export getAnnotations
+#' @exportMethod getAnnotations
 setGeneric(name="getAnnotations",
            def=function(object, type, id, typeFilter, nameFilter)
            {
@@ -90,6 +149,15 @@ setGeneric(name="getAnnotations",
            }
 )
 
+#' Search for OMERO objects
+#' 
+#' @param server The server 
+#' @param type The type of the objects to search for, e.g. Image (default: Image)
+#' @param scope Limit the scope to 'Name', 'Description' or 'Annotation' (optional)
+#' @param query The search query
+#' @return The search results (collection of OMERO objects) @seealso \linkS4class{OMERO}
+#' @export searchFor
+#' @exportMethod searchFor
 setGeneric(name="searchFor",
            def=function(server, type, scope, query)
            {
@@ -97,6 +165,12 @@ setGeneric(name="searchFor",
            }
 )
 
+#' Get all screens of the logged in user
+#' 
+#' @param server The server 
+#' @return The screens @seealso \linkS4class{Screen}
+#' @export getScreens
+#' @exportMethod getScreens
 setGeneric(name="getScreens",
            def=function(server)
            {
@@ -104,6 +178,12 @@ setGeneric(name="getScreens",
            }
 )
 
+#' Get all plates of the logged in user
+#' 
+#' @param object The server or screen
+#' @return The plates @seealso \linkS4class{Plate}
+#' @export getPlates
+#' @exportMethod getPlates
 setGeneric(name="getPlates",
            def=function(object)
            {
@@ -111,6 +191,12 @@ setGeneric(name="getPlates",
            }
 )
 
+#' Get all projects of the logged in user
+#' 
+#' @param server The server 
+#' @return The projects @seealso \linkS4class{Project}
+#' @export getProjects
+#' @exportMethod getProjects
 setGeneric(name="getProjects",
            def=function(server)
            {
@@ -118,6 +204,12 @@ setGeneric(name="getProjects",
            }
 )
 
+#' Get all datasets of the logged in user
+#' 
+#' @param object The server or project
+#' @return The datasets @seealso \linkS4class{Dataset}
+#' @export getDatasets
+#' @exportMethod getDatasets
 setGeneric(name="getDatasets",
            def=function(object)
            {
@@ -125,13 +217,12 @@ setGeneric(name="getDatasets",
            }
 )
 
-
 #' Connect to an OMERO server
 #' 
 #' @param server The server
 #' @return The server in "connected" state (if successful)
-#' @export
-#' @import rJava
+#' @export connect
+#' @exportMethod connect
 setMethod(f="connect",
           signature="OMEROServer",
           definition=function(server)
@@ -173,8 +264,8 @@ setMethod(f="connect",
 #' 
 #' @param server The server
 #' @return The server in "disconnected" state (if successful)
-#' @export
-#' @import rJava
+#' @export disconnect
+#' @exportMethod disconnect
 setMethod(f="disconnect",
           signature="OMEROServer",
           definition=function(server)
@@ -189,8 +280,8 @@ setMethod(f="disconnect",
 #' 
 #' @param server The server
 #' @return The Java Gateway
-#' @export
-#' @import rJava
+#' @export getGateway
+#' @exportMethod getGateway
 setMethod(f="getGateway",
           signature="OMEROServer",
           definition=function(server)
@@ -203,8 +294,8 @@ setMethod(f="getGateway",
 #' 
 #' @param server The server
 #' @return The SecurityContext
-#' @export
-#' @import rJava
+#' @export getContext
+#' @exportMethod getContext
 setMethod(f="getContext",
           signature="OMEROServer",
           definition=function(server)
@@ -219,8 +310,8 @@ setMethod(f="getContext",
 #' @param type The object type
 #' @param id The object ID
 #' @return The OME remote object @seealso \linkS4class{OMERO}
-#' @export
-#' @import rJava
+#' @export loadObject
+#' @exportMethod loadObject
 setMethod(f="loadObject",
           signature="OMEROServer",
           definition=function(server, type, id)
@@ -272,9 +363,8 @@ setMethod(f="loadObject",
 #' @param fill Flag to indicate if blank fields should be added for rows with unequals length
 #' @param comment.char The comment character
 #' @return The dataframe constructed from the CSV file
-#' @export
-#' @import utils
-#' @import rJava
+#' @export loadCSV
+#' @exportMethod loadCSV
 setMethod(f="loadCSV",
           signature="OMEROServer",
           definition=function(server, id, header, sep, quote,
@@ -305,7 +395,7 @@ setMethod(f="loadCSV",
 
             path <- file$getPath()
             
-            df <- read.csv(path, header = header, sep = sep, quote = quote,
+            df <- utils::read.csv(path, header = header, sep = sep, quote = quote,
                            dec = dec, fill = fill, comment.char = comment.char)
             
             file$delete()
@@ -314,16 +404,17 @@ setMethod(f="loadCSV",
           }
 )
 
-#' Get annotations attached to an OME object
+#' Get annotations attached to an OME object.
+#' Type, Namespace, Name, Content, ID, FileID (in case of file annotations)
 #' 
-#' @param object The server 
+#' @param object The server
 #' @param type The object type
-#' @param id The object ID
+#' @param id The object id
 #' @param typeFilter Optional annotation type filter, e.g. FileAnnotation
 #' @param nameFilter Optional name filter, e.g. file name of a FileAnnotation
 #' @return The annotations
-#' @export
-#' @import rJava
+#' @export getAnnotations
+#' @exportMethod getAnnotations
 setMethod(f="getAnnotations",
           signature=("OMEROServer"),
           definition=function(object, type, id, typeFilter, nameFilter)
@@ -340,9 +431,9 @@ setMethod(f="getAnnotations",
 #' @param type The type of the objects to search for, e.g. Image (default: Image)
 #' @param scope Limit the scope to 'Name', 'Description' or 'Annotation' (optional)
 #' @param query The search query
-#' @return The search results (collection of OMERO objects)
-#' @export
-#' @import rJava
+#' @return The search results (collection of OMERO objects) @seealso \linkS4class{OMERO}
+#' @export searchFor
+#' @exportMethod searchFor
 setMethod(f="searchFor",
           signature=("OMEROServer"),
           definition=function(server, type, scope, query)
@@ -401,9 +492,9 @@ setMethod(f="searchFor",
 #' Get all screens of the logged in user
 #' 
 #' @param server The server 
-#' @return The screens (collection of OMERO objects)
-#' @export
-#' @import rJava
+#' @return The screens @seealso \linkS4class{Screen}
+#' @export getScreens
+#' @exportMethod getScreens
 setMethod(f="getScreens",
           signature=("OMEROServer"),
           definition=function(server)
@@ -430,10 +521,10 @@ setMethod(f="getScreens",
 
 #' Get all plates of the logged in user
 #' 
-#' @param object The server 
-#' @return The plates (collection of OMERO objects)
-#' @export
-#' @import rJava
+#' @param object The server
+#' @return The plates @seealso \linkS4class{Plate}
+#' @export getPlates
+#' @exportMethod getPlates
 setMethod(f="getPlates",
           signature=("OMEROServer"),
           definition=function(object)
@@ -465,9 +556,9 @@ setMethod(f="getPlates",
 #' Get all projects of the logged in user
 #' 
 #' @param server The server 
-#' @return The projects (collection of OMERO objects)
-#' @export
-#' @import rJava
+#' @return The projects @seealso \linkS4class{Project}
+#' @export getProjects
+#' @exportMethod getProjects
 setMethod(f="getProjects",
           signature=("OMEROServer"),
           definition=function(server)
@@ -495,10 +586,10 @@ setMethod(f="getProjects",
 
 #' Get all datasets of the logged in user
 #' 
-#' @param object The server 
-#' @return The datasets (collection of OMERO objects)
-#' @export
-#' @import rJava
+#' @param object The server
+#' @return The datasets @seealso \linkS4class{Dataset}
+#' @export getDatasets
+#' @exportMethod getDatasets
 setMethod(f="getDatasets",
           signature=("OMEROServer"),
           definition=function(object)

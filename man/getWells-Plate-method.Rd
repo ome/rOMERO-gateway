@@ -11,7 +11,7 @@
 \item{plate}{The plate}
 }
 \value{
-The wells
+The wells @seealso \linkS4class{Well}
 }
 \description{
 Get the wells of the specific plate

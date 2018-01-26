@@ -9,11 +9,11 @@ Type, Namespace, Name, Content, ID, FileID (in case of file annotations)}
 \S4method{getAnnotations}{OMERO}(object, typeFilter, nameFilter)
 }
 \arguments{
+\item{object}{The OME object}
+
 \item{typeFilter}{Optional annotation type filter, e.g. FileAnnotation}
 
 \item{nameFilter}{Optional name filter, e.g. file name of a FileAnnotation}
-
-\item{omero}{The OME object}
 }
 \value{
 The annotations

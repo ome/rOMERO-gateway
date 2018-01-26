@@ -3,7 +3,7 @@
 \docType{methods}
 \name{getImages,Plate-method}
 \alias{getImages,Plate-method}
-\title{Get all images of the specific plate}
+\title{Get all images of a plate}
 \usage{
 \S4method{getImages}{Plate}(omero, fieldIndex)
 }
@@ -17,8 +17,8 @@ specific field into account)}
 The images as array [[i, j]] where
        i is the well index and j is the field index;
        unless fieldIndex was specified, then a list of
-       images is returned.
+       images is returned. @seealso \linkS4class{Image}
 }
 \description{
-Get all images of the specific plate
+Get all images of a plate
 }

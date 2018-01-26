@@ -5,6 +5,8 @@
 #' @slot server Reference to the server
 #' @slot dataobject The Java data object
 #' @export OMERO
+#' @exportClass OMERO
+#' @import rJava
 OMERO <- setClass(
   
   "OMERO",
@@ -29,6 +31,12 @@ OMERO <- setClass(
   }
 )
 
+#' Casts a general OMERO object into its proper
+#' type, e. g. Plate (if possible)
+#' @param omero The OME object
+#' @return The OMERO object casted to the proper type
+#' @export cast
+#' @exportMethod cast
 setGeneric(
   name = "cast",
   def = function(omero)
@@ -37,6 +45,12 @@ setGeneric(
   }
 )
 
+#' Get the ID of the OME object
+#'
+#' @param omero The OME object
+#' @return The OMERO object ID
+#' @export getOMEROID
+#' @exportMethod getOMEROID
 setGeneric(
   name = "getOMEROID",
   def = function(omero)
@@ -45,6 +59,12 @@ setGeneric(
   }
 )
 
+#' Get the type of the OME object
+#'
+#' @param omero The OME object
+#' @return The OMERO type
+#' @export getOMEROType
+#' @exportMethod getOMEROType
 setGeneric(
   name = "getOMEROType",
   def = function(omero)
@@ -53,6 +73,11 @@ setGeneric(
   }
 )
 
+#' Deletes an OME object
+#'
+#' @param omero The OME object
+#' @export delete
+#' @exportMethod delete
 setGeneric(
   name = "delete",
   def = function(omero)
@@ -61,6 +86,14 @@ setGeneric(
   }
 )
 
+#' Attaches a dataframe to an OME object
+#'
+#' @param omero The OME object
+#' @param df The dataframe
+#' @param name An optional name
+#' @return The OME object
+#' @export attachDataframe
+#' @exportMethod attachDataframe
 setGeneric(
   name = "attachDataframe",
   def = function(omero, df, name="R Dataframe")
@@ -69,6 +102,12 @@ setGeneric(
   }
 )
 
+#' Get the dataframes (name/id/annotationID) attached to an OME object
+#'
+#' @param omero The OME object
+#' @return The names/ids of the attached dataframes
+#' @export availableDataframes
+#' @exportMethod availableDataframes
 setGeneric(
   name = "availableDataframes",
   def = function(omero)
@@ -77,6 +116,19 @@ setGeneric(
   }
 )
 
+#' Load a dataframe attached to an OME object
+#'
+#' @param omero The OME object
+#' @param id The id of the dataframe
+#' @param condition Only load rows which match the given condition (in which
+#' case rowFrom, rowTo and columns parameter will be ignored), for example
+#' (ColumnXYZ=='abc') (i.e. rows with value abc in the column with name ColumnXYZ)
+#' @param rowFrom Load data from row
+#' @param rowTo Load data to row
+#' @param columns Only specified columns
+#' @return The dataframe
+#' @export loadDataframe
+#' @exportMethod loadDataframe
 setGeneric(
   name = "loadDataframe",
   def = function(omero, id, condition, rowFrom, rowTo, columns)
@@ -85,6 +137,13 @@ setGeneric(
   }
 )
 
+#' Describe a dataframe attached to an OME object
+#'
+#' @param omero The OME object
+#' @param id The id of the dataframe
+#' @return NA
+#' @export describeDataframe
+#' @exportMethod describeDataframe
 setGeneric(
     name = "describeDataframe",
     def = function(omero, id)
@@ -93,6 +152,13 @@ setGeneric(
     }
 )
 
+#' Attach a file to an OME object
+#' 
+#' @param omero The OME object
+#' @param file The path to the file to attach
+#' @return The file annotation
+#' @export attachFile
+#' @exportMethod attachFile
 setGeneric(name="attachFile",
            def=function(omero, file)
            {
@@ -100,6 +166,12 @@ setGeneric(name="attachFile",
            }
 )
 
+#' Delete a file attached to an OME object
+#'
+#' @param omero The OME object
+#' @param id The file annotation(!) id
+#' @export deleteFile
+#' @exportMethod deleteFile
 setGeneric(
   name = "deleteFile",
   def = function(omero, id)
@@ -108,6 +180,13 @@ setGeneric(
   }
 )
 
+#' Get all images of a container (Dataset, Project, Screen, Plate or Well)
+#'
+#' @param omero The OME container object
+#' @param fieldIndex The field index (only for wells)
+#' @return The images @seealso \linkS4class{Image}
+#' @export getImages
+#' @exportMethod getImages
 setGeneric(
   name = "getImages",
   def = function(omero, fieldIndex)
@@ -116,13 +195,12 @@ setGeneric(
   }
 )
 
-
 #' Casts a general OMERO object into its proper
 #' type, e. g. Plate (if possible)
 #' @param omero The OME object
 #' @return The OMERO object casted to the proper type
-#' @export
-#' @import rJava
+#' @export cast
+#' @exportMethod cast
 setMethod(
   f = "cast",
   signature = "OMERO",
@@ -160,8 +238,8 @@ setMethod(
 #'
 #' @param omero The OME object
 #' @return The OMERO object ID
-#' @export
-#' @import rJava
+#' @export getOMEROID
+#' @exportMethod getOMEROID
 setMethod(
   f = "getOMEROID",
   signature = "OMERO",
@@ -175,8 +253,8 @@ setMethod(
 #'
 #' @param omero The OME object
 #' @return The OMERO type
-#' @export
-#' @import rJava
+#' @export getOMEROType
+#' @exportMethod getOMEROType
 setMethod(
   f = "getOMEROType",
   signature = "OMERO",
@@ -190,8 +268,8 @@ setMethod(
 #' Deletes an OME object
 #'
 #' @param omero The OME object
-#' @export
-#' @import rJava
+#' @export delete
+#' @exportMethod delete
 setMethod(
   f = "delete",
   signature = "OMERO",
@@ -217,8 +295,8 @@ setMethod(
 #' @param df The dataframe
 #' @param name An optional name
 #' @return The OME object
-#' @export
-#' @import rJava
+#' @export attachDataframe
+#' @exportMethod attachDataframe
 setMethod(
   f = "attachDataframe",
   signature = "OMERO",
@@ -288,8 +366,8 @@ setMethod(
 #'
 #' @param omero The OME object
 #' @return The names/ids of the attached dataframes
-#' @export
-#' @import rJava
+#' @export availableDataframes
+#' @exportMethod availableDataframes
 setMethod(
   f = "availableDataframes",
   signature = "OMERO",
@@ -329,8 +407,8 @@ setMethod(
 #' @param rowTo Load data to row
 #' @param columns Only specified columns
 #' @return The dataframe
-#' @export
-#' @import rJava
+#' @export loadDataframe
+#' @exportMethod loadDataframe
 setMethod(
   f = "loadDataframe",
   signature = "OMERO",
@@ -412,8 +490,8 @@ setMethod(
 #' @param omero The OME object
 #' @param id The id of the dataframe
 #' @return NA
-#' @export
-#' @import rJava
+#' @export describeDataframe
+#' @exportMethod describeDataframe
 setMethod(
   f = "describeDataframe",
   signature = "OMERO",
@@ -458,8 +536,8 @@ setMethod(
 #' @param omero The OME object
 #' @param file The path to the file to attach
 #' @return The file annotation
-#' @export
-#' @import rJava
+#' @export attachFile
+#' @exportMethod attachFile
 setMethod(f="attachFile",
           signature="OMERO",
           definition=function(omero, file)
@@ -479,16 +557,15 @@ setMethod(f="attachFile",
           }
 )
 
-
 #' Get annotations attached to an OME object.
 #' Type, Namespace, Name, Content, ID, FileID (in case of file annotations)
 #' 
-#' @param omero The OME object
+#' @param object The OME object
 #' @param typeFilter Optional annotation type filter, e.g. FileAnnotation
 #' @param nameFilter Optional name filter, e.g. file name of a FileAnnotation
 #' @return The annotations
-#' @export
-#' @import rJava
+#' @export getAnnotations
+#' @exportMethod getAnnotations
 setMethod(f="getAnnotations",
           signature=(object="OMERO"),
           definition=function(object, typeFilter, nameFilter)
@@ -559,8 +636,8 @@ setMethod(f="getAnnotations",
 #'
 #' @param omero The OME object
 #' @param id The file annotation(!) id
-#' @export
-#' @import rJava
+#' @export deleteFile
+#' @exportMethod deleteFile
 setMethod(
   f = "deleteFile",
   signature = "OMERO",
