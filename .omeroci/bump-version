@@ -5,24 +5,63 @@ from fileinput import input
 from os.path import dirname
 from os.path import join
 from os.path import pardir
-from re import compile
+from datetime import date
 
 desc_file = join(dirname(__file__), pardir, "DESCRIPTION")
 pom_file = join(dirname(__file__), pardir, "pom.xml")
 
+def processDesc(version, omeroversion):
+    today = date.today()
+    try:
+        f = input(files=(desc_file), inplace=1)
+        for line in f:
+            if line.startswith("Date:"):
+                print "Date: %s" % today
+            elif line.startswith("Version:") \
+                    and version is not None:
+                print "Version: %s" % version
+            elif line.startswith("OMERO_Version:") \
+                    and omeroversion is not None:
+                print "OMERO_Version: %s" % omeroversion
+            else:
+		print line,
 
-desc_re = compile("^(Version:\s)\S+(.*)$")
-pom_re = compile("^(\s{4}<version.)\S+(</version>.?)$")
+    finally:
+        f.close()
 
+def processPom(version, omeroversion):
+    inVersion = False
+    inOmeroVersion = False
+    try:
+        f = input(files=(pom_file), inplace=1)
+        for line in f:
+            if inVersion and version is not None\
+                    and "version" in line:
+                print "    <version>%s</version>" % version
+                inVersion = False
+            elif inOmeroVersion and omeroversion is not None\
+                    and "version" in line:
+                print "        <version>%s</version>" % omeroversion
+                inOmeroVersion = False
+            elif "pom-omero-client" in line:
+                inOmeroVersion = True
+                print line,
+            elif "romero-gateway" in line:
+                inVersion = True
+                print line,
+            else:
+		print line,
 
-def replace_version(file, re, version):
-    for line in input([file], inplace=1):
-        replacement = r"\g<1>%s\g<2>" % version
-        print re.sub(replacement, line),
+    finally:
+        f.close()
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument("version")
+    parser.add_argument("-v", nargs='?')
+    parser.add_argument("-o", nargs='?')
     args = parser.parse_args()
-    replace_version(desc_file, desc_re, args.version)
-    replace_version(pom_file, pom_re, args.version)
+    if args.v is None and args.o is None:
+        print("Usage: ./bumpversion [-v VERSION] [-o OMERO_VERSION]")
+    else: 
+        processDesc(args.v, args.o)
+        processPom(args.v, args.o)
