@@ -1,6 +1,6 @@
 Package: romero.gateway
 Type: Package
-Version: 0.3.0
+Version: 0.3.0.9000
 OMERO_Version: 5.4.5
 Date: 2018-03-28
 Title: OMERO R Gateway
