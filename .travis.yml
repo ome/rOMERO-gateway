@@ -13,7 +13,7 @@ cache:
   - $HOME/.m2
 
 before_install:
-  - git clone --recurse-submodules git://github.com/openmicroscopy/omero-test-infra .omero
+  - git clone --recurse-submodules git://github.com/joshmoore/omero-test-infra .omero
 
 script:
   - .omero/lib-docker
