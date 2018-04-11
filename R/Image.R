@@ -121,7 +121,19 @@ setMethod(
     plane <- fac$getPlane(ctx, pixelsObj, as.integer(z), as.integer(t), as.integer(c))
     jpixels = plane$getPixelValues()
     res <- .jevalArray(jpixels)
-    return(res)
+    data <- c()
+    width <- length(res)
+    height <- 0
+    for (row in res) {
+      col <- .jevalArray(row)
+      data <- c(data, col)
+      if (height == 0) 
+        height <- length(col)
+    }
+    
+    pixelArray <- array(data, dim=c(width, height))
+    pixelArray <- aperm(pixelArray, c(2,1))
+    return(pixelArray)
   }
 )
 
