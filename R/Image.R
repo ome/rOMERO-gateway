@@ -46,6 +46,23 @@ setGeneric(
   }
 )
 
+#' Get the pixel values of an Image
+#'
+#' @param image The image
+#' @param z Z plane index (0 based)
+#' @param t T plane index (0 based)
+#' @param c Channel index (0 based)
+#' @return The pixel values as two-dimensional array [x][y]
+#' @export getPixelValues
+#' @exportMethod getPixelValues
+setGeneric(
+  name = "getPixelValues",
+  def = function(image, z, t, c)
+  {
+    standardGeneric("getPixelValues")
+  }
+)
+
 #' Get the thumbnail for an Image (as JPEG)
 #'
 #' @param image The image
@@ -64,7 +81,7 @@ setMethod(
     gateway <- getGateway(server)
     ctx <- getContext(server)
     
-    store <- gateway$getThumbnailService(ctx);
+    store <- gateway$getThumbnailService(ctx)
     
     dpix <- obj$getDefaultPixels()
     
@@ -79,3 +96,32 @@ setMethod(
     return(img)
   }
 )
+
+#' Get the pixel values of an Image
+#'
+#' @param image The image
+#' @param z Z plane index (0 based)
+#' @param t T plane index (0 based)
+#' @param c Channel index (0 based)
+#' @return The pixel values as two-dimensional array [x][y]
+#' @export getPixelValues
+#' @exportMethod getPixelValues
+setMethod(
+  f = "getPixelValues",
+  signature = "Image",
+  definition = function(image, z, t, c)
+  {
+    server <- image@server
+    obj <- image@dataobject
+    gateway <- getGateway(server)
+    ctx <- getContext(server)
+    
+    fac <- gateway$getFacility(RawDataFacility$class)
+    pixelsObj <- obj$getDefaultPixels()
+    plane <- fac$getPlane(ctx, pixelsObj, as.integer(z), as.integer(t), as.integer(c))
+    jpixels = plane$getPixelValues()
+    res <- .jevalArray(jpixels)
+    return(res)
+  }
+)
+
