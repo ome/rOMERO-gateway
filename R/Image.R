@@ -49,9 +49,9 @@ setGeneric(
 #' Get the pixel values of an Image
 #'
 #' @param image The image
-#' @param z Z plane index (0 based)
-#' @param t T plane index (0 based)
-#' @param c Channel index (0 based)
+#' @param z Z plane index (default: 1)
+#' @param t T plane index (default: 1)
+#' @param c Channel index (default: 1)
 #' @return The pixel values as two-dimensional array [x][y]
 #' @export getPixelValues
 #' @exportMethod getPixelValues
@@ -100,9 +100,9 @@ setMethod(
 #' Get the pixel values of an Image
 #'
 #' @param image The image
-#' @param z Z plane index (0 based)
-#' @param t T plane index (0 based)
-#' @param c Channel index (0 based)
+#' @param z Z plane index (default: 1)
+#' @param t T plane index (default: 1)
+#' @param c Channel index (default: 1)
 #' @return The pixel values as two-dimensional array [x][y]
 #' @export getPixelValues
 #' @exportMethod getPixelValues
@@ -115,10 +115,23 @@ setMethod(
     obj <- image@dataobject
     gateway <- getGateway(server)
     ctx <- getContext(server)
+
+    if (missing(z)) {
+      z <- 1
+    }
+
+    if (missing(t)) {
+      t <- 1
+    }
+
+    if (missing(c)) {
+      c <- 1
+    }
     
     fac <- gateway$getFacility(RawDataFacility$class)
     pixelsObj <- obj$getDefaultPixels()
-    plane <- fac$getPlane(ctx, pixelsObj, as.integer(z), as.integer(t), as.integer(c))
+    
+    plane <- fac$getPlane(ctx, pixelsObj, as.integer(z-1), as.integer(t-1), as.integer(c-1))
     jpixels = plane$getPixelValues()
     res <- .jevalArray(jpixels)
     data <- c()

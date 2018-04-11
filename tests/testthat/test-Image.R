@@ -22,7 +22,7 @@ test_that("Test Image getThumbnail",{
 test_that("Test Image getPixelValues",{
   img <- loadObject(server, "ImageData", imageID)
 
-  pixels <- getPixelValues(img, 0, 0, 0)
+  pixels <- getPixelValues(img, 1, 1, 1)
 
   # Test 100 random pixels. Ignore first 50 pixels
   # because that's this strange black block in the corner

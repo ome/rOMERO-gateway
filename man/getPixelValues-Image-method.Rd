@@ -10,11 +10,11 @@
 \arguments{
 \item{image}{The image}
 
-\item{z}{Z plane index (0 based)}
+\item{z}{Z plane index (default: 1)}
 
-\item{t}{T plane index (0 based)}
+\item{t}{T plane index (default: 1)}
 
-\item{c}{Channel index (0 based)}
+\item{c}{Channel index (default: 1)}
 }
 \value{
 The pixel values as two-dimensional array [x][y]
