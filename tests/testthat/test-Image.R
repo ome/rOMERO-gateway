@@ -18,3 +18,21 @@ test_that("Test Image getThumbnail",{
   expect_that(dim(thumb), equals(c(96,96,3)))
 })
 
+
+test_that("Test Image getPixelValues",{
+  img <- loadObject(server, "ImageData", imageID)
+
+  pixels <- getPixelValues(img, 1, 1, 1)
+
+  # Test 100 random pixels. Ignore first 50 pixels
+  # because that's this strange black block in the corner
+  # of ".fake" images. The rest is a gradient where
+  # the x value %% 256 represents the pixel value.
+  for(x in sample(51:512, 10)) {
+    for(y in sample(51:512, 10)) {
+      got <- as.integer(pixels[x, y])
+      exp <- as.integer((x-1) %% 256)
+      expect_equal(got, exp)
+    }
+  }
+})
