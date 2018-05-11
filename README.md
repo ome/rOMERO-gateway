@@ -47,7 +47,11 @@ R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [
 
 ## Testing 
 * Install [testthat](https://cran.r-project.org/web/packages/testthat/index.html)
-* Modify [setup.csv](tests/testthat/setup.csv) to match your test server setup
+* Spin up an OMERO server to test against
+* Adjust and run [test-data](.omeroci/test-data) script to populate 
+the test server
+* Adjust [setup.csv](tests/testthat/setup.csv) to match your test server setup (mostly `omero.host` etc; the various ids should be ok if you used the `test-data` script
+to populate the server)
 * Run ```devtools::test()```
 
 ## Remarks

@@ -1,6 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^Docker$
+^Dockerfile
 ^examples$
 ^jupyter$
 ^pom.xml$
