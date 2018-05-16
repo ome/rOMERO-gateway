@@ -1,4 +1,5 @@
 setClassUnion("jclassOrNULL", c("jobjRef", "NULL"))
+setClassUnion("integerOrNULL", c("integer", "NULL"))
 
 #' OMEROServer class
 #' Provides access to an OMERO server
@@ -21,7 +22,7 @@ OMEROServer <- setClass(
   
   slots = c(
     host = "character",
-    port = "integer",
+    port = "integerOrNULL",
     username = "character",
     password = "character",
     credentialsFile = "character",
@@ -32,7 +33,7 @@ OMEROServer <- setClass(
   
   prototype = list(
     host = character(0),
-    port= 0L,
+    port= 4064L,
     username = character(0),
     password = character(0),
     credentialsFile = character(0),
@@ -46,11 +47,13 @@ OMEROServer <- setClass(
 #' Connect to an OMERO server
 #' 
 #' @param server The server
+#' @param group The group context (group name)
+#'              (optional, default: user's default group)
 #' @return The server in "connected" state (if successful)
 #' @export connect
 #' @exportMethod connect
 setGeneric(name="connect",
-           def=function(server)
+           def=function(server, group=NA)
            {
              standardGeneric("connect")
            }
@@ -68,6 +71,34 @@ setGeneric(name="disconnect",
              standardGeneric("disconnect")
            }
 )
+
+#' Set a different group context
+#' 
+#' @param server The server
+#' @param group The name of the group
+#' @return The server
+#' @export setGroup
+#' @exportMethod setGroup
+setGeneric(name="setGroup",
+           def=function(server, group)
+           {
+             standardGeneric("setGroup")
+           }
+)
+
+#' Get the current group context
+#' 
+#' @param server The server
+#' @return The name of the group
+#' @export getGroup
+#' @exportMethod getGroup
+setGeneric(name="getGroup",
+           def=function(server)
+           {
+             standardGeneric("getGroup")
+           }
+)
+
 
 #' Get the reference to the Java Gatway
 #' 
@@ -220,12 +251,14 @@ setGeneric(name="getDatasets",
 #' Connect to an OMERO server
 #' 
 #' @param server The server
+#' @param group The group context (group name)
+#'              (optional, default: user's default group)
 #' @return The server in "connected" state (if successful)
 #' @export connect
 #' @exportMethod connect
 setMethod(f="connect",
           signature="OMEROServer",
-          definition=function(server)
+          definition=function(server, group)
           {
             log <- new(SimpleLogger)
             gateway <- new (Gateway, log)
@@ -254,7 +287,20 @@ setMethod(f="connect",
             
             server@gateway <- gateway
             server@user <- user
-            server@ctx <- new (SecurityContext, .jlong(user$getGroupId()))
+            
+            if (!is.na(group)) {
+              for (g in as.list(user$getGroups())) {
+                if (g$getName() == group) {
+                  server@ctx <- new (SecurityContext, .jlong(g$getId()))
+                  break
+                }
+              }
+              if (is.null(server@ctx))
+                warning(paste("Group", group, "not found or user is not a member of this group. Using default group."))
+            }
+            
+            if (is.null(server@ctx))
+              server@ctx <- new (SecurityContext, .jlong(user$getGroupId()))
             
             return(server)
           }
@@ -272,9 +318,51 @@ setMethod(f="disconnect",
           {
             gateway <- getGateway(server)
             gateway$disconnect()
-            return(server)
+            return(invisible(server))
           }
 )
+
+#' Set a different group context
+#' 
+#' @param server The server
+#' @param group The name of the group
+#' @return The server
+#' @export setGroup
+#' @exportMethod setGroup
+setMethod(f="setGroup",
+          signature="OMEROServer",
+          definition=function(server, group)
+           {
+             for (g in as.list(server@user$getGroups())) {
+               if (g$getName() == group) {
+                 server@ctx <- new (SecurityContext, .jlong(g$getId()))
+                 return(invisible(server))
+               }
+             }
+            warning(paste("Group", group, "not found or user is not a member of this group. Operation ignored."))
+            return(invisible(server))
+           }
+)
+
+#' Get the current group context
+#' 
+#' @param server The server
+#' @return The name of the group
+#' @export getGroup
+#' @exportMethod getGroup
+setMethod(f="getGroup",
+          signature="OMEROServer",
+          definition=function(server)
+          {
+            for (g in as.list(server@user$getGroups())) {
+              if (g$getId() == server@ctx$getGroupID()) {
+                return(g$getName())
+              }
+            }
+            return(NA)
+          }
+)
+
 
 #' Get the reference to the Java Gatway
 #' 

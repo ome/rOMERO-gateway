@@ -54,6 +54,7 @@
   env$WellData <- J("omero.gateway.model.WellData")
   env$WellSampleData <- J("omero.gateway.model.WellSampleData")
   env$ExperimenterData <- J("omero.gateway.model.ExperimenterData")
+  env$GroupData <- J("omero.gateway.model.GroupData")
   env$AnnotationData <- J("omero.gateway.model.AnnotationData")
   env$MapAnnotationData <- J("omero.gateway.model.MapAnnotationData")
   env$TagAnnotationData <- J("omero.gateway.model.TagAnnotationData")
