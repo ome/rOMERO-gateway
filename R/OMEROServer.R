@@ -77,12 +77,12 @@ setGeneric(name="disconnect",
 #' @param server The server
 #' @param group The name of the group
 #' @return The server
-#' @export setGroup
-#' @exportMethod setGroup
-setGeneric(name="setGroup",
+#' @export setGroupContext
+#' @exportMethod setGroupContext
+setGeneric(name="setGroupContext",
            def=function(server, group)
            {
-             standardGeneric("setGroup")
+             standardGeneric("setGroupContext")
            }
 )
 
@@ -90,12 +90,12 @@ setGeneric(name="setGroup",
 #' 
 #' @param server The server
 #' @return The name of the group
-#' @export getGroup
-#' @exportMethod getGroup
-setGeneric(name="getGroup",
+#' @export getGroupContext
+#' @exportMethod getGroupContext
+setGeneric(name="getGroupContext",
            def=function(server)
            {
-             standardGeneric("getGroup")
+             standardGeneric("getGroupContext")
            }
 )
 
@@ -327,9 +327,9 @@ setMethod(f="disconnect",
 #' @param server The server
 #' @param group The name of the group
 #' @return The server
-#' @export setGroup
-#' @exportMethod setGroup
-setMethod(f="setGroup",
+#' @export setGroupContext
+#' @exportMethod setGroupContext
+setMethod(f="setGroupContext",
           signature="OMEROServer",
           definition=function(server, group)
            {
@@ -348,9 +348,9 @@ setMethod(f="setGroup",
 #' 
 #' @param server The server
 #' @return The name of the group
-#' @export getGroup
-#' @exportMethod getGroup
-setMethod(f="getGroup",
+#' @export getGroupContext
+#' @exportMethod getGroupContext
+setMethod(f="getGroupContext",
           signature="OMEROServer",
           definition=function(server)
           {
