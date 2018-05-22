@@ -1,5 +1,4 @@
 setClassUnion("jclassOrNULL", c("jobjRef", "NULL"))
-setClassUnion("integerOrNULL", c("integer", "NULL"))
 
 #' OMEROServer class
 #' Provides access to an OMERO server
@@ -22,7 +21,7 @@ OMEROServer <- setClass(
   
   slots = c(
     host = "character",
-    port = "integerOrNULL",
+    port = "numeric",
     username = "character",
     password = "character",
     credentialsFile = "character",
