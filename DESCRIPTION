@@ -37,6 +37,6 @@ Collate:
 License: GPL (>= 2)
 Encoding: UTF-8
 NeedsCompilation: no
-URL: http://www.openmicroscopy.org, https://github.com/ome/rOMERO-gateway
+URL: https://www.openmicroscopy.org, https://github.com/ome/rOMERO-gateway
 BugReports: http://qa.openmicroscopy.org.uk
 RoxygenNote: 6.0.1
