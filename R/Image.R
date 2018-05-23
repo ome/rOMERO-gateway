@@ -46,8 +46,9 @@ setGeneric(
   }
 )
 
-#' Get the pixel values of an Image
-#'
+#' Get the pixel values of an Image.
+#' An error will be thrown if invalid z, t or c values 
+#' are specified.
 #' @param image The image
 #' @param z Z plane index (default: 1)
 #' @param t T plane index (default: 1)
@@ -97,8 +98,9 @@ setMethod(
   }
 )
 
-#' Get the pixel values of an Image
-#'
+#' Get the pixel values of an Image.
+#' An error will be thrown if invalid z, t or c values 
+#' are specified.
 #' @param image The image
 #' @param z Z plane index (default: 1)
 #' @param t T plane index (default: 1)

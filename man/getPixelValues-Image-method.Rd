@@ -3,7 +3,9 @@
 \docType{methods}
 \name{getPixelValues,Image-method}
 \alias{getPixelValues,Image-method}
-\title{Get the pixel values of an Image}
+\title{Get the pixel values of an Image.
+An error will be thrown if invalid z, t or c values 
+are specified.}
 \usage{
 \S4method{getPixelValues}{Image}(image, z, t, c)
 }
@@ -20,5 +22,7 @@
 The pixel values as two-dimensional array [x][y]
 }
 \description{
-Get the pixel values of an Image
+Get the pixel values of an Image.
+An error will be thrown if invalid z, t or c values 
+are specified.
 }

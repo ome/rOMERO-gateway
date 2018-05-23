@@ -2,7 +2,9 @@
 % Please edit documentation in R/Image.R
 \name{getPixelValues}
 \alias{getPixelValues}
-\title{Get the pixel values of an Image}
+\title{Get the pixel values of an Image.
+An error will be thrown if invalid z, t or c values 
+are specified.}
 \usage{
 getPixelValues(image, z, t, c)
 }
@@ -19,5 +21,7 @@ getPixelValues(image, z, t, c)
 The pixel values as two-dimensional array [x][y]
 }
 \description{
-Get the pixel values of an Image
+Get the pixel values of an Image.
+An error will be thrown if invalid z, t or c values 
+are specified.
 }
