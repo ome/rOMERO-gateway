@@ -3,6 +3,7 @@
 
 This release includes:
 
+- added methods to specify group context
 - added method to retrieve the Pixels values of a given plane
 - fixed issue when running the tests in Travis CI
 - bumped OMERO version to 5.4.6 and Bio-Formats to 5.8.2
