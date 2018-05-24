@@ -3,6 +3,7 @@ omero.host,omero
 omero.port,4064
 omero.user,root
 omero.pass,omero
+othergroup,testGroup
 datasetid,1
 projectid,1
 imageid,1
