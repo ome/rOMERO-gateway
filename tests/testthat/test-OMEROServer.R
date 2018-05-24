@@ -16,6 +16,8 @@ plateID <- strtoi(setup[grep("plateid", setup$Key, ignore.case=T), ]$Value)
 
 mapannotation <- as.character(setup[grep("mapannotation", setup$Key, ignore.case=T), ]$Value)
 
+othergroup <- as.character(setup[grep("othergroup", setup$Key, ignore.case=T), ]$Value)
+
 server <- NULL
 
 test_that("Test OMEROServer connect",{
@@ -126,6 +128,12 @@ test_that("Test OMEROServer getPlates",{
   
   id <- getOMEROID(plates[[1]])
   expect_that(id, equals(plateID))
+})
+
+test_that("Test OMEROServer group context",{
+  server <- setGroupContext(server, othergroup)
+  test <- getGroupContext(server)
+  expect_that(test, equals(othergroup))
 })
 
 test_that("Test OMEROServer disconnect",{

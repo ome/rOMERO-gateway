@@ -5,10 +5,13 @@
 \alias{connect,OMEROServer-method}
 \title{Connect to an OMERO server}
 \usage{
-\S4method{connect}{OMEROServer}(server)
+\S4method{connect}{OMEROServer}(server, group = NA)
 }
 \arguments{
 \item{server}{The server}
+
+\item{group}{The group context (group name)
+(optional, default: user's default group)}
 }
 \value{
 The server in "connected" state (if successful)

@@ -46,6 +46,24 @@ setGeneric(
   }
 )
 
+#' Get the pixel values of an Image.
+#' An error will be thrown if invalid z, t or c values 
+#' are specified.
+#' @param image The image
+#' @param z Z plane index (default: 1)
+#' @param t T plane index (default: 1)
+#' @param c Channel index (default: 1)
+#' @return The pixel values as two-dimensional array [x][y]
+#' @export getPixelValues
+#' @exportMethod getPixelValues
+setGeneric(
+  name = "getPixelValues",
+  def = function(image, z, t, c)
+  {
+    standardGeneric("getPixelValues")
+  }
+)
+
 #' Get the thumbnail for an Image (as JPEG)
 #'
 #' @param image The image
@@ -64,7 +82,7 @@ setMethod(
     gateway <- getGateway(server)
     ctx <- getContext(server)
     
-    store <- gateway$getThumbnailService(ctx);
+    store <- gateway$getThumbnailService(ctx)
     
     dpix <- obj$getDefaultPixels()
     
@@ -79,3 +97,58 @@ setMethod(
     return(img)
   }
 )
+
+#' Get the pixel values of an Image.
+#' An error will be thrown if invalid z, t or c values 
+#' are specified.
+#' @param image The image
+#' @param z Z plane index (default: 1)
+#' @param t T plane index (default: 1)
+#' @param c Channel index (default: 1)
+#' @return The pixel values as two-dimensional array [x][y]
+#' @export getPixelValues
+#' @exportMethod getPixelValues
+setMethod(
+  f = "getPixelValues",
+  signature = "Image",
+  definition = function(image, z, t, c)
+  {
+    server <- image@server
+    obj <- image@dataobject
+    gateway <- getGateway(server)
+    ctx <- getContext(server)
+
+    if (missing(z)) {
+      z <- 1
+    }
+
+    if (missing(t)) {
+      t <- 1
+    }
+
+    if (missing(c)) {
+      c <- 1
+    }
+    
+    fac <- gateway$getFacility(RawDataFacility$class)
+    pixelsObj <- obj$getDefaultPixels()
+    
+    plane <- fac$getPlane(ctx, pixelsObj, as.integer(z-1), as.integer(t-1), as.integer(c-1))
+    jpixels = plane$getPixelValues()
+    res <- .jevalArray(jpixels)
+    data <- c()
+    width <- length(res)
+    height <- 0
+    for (row in res) {
+      col <- .jevalArray(row)
+      data <- c(data, col)
+      if (height == 0) 
+        height <- length(col)
+    }
+    
+    pixelArray <- array(data, dim=c(width, height))
+    pixelArray <- aperm(pixelArray, c(2,1))
+    return(pixelArray)
+  }
+)
+
