@@ -73,8 +73,8 @@ if (!localBuild) {
     }
     found <- FALSE
     for( tag in tags(ret)) {
-      if (tag@name == version) {
-        print(paste('Checking out version', tag@name))
+      if (tag$name == version) {
+        print(paste('Checking out version', tag$name))
         git2r::checkout(tag)
         found <- TRUE
         break
