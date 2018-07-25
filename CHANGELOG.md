@@ -1,3 +1,10 @@
+0.4.1 (July 2018)
+-----------------
+
+This release includes:
+
+- checked git2r version to handle S3 syntax and S4 one
+
 0.4.0 (May 2018)
 ----------------
 
