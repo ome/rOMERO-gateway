@@ -50,6 +50,10 @@ if (length(toInstall) > 0) {
 library(devtools)
 library(git2r)
 
+git2rVersion <- packageVersion('git2r')
+git2rVersion <- gsub("\\.", "", git2rVersion)
+git2rVersion <- as.integer(git2rVersion)
+
 # Build the package
 
 if (!localBuild) {
@@ -73,8 +77,14 @@ if (!localBuild) {
     }
     found <- FALSE
     for( tag in tags(ret)) {
-      if (tag@name == version) {
-        print(paste('Checking out version', tag@name))
+      # git2r changed syntax from S4 to S3 from version 0.22.0
+      if (git2rVersion > 210)
+        tagname <- tag$name
+      else
+        tagname <- tag@name
+      
+      if (tagname == version) {
+        print(paste('Checking out version', tagname))
         git2r::checkout(tag)
         found <- TRUE
         break
