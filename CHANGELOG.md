@@ -4,6 +4,7 @@
 This release includes:
 
 - bumped OMERO version to 5.4.7
+- reduced maven output using --quiet flag
 
 0.4.1 (July 2018)
 -----------------
