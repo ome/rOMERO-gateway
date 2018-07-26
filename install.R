@@ -12,12 +12,14 @@ buildonly <- NULL
 # Check command line options
 args <- commandArgs(trailingOnly = TRUE)
 localBuild <- FALSE
+quiet <- FALSE
 if (length(args) > 0) {
   for (arg in args) {
     if (arg == '--help') {
       cat('\n', 'Downloads, builds and installs the romero-gateway package', '\n', '\n')
       cat('Options:', '\n', '\n')
       cat('--local              Build local branch', '\n')
+      cat('--quiet              Reduce log output', '\n')
       cat('--version=[VERSION]  Build a specific version (see github tags), e.g. v0.2.0', '\n')
       cat('--buildonly=[PATH]   Directory where the romero.gateway_x.y.z.tar.gz package should be saved (if specified the package is only built, not installed), e. g. ~/ (for the user\'s home directory)', '\n', '\n')
       cat('Specify a user repository and/or branch:', '\n')
@@ -28,6 +30,8 @@ if (length(args) > 0) {
     }
     if (arg == '--local')
       localBuild <- TRUE
+    if (arg == '--quiet')
+      quiet <- TRUE
     if (startsWith(arg, '--user='))
       user <- gsub("--user=", "", arg)
     if (startsWith(arg, '--branch='))
@@ -101,7 +105,11 @@ if (!localBuild) {
 }
 
 # Run Maven to fetch the java dependencies
-ret <- system2('mvn', args = c('install'))
+mvnArgs <- c('install')
+if (quiet) {
+  mvnArgs <- c(mvnArgs, '--quiet')
+}
+ret <- system2('mvn', args = mvnArgs)
 if ( ret != 0) {
   print('Maven execution failed.')
   quit(save = 'no', status = ret, runLast = FALSE)
