@@ -47,7 +47,7 @@ if (length(args) > 0) {
 libs <- c('rJava', 'devtools', 'testthat', 'roxygen2', 'xml2', 'httr', 'git2r', 'jpeg')
 toInstall <- libs[!(libs %in% installed.packages()[,"Package"])]
 if (length(toInstall) > 0) {
-  install.packages(toInstall, repos='http://cran.us.r-project.org')
+  install.packages(toInstall, repos = 'http://cran.us.r-project.org', quiet = quiet)
 }
 
 # Load packages
@@ -70,7 +70,7 @@ if (!localBuild) {
   repoDir <- paste(tempdir(),'romero-gateway', sep="/")
   dir.create(repoDir)
   repoURL <- paste('https://github.com/', user, '/rOMERO-gateway.git', sep = '')
-  ret <- git2r::clone(repoURL, branch=branchName, local_path = repoDir)
+  ret <- git2r::clone(repoURL, branch = branchName, local_path = repoDir, progress = !quiet)
   if (is.null(ret)) {
     print('Git clone failed.')
     quit(save = 'no', status = 1, runLast = FALSE)
@@ -116,7 +116,7 @@ if ( ret != 0) {
 }
 
 # Build the romero.gateway package
-packageFile <- devtools::build(path = '.')
+packageFile <- devtools::build(path = '.', quiet = quiet)
 if (is.null(packageFile)) {
   print('Build failed.')
   quit(save = 'no', status = 1, runLast = FALSE)
@@ -133,5 +133,4 @@ if (!is.null(buildonly)) {
 }
 
 # Install it
-install.packages(packageFile, repos = NULL, type = "source")
-
+install.packages(packageFile, repos = NULL, type = "source", quiet = quiet)
