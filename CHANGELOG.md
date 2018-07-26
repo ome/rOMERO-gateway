@@ -1,3 +1,10 @@
+0.4.2 (July 2018)
+-----------------
+
+This release includes:
+
+- bumped OMERO version to 5.4.7
+
 0.4.1 (July 2018)
 -----------------
 
