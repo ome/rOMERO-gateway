@@ -12,12 +12,14 @@ buildonly <- NULL
 # Check command line options
 args <- commandArgs(trailingOnly = TRUE)
 localBuild <- FALSE
+quiet <- FALSE
 if (length(args) > 0) {
   for (arg in args) {
     if (arg == '--help') {
       cat('\n', 'Downloads, builds and installs the romero-gateway package', '\n', '\n')
       cat('Options:', '\n', '\n')
       cat('--local              Build local branch', '\n')
+      cat('--quiet              Reduce log output', '\n')
       cat('--version=[VERSION]  Build a specific version (see github tags), e.g. v0.2.0', '\n')
       cat('--buildonly=[PATH]   Directory where the romero.gateway_x.y.z.tar.gz package should be saved (if specified the package is only built, not installed), e. g. ~/ (for the user\'s home directory)', '\n', '\n')
       cat('Specify a user repository and/or branch:', '\n')
@@ -28,6 +30,8 @@ if (length(args) > 0) {
     }
     if (arg == '--local')
       localBuild <- TRUE
+    if (arg == '--quiet')
+      quiet <- TRUE
     if (startsWith(arg, '--user='))
       user <- gsub("--user=", "", arg)
     if (startsWith(arg, '--branch='))
@@ -43,7 +47,7 @@ if (length(args) > 0) {
 libs <- c('rJava', 'devtools', 'testthat', 'roxygen2', 'xml2', 'httr', 'git2r', 'jpeg')
 toInstall <- libs[!(libs %in% installed.packages()[,"Package"])]
 if (length(toInstall) > 0) {
-  install.packages(toInstall, repos='http://cran.us.r-project.org')
+  install.packages(toInstall, repos = 'http://cran.us.r-project.org', quiet = quiet)
 }
 
 # Load packages
@@ -66,7 +70,7 @@ if (!localBuild) {
   repoDir <- paste(tempdir(),'romero-gateway', sep="/")
   dir.create(repoDir)
   repoURL <- paste('https://github.com/', user, '/rOMERO-gateway.git', sep = '')
-  ret <- git2r::clone(repoURL, branch=branchName, local_path = repoDir)
+  ret <- git2r::clone(repoURL, branch = branchName, local_path = repoDir, progress = !quiet)
   if (is.null(ret)) {
     print('Git clone failed.')
     quit(save = 'no', status = 1, runLast = FALSE)
@@ -101,14 +105,18 @@ if (!localBuild) {
 }
 
 # Run Maven to fetch the java dependencies
-ret <- system2('mvn', args = c('install'))
+mvnArgs <- c('install')
+if (quiet) {
+  mvnArgs <- c(mvnArgs, '--quiet')
+}
+ret <- system2('mvn', args = mvnArgs)
 if ( ret != 0) {
   print('Maven execution failed.')
   quit(save = 'no', status = ret, runLast = FALSE)
 }
 
 # Build the romero.gateway package
-packageFile <- devtools::build(path = '.')
+packageFile <- devtools::build(path = '.', quiet = quiet)
 if (is.null(packageFile)) {
   print('Build failed.')
   quit(save = 'no', status = 1, runLast = FALSE)
@@ -125,5 +133,4 @@ if (!is.null(buildonly)) {
 }
 
 # Install it
-install.packages(packageFile, repos = NULL, type = "source")
-
+install.packages(packageFile, repos = NULL, type = "source", quiet = quiet)
