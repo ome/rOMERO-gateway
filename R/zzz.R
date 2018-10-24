@@ -60,6 +60,7 @@
   env$TagAnnotationData <- J("omero.gateway.model.TagAnnotationData")
   env$FileAnnotationData <- J("omero.gateway.model.FileAnnotationData")
   env$ImageData <- J("omero.gateway.model.ImageData")
+  env$ChannelData <- J("omero.gateway.model.ChannelData")
   env$TableData <- J("omero.gateway.model.TableData")
   env$TableDataColumn <- J("omero.gateway.model.TableDataColumn")
   env$SearchParameters <- J("omero.gateway.model.SearchParameters")

@@ -46,6 +46,21 @@ setGeneric(
   }
 )
 
+#' Get the channel names of an Image
+#'
+#' @param image The image
+#' @return The channel names
+#' @export getChannelNames
+#' @exportMethod getChannelNames
+setGeneric(
+  name = "getChannelNames",
+  def = function(image)
+  {
+    standardGeneric("getChannelNames")
+  }
+)
+
+
 #' Get the pixel values of an Image.
 #' An error will be thrown if invalid z, t or c values 
 #' are specified.
@@ -95,6 +110,35 @@ setMethod(
     
     img <- readJPEG(bytes)
     return(img)
+  }
+)
+
+#' Get the channel names of an Image
+#'
+#' @param image The image
+#' @return The channel names
+#' @export getChannelNames
+#' @exportMethod getChannelNames
+setMethod(
+  f = "getChannelNames",
+  signature = "Image",
+  definition = function(image)
+  {
+    server <- image@server
+    obj <- image@dataobject
+    gateway <- getGateway(server)
+    ctx <- getContext(server)
+    
+    fac <- gateway$getFacility(MetadataFacility$class)
+    iid <- image@dataobject$getId()
+    jchannels <- fac$getChannelData(ctx, .jlong(iid))
+    channels <- c()
+    it <- jchannels$iterator()
+    while(it$hasNext()) {
+      jchannel <- .jrcall(it, method = "next")
+      channels <- c(channels, jchannel$getName())
+    }
+    return(channels)
   }
 )
 

@@ -5,7 +5,8 @@
 \alias{loadDataframe,OMERO-method}
 \title{Load a dataframe attached to an OME object}
 \usage{
-\S4method{loadDataframe}{OMERO}(omero, id, condition, rowFrom, rowTo, columns)
+\S4method{loadDataframe}{OMERO}(omero, id, condition, rowFrom, rowTo,
+  columns)
 }
 \arguments{
 \item{omero}{The OME object}

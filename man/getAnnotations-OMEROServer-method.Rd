@@ -6,7 +6,8 @@
 \title{Get annotations attached to an OME object.
 Type, Namespace, Name, Content, ID, FileID (in case of file annotations)}
 \usage{
-\S4method{getAnnotations}{OMEROServer}(object, type, id, typeFilter, nameFilter)
+\S4method{getAnnotations}{OMEROServer}(object, type, id, typeFilter,
+  nameFilter)
 }
 \arguments{
 \item{object}{The server}
