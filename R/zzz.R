@@ -44,6 +44,7 @@
   env$TablesFacility <- J("omero.gateway.facility.TablesFacility")
   env$SearchFacility <- J("omero.gateway.facility.SearchFacility")
   env$RawDataFacility <- J("omero.gateway.facility.RawDataFacility")
+  env$ROIFacility <- J("omero.gateway.facility.ROIFacility")
   
   # Gateway POJOs
   env$DataObject <- J("omero.gateway.model.DataObject")
@@ -67,6 +68,8 @@
   env$SearchScope <- J("omero.gateway.model.SearchScope")
   env$SearchResultCollection <- J("omero.gateway.model.SearchResultCollection")
   env$Plane2D <- J("omero.gateway.rnd.Plane2D")
+  env$ROIData <- J("omero.gateway.model.ROIData")
+  env$PointData <- J("omero.gateway.model.PointData")
   
   romeroVersion <- utils::packageVersion("romero.gateway")
   omeroVersion <- utils::packageDescription("romero.gateway", fields = "OMERO_Version")

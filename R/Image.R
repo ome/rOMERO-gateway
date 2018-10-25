@@ -60,6 +60,38 @@ setGeneric(
   }
 )
 
+#' Get the ROIs of an Image
+#'
+#' @param image The image
+#' @param z The Z plane (default: 1)
+#' @param t The timepoint (default: 1)
+#' @return The ROIs (x and y coordinates)
+#' @export getROIs
+#' @exportMethod getROIs
+setGeneric(
+  name = "getROIs",
+  def = function(image, z = 1, t = 1)
+  {
+    standardGeneric("getROIs")
+  }
+)
+
+#' Add ROIs to an Image
+#'
+#' @param image The image
+#' @param z The Z plane (default: 1)
+#' @param t The timepoint (default: 1)
+#' @param df The ROI coordinates (x, y)
+#' @export addROIs
+#' @exportMethod addROIs
+setGeneric(
+  name = "addROIs",
+  def = function(image, z = 1, t = 1, df)
+  {
+    standardGeneric("addROIs")
+  }
+)
+
 
 #' Get the pixel values of an Image.
 #' An error will be thrown if invalid z, t or c values 
@@ -139,6 +171,95 @@ setMethod(
       channels <- c(channels, jchannel$getName())
     }
     return(channels)
+  }
+)
+
+#' Get the ROIs of an Image
+#'
+#' @param image The image
+#' @param z The Z plane (default: 1)
+#' @param t The timepoint (default: 1)
+#' @return The ROIs (x and y coordinates)
+#' @export getROIs
+#' @exportMethod getROIs
+setMethod(
+  f = "getROIs",
+  signature = "Image",
+  definition = function(image, z, t)
+  {
+    server <- image@server
+    obj <- image@dataobject
+    gateway <- getGateway(server)
+    ctx <- getContext(server)
+    
+    fac <- gateway$getFacility(ROIFacility$class)
+    iid <- obj$getId()
+    roiresults <- fac$loadROIsByPlane(ctx, .jlong(iid), as.integer(z - 1), as.integer(t - 1))
+    rois <- data.frame()
+    it <- roiresults$iterator()
+    while(it$hasNext()) {
+      roiresult <- .jrcall(it, method = "next")
+      roidatas <- roiresult$getROIs()
+      it2 <- roidatas$iterator()
+      while(it2$hasNext()) {
+        roidata <- .jrcall(it2, method = "next")
+        shapes <- roidata$getShapes(as.integer(z - 1), as.integer(t - 1))
+        it3 <- shapes$iterator()
+        while(it3$hasNext()) {
+          shape <- .jrcall(it3, method = "next")
+          if(.jinstanceof(shape, PointData)) {
+            p <- .jcast(shape, new.class = "omero.gateway.model.PointData")
+            x <- p$getX()
+            y <- p$getY()
+            rois <- rbind(rois, c(x, y))
+          }
+        }
+      }
+    }
+    colnames(rois) <- c("x","y")
+    return(rois)
+  }
+)
+
+#' Add ROIs to an Image
+#'
+#' @param image The image
+#' @param z The Z plane (default: 1)
+#' @param t The timepoint (default: 1)
+#' @param df The ROI coordinates (x, y)
+#' @export addROIs
+#' @exportMethod addROIs
+setMethod(
+  f = "addROIs",
+  signature = "Image",
+  definition = function(image, z, t, df)
+  {
+    server <- image@server
+    obj <- image@dataobject
+    gateway <- getGateway(server)
+    ctx <- getContext(server)
+    
+    fac <- gateway$getFacility(ROIFacility$class)
+    iid <- obj$getId()
+    
+    rois <- new(ArrayList)
+    for (row in 1:nrow(df)) {
+      point <- .jnew(class = "omero.gateway.model.PointData") 
+      x <- df[row, "x"]
+      y <- df[row, "y"]
+      point$setX(as.numeric(x))
+      point$setY(as.numeric(y))
+      point$setZ(as.integer(z-1))
+      point$setT(as.integer(t-1))
+      
+      roi <- .jnew(class = "omero.gateway.model.ROIData")
+      roi$setImage(obj$asImage())
+      roi$addShapeData(point)
+      
+      rois$add(roi)
+    }
+    fac$saveROIs(ctx, .jlong(iid), rois)
+    return()
   }
 )
 
