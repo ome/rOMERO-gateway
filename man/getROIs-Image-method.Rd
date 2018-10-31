@@ -3,7 +3,12 @@
 \docType{methods}
 \name{getROIs,Image-method}
 \alias{getROIs,Image-method}
-\title{Get the ROIs of an Image}
+\title{Get the ROIs (Point, Ellipse or Rectangle) of an Image
+x, y -> Point
+x, y, rx, ry -> Ellipse
+x, y, w, h -> Rectangle
+theta: Rotation about theta
+text: An optional comment}
 \usage{
 \S4method{getROIs}{Image}(image, z = 1, t = 1)
 }
@@ -15,8 +20,13 @@
 \item{t}{The timepoint (default: 1)}
 }
 \value{
-The ROIs (x and y coordinates)
+The coordinates as dataframe (x, y, rx, ry, w, h, theta, text)
 }
 \description{
-Get the ROIs of an Image
+Get the ROIs (Point, Ellipse or Rectangle) of an Image
+x, y -> Point
+x, y, rx, ry -> Ellipse
+x, y, w, h -> Rectangle
+theta: Rotation about theta
+text: An optional comment
 }

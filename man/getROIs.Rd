@@ -2,7 +2,12 @@
 % Please edit documentation in R/Image.R
 \name{getROIs}
 \alias{getROIs}
-\title{Get the ROIs of an Image}
+\title{Get the ROIs (Point, Ellipse or Rectangle) of an Image
+x, y -> Point
+x, y, rx, ry -> Ellipse
+x, y, w, h -> Rectangle
+theta: Rotation about theta
+text: An optional comment}
 \usage{
 getROIs(image, z = 1, t = 1)
 }
@@ -14,8 +19,13 @@ getROIs(image, z = 1, t = 1)
 \item{t}{The timepoint (default: 1)}
 }
 \value{
-The ROIs (x and y coordinates)
+The coordinates as dataframe (x, y, rx, ry, w, h, theta, text)
 }
 \description{
-Get the ROIs of an Image
+Get the ROIs (Point, Ellipse or Rectangle) of an Image
+x, y -> Point
+x, y, rx, ry -> Ellipse
+x, y, w, h -> Rectangle
+theta: Rotation about theta
+text: An optional comment
 }

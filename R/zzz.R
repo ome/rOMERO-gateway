@@ -70,6 +70,11 @@
   env$Plane2D <- J("omero.gateway.rnd.Plane2D")
   env$ROIData <- J("omero.gateway.model.ROIData")
   env$PointData <- J("omero.gateway.model.PointData")
+  env$EllipseData <- J("omero.gateway.model.EllipseData")
+  env$RectangleData <- J("omero.gateway.model.RectangleData")
+  env$AffineTransform <- J("omero.model.AffineTransformI")
+  
+  
   
   romeroVersion <- utils::packageVersion("romero.gateway")
   omeroVersion <- utils::packageDescription("romero.gateway", fields = "OMERO_Version")

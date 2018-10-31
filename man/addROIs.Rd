@@ -2,9 +2,14 @@
 % Please edit documentation in R/Image.R
 \name{addROIs}
 \alias{addROIs}
-\title{Add ROIs to an Image}
+\title{Add ROIs (Point, Ellipse or Rectangle) to an Image
+x, y -> Point
+x, y, rx, ry -> Ellipse
+x, y, w, h -> Rectangle
+theta: Rotation about theta
+text: An optional comment}
 \usage{
-addROIs(image, z = 1, t = 1, df)
+addROIs(image, z = 1, t = 1, coords)
 }
 \arguments{
 \item{image}{The image}
@@ -13,8 +18,13 @@ addROIs(image, z = 1, t = 1, df)
 
 \item{t}{The timepoint (default: 1)}
 
-\item{df}{The ROI coordinates (x, y)}
+\item{coords}{The coordinates as dataframe (x, y, rx, ry, w, h, theta, text)}
 }
 \description{
-Add ROIs to an Image
+Add ROIs (Point, Ellipse or Rectangle) to an Image
+x, y -> Point
+x, y, rx, ry -> Ellipse
+x, y, w, h -> Rectangle
+theta: Rotation about theta
+text: An optional comment
 }

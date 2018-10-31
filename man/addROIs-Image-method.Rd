@@ -3,9 +3,14 @@
 \docType{methods}
 \name{addROIs,Image-method}
 \alias{addROIs,Image-method}
-\title{Add ROIs to an Image}
+\title{Add ROIs (Point, Ellipse or Rectangle) to an Image
+x, y -> Point
+x, y, rx, ry -> Ellipse
+x, y, w, h -> Rectangle
+theta: Rotation about theta
+text: An optional comment}
 \usage{
-\S4method{addROIs}{Image}(image, z = 1, t = 1, df)
+\S4method{addROIs}{Image}(image, z = 1, t = 1, coords)
 }
 \arguments{
 \item{image}{The image}
@@ -14,8 +19,13 @@
 
 \item{t}{The timepoint (default: 1)}
 
-\item{df}{The ROI coordinates (x, y)}
+\item{coords}{The coordinates as dataframe (x, y, rx, ry, w, h, theta, text)}
 }
 \description{
-Add ROIs to an Image
+Add ROIs (Point, Ellipse or Rectangle) to an Image
+x, y -> Point
+x, y, rx, ry -> Ellipse
+x, y, w, h -> Rectangle
+theta: Rotation about theta
+text: An optional comment
 }
