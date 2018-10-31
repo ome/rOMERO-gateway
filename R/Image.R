@@ -288,6 +288,7 @@ setMethod(
       }
     }
     rois <- rois[-1,]
+    rownames(rois) <- c()
     return(rois)
   }
 )
