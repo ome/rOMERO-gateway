@@ -63,6 +63,7 @@ if (ready) {
   devtools::test()
 } else {
   message("Could not get connection to server")
+  quit(save = "no", status = 1, runLast = FALSE)
 }
 
 EOF
