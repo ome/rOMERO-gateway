@@ -27,16 +27,13 @@ cat <<EOF | R --no-save
 library(devtools)
 library(romero.gateway)
 
+server <- OMEROServer(host='$OMERO_SERVER_HOST',port=as.integer($OMERO_SERVER_PORT),username='$OMERO_SERVER_USER',password='$OMERO_SERVER_PASS')
+                
 # Retry connecting until server is up and running
 ready <- FALSE
 for (i in 1:30) {
   server <- tryCatch(
             {
-              server <- OMEROServer(
-                host='$OMERO_SERVER_HOST',
-                port=as.integer($OMERO_SERVER_PORT),
-                username='$OMERO_SERVER_USER',
-                password='$OMERO_SERVER_PASS')
               connect(server)
             },
             error=function(err) {
