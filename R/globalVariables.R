@@ -4,4 +4,4 @@ globalVariables(c("ArrayList", "Boolean", "BrowseFacility", "Class", "ChannelDat
                   "PlateData", "ProjectData", "ScreenData", "SearchFacility", "SearchParameters",
                   "SearchScope", "SecurityContext", "SimpleLogger", "String", "TableData",
                   "TableDataColumn", "TablesFacility", "WellData", "rtypes", "RawDataFacility",
-                  "Plane2D"))
+                  "ROIFacility", "Plane2D", "PointData", "EllipseData", "RectangleData"))
