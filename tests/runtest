@@ -29,7 +29,7 @@ library(romero.gateway)
 
 # Retry connecting until server is up and running
 ready <- FALSE
-for (i in 1:60) {
+for (i in 1:30) {
   server <- tryCatch(
             {
               server <- OMEROServer(
@@ -39,10 +39,12 @@ for (i in 1:60) {
                 password='$OMERO_SERVER_PASS')
               connect(server)
             },
-            error=function(cond) {
+            error=function(err) {
+              message(paste("ERROR:  ", err))
               return(NULL)
             },
-            warning=function(cond) {
+            warning=function(warn) {
+              message(paste("WARN:  ", warn))
             },
             finally={
             }
