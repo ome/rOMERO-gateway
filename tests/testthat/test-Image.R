@@ -36,3 +36,25 @@ test_that("Test Image getPixelValues",{
     }
   }
 })
+
+test_that("Test Image add/getROIS",{
+  img <- loadObject(server, "ImageData", imageID)
+  
+  rois <- data.frame(x = c(0), y = c(0), rx = c(0), ry = c(0), w = c(0), h = c(0), theta = c(0), text = c('remove'), stringsAsFactors = FALSE)
+  rois <- rbind(rois, c(10, 10, NA, NA, NA, NA, NA, "Point"))
+  rois <- rbind(rois, c(10, 10, 10, 20, NA, NA, NA, "Ellipse"))
+  rois <- rbind(rois, c(10, 10, NA, NA, 10, 20, NA, "Rectangle"))
+  rois <- rbind(rois, c(10, 10, NA, NA, 10, 20, 0.5, "Rotated Rectangle"))
+  rois <- rois[-1,]
+  rownames(rois) <- c()
+  
+  addROIs(img, coords = rois)
+  
+  gotRois <- getROIs(img)
+  
+  print(rois)
+  print(gotRois)
+  
+  expect_equal(gotRois, rois)
+})
+
