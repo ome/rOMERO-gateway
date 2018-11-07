@@ -52,9 +52,6 @@ test_that("Test Image add/getROIS",{
   
   gotRois <- getROIs(img)
   
-  print(rois)
-  print(gotRois)
-  
   expect_equal(gotRois, rois)
 })
 
