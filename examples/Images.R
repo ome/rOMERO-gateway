@@ -4,7 +4,7 @@
 
 library(romero.gateway)
 
-server <- OMEROServer(host = "localhost", username = "xxx", password = "xxx")
+server <- OMEROServer(host = "localhost", username = "xx", password = "xx")
 server <- connect(server)
 
 imageId <- 1

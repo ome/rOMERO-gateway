@@ -4,7 +4,7 @@
 
 library(romero.gateway)
 
-server <- OMEROServer(host = "localhost", username = "xxx", password = "xxx")
+server <- OMEROServer(host = "localhost", username = "xx", password = "xx")
 server <- connect(server)
 
 imageId <- 1
@@ -34,7 +34,9 @@ partialDf <- loadDataframe(image, dfID, condition = "Species=='versicolor'")
 print(partialDf)
 
 # Load the dataframe from a CSV file
-# (This is the File ID from the AddData.R example)
+# (This is the File ID of the CSV file from the AddData.R example; 
+#  you can find it for example by hovering over the CSV file
+#  attachment in OMERO.web)
 fid <- 1
 df <- loadCSV(server, fid)
 print(df)

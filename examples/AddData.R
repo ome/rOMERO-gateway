@@ -10,7 +10,7 @@ data("iris")
 data.frame(iris)
 
 # Connect to server
-server <- OMEROServer(host = "localhost", username = "xxx", password = "xxx")
+server <- OMEROServer(host = "localhost", username = "xx", password = "xx", port = as.integer(4064))
 server <- connect(server)
 
 # Load the image (can be any other OME object, too) we want to attach the
@@ -20,8 +20,8 @@ image <- loadObject(server, "ImageData", imageId)
 
 # Attach the dataframe to the image.
 # Stores the data as OMERO HDF5 table, see
-# https://docs.openmicroscopy.org/omero/5.4.7/developers/Tables.html
-attachDataframe(image, iris, "Iris Example dataset")
+# https://docs.openmicroscopy.org/latest/omero/developers/Tables.html
+invisible(attachDataframe(image, iris, "Iris Example dataset"))
 
 # Attach the data as CSV file
 csvFile <- "/tmp/Iris_Example_dataset.csv"
