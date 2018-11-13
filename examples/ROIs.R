@@ -22,10 +22,10 @@ rois <- rois[-1,]
 rownames(rois) <- c()
 
 # Add the ROIs to the image
-addROIs(img, coords = rois)
+addROIs(image, coords = rois)
 
 # Get the ROIs again
-rois <- getROIs(img)
+rois <- getROIs(image)
 
 # Disconnect again from the server
 disconnect(server)
