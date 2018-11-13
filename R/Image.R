@@ -403,8 +403,7 @@ setMethod(
       
       rois$add(roi)
     }
-    fac$saveROIs(ctx, iid, rois)
-    return()
+    invisible(fac$saveROIs(ctx, iid, rois))
   }
 )
 
