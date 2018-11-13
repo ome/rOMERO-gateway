@@ -214,15 +214,15 @@ setMethod(
     roiresults <- fac$loadROIsByPlane(ctx, iid, z, t)
     rois <- data.frame(x = c(0), y = c(0), rx = c(0), ry = c(0), w = c(0), h = c(0), theta = c(0), text = c('remove'), stringsAsFactors = FALSE)
     it <- roiresults$iterator()
-    while(it$hasNext()) {
+    while (it$hasNext()) {
       roiresult <- .jrcall(it, method = "next")
       roidatas <- roiresult$getROIs()
       it2 <- roidatas$iterator()
-      while(it2$hasNext()) {
+      while (it2$hasNext()) {
         roidata <- .jrcall(it2, method = "next")
         shapes <- roidata$getShapes(z, t)
         it3 <- shapes$iterator()
-        while(it3$hasNext()) {
+        while (it3$hasNext()) {
           shape <- .jrcall(it3, method = "next")
           shape <- .jcast(shape, new.class = "omero.gateway.model.ShapeData")
           trans <- shape$getTransform()
@@ -234,7 +234,7 @@ setMethod(
             th <- acos(as.numeric(th))
           }
           
-          if(.jinstanceof(shape, PointData)) {
+          if (.jinstanceof(shape, PointData)) {
             p <- .jcast(shape, new.class = "omero.gateway.model.PointData")
             x <- p$getX()
             x <- as.numeric(x)
@@ -248,7 +248,7 @@ setMethod(
             text <- as.character(text)
             rois <- rbind(rois, c(x, y, NA, NA, NA, NA, th, text))
           }
-          if(.jinstanceof(shape, EllipseData)) {
+          if (.jinstanceof(shape, EllipseData)) {
             p <- .jcast(shape, new.class = "omero.gateway.model.EllipseData")
             x <- p$getX()
             x <- as.numeric(x)
@@ -266,7 +266,7 @@ setMethod(
             text <- as.character(text)
             rois <- rbind(rois, c(x, y, rx, ry, NA, NA, th, text))
           }
-          if(.jinstanceof(shape, RectangleData)) {
+          if (.jinstanceof(shape, RectangleData)) {
             p <- .jcast(shape, new.class = "omero.gateway.model.RectangleData")
             x <- p$getX()
             x <- as.numeric(x)
