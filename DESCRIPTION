@@ -1,7 +1,7 @@
 Package: romero.gateway
 Type: Package
-Version: 0.4.2
-OMERO_Version: 5.4.8
+Version: 0.4.2.999
+OMERO_Version: 5.4.9
 Date: 2018-07-26
 Title: OMERO R Gateway
 Description: R Wrapper around the OMERO Java Gateway, which
@@ -39,4 +39,4 @@ Encoding: UTF-8
 NeedsCompilation: no
 URL: https://www.openmicroscopy.org, https://github.com/ome/rOMERO-gateway
 BugReports: http://qa.openmicroscopy.org.uk
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0

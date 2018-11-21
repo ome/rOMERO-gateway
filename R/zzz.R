@@ -44,6 +44,7 @@
   env$TablesFacility <- J("omero.gateway.facility.TablesFacility")
   env$SearchFacility <- J("omero.gateway.facility.SearchFacility")
   env$RawDataFacility <- J("omero.gateway.facility.RawDataFacility")
+  env$ROIFacility <- J("omero.gateway.facility.ROIFacility")
   
   # Gateway POJOs
   env$DataObject <- J("omero.gateway.model.DataObject")
@@ -60,12 +61,20 @@
   env$TagAnnotationData <- J("omero.gateway.model.TagAnnotationData")
   env$FileAnnotationData <- J("omero.gateway.model.FileAnnotationData")
   env$ImageData <- J("omero.gateway.model.ImageData")
+  env$ChannelData <- J("omero.gateway.model.ChannelData")
   env$TableData <- J("omero.gateway.model.TableData")
   env$TableDataColumn <- J("omero.gateway.model.TableDataColumn")
   env$SearchParameters <- J("omero.gateway.model.SearchParameters")
   env$SearchScope <- J("omero.gateway.model.SearchScope")
   env$SearchResultCollection <- J("omero.gateway.model.SearchResultCollection")
   env$Plane2D <- J("omero.gateway.rnd.Plane2D")
+  env$ROIData <- J("omero.gateway.model.ROIData")
+  env$PointData <- J("omero.gateway.model.PointData")
+  env$EllipseData <- J("omero.gateway.model.EllipseData")
+  env$RectangleData <- J("omero.gateway.model.RectangleData")
+  env$AffineTransform <- J("omero.model.AffineTransformI")
+  
+  
   
   romeroVersion <- utils::packageVersion("romero.gateway")
   omeroVersion <- utils::packageDescription("romero.gateway", fields = "OMERO_Version")

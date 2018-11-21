@@ -4,8 +4,8 @@
 \alias{loadCSV}
 \title{Load a CSV file from the server}
 \usage{
-loadCSV(server, id, header = TRUE, sep = ",", quote = "\\"", dec = ".",
-  fill = TRUE, comment.char = "")
+loadCSV(server, id, header = TRUE, sep = ",", quote = "\\"",
+  dec = ".", fill = TRUE, comment.char = "")
 }
 \arguments{
 \item{server}{The server}
