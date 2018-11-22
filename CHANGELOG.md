@@ -3,8 +3,8 @@
 
 This release includes:
 
-- add method to get channel names
-- add methods to get and add ROIs
+- added method to get channel names
+- added methods to get and add ROIs
 - improved the usage examples
 - bumped OMERO version to 5.4.9
 
