@@ -17,8 +17,8 @@ COPY .Rbuildignore /src/
 
 # Dependencies necessary for install.R
 RUN echo "deb-src http://deb.debian.org/debian testing main" >> /etc/apt/sources.list
-RUN apt-get update && \
-    apt-get -y install libssl-dev libxml2-dev libcurl4-openssl-dev
+RUN apt-get update && apt-get -y upgrade
+RUN apt-get -y install libssl-dev libxml2-dev libcurl4-gnutls-dev
 
 #########################################################################################
 ## Necessary for running maven

@@ -1,8 +1,8 @@
 Package: romero.gateway
 Type: Package
-Version: 0.4.2.999
+Version: 0.4.3
 OMERO_Version: 5.4.9
-Date: 2018-07-26
+Date: 2018-11-21
 Title: OMERO R Gateway
 Description: R Wrapper around the OMERO Java Gateway, which
   enables access to an OMERO server within R.

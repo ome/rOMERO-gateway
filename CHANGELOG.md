@@ -1,3 +1,13 @@
+0.4.3 (November 2018)
+---------------------
+
+This release includes:
+
+- add method to get channel names
+- add methods to get and add ROIs
+- improved the usage examples
+- bumped OMERO version to 5.4.9
+
 0.4.2 (July 2018)
 -----------------
 
