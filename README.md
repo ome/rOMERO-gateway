@@ -16,6 +16,7 @@ R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [
 Need additionally:
 
 * R package: [devtools](https://cran.r-project.org/web/packages/devtools/index.html)
+* R package: [testthat](https://cran.r-project.org/web/packages/testthat/index.html) (optional)
 * [Apache Maven](https://maven.apache.org/)
 * [Git](https://git-scm.com/)
 
