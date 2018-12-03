@@ -45,7 +45,7 @@ See [Tips for Unix users](#tips-for-unix-users) section if you're running into d
 
 * Like any other R package load the package ```library(romero.gateway)```
 * Try some examples from the [examples directory](examples)
-* Another potential source for examples is the unit tests directory: [tests/testthat](tests/testthat)
+* Another potential source of examples is the unit tests directory: [tests/testthat](tests/testthat)
 
 ## Build from source
 
