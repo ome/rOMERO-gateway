@@ -25,7 +25,7 @@ Need additionally:
 
 ### Windows
 
-Download the zip package from the [Release page](https://github.com/ome/rOMERO-gateway/releases)
+Download the zip package matching your OMERO server from the [Release page](https://github.com/ome/rOMERO-gateway/releases)
 
 In RStudio "Install Packages" use option "Install from:" "Package Archive File" and select the romero.gateway zip file.
 
@@ -33,13 +33,13 @@ Alternatively: In R console run `install.packages('romero.gateway_x.x.x.zip')`
 
 ### Unix / OSX
 
-Download the tar.gz package from the [Release page](https://github.com/ome/rOMERO-gateway/releases)
+Download the tar.gz package matching your OMERO server from the [Release page](https://github.com/ome/rOMERO-gateway/releases)
 
 In RStudio "Install Packages" use option "Install from:" "Package Archive File" and select the romero.gateway tar.gz file.
 
 Alternatively: In R console run `install.packages('romero.gateway_x.x.x.tar.gz', type = 'source')`
 
-See [Tips for Unix users](#tips-for-unix-users) section if you're running into difficulties.
+See [Tips for Unix users](#tips-for-unix-users) section if you are running into difficulties.
 
 ## Usage
 
@@ -65,7 +65,7 @@ You can specify a particular branch or version to build/install or perform a loc
 
 * Download the dependencies
   * Using Maven: Run `mvn install`
-  * Alternative: Create `inst/java` directory. Download OMERO.insight client. Extract the zip file. Copy all files within libs directory into the previously created `inst/java` directory
+  * Alternative: Create `inst/java` directory. Download OMERO.insight client. Extract the zip file. Copy all the files within the libs directory into the previously created `inst/java` directory
 * Load devtools library `library(devtools)`
 * Build the package `devtools::build()`
 
