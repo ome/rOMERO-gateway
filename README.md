@@ -1,51 +1,76 @@
 # OMERO R Gateway
 
-R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [rJava](https://cran.r-project.org/web/packages/rJava/index.html)
+R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [rJava](https://cran.r-project.org/web/packages/rJava/index.html).
 
 ## Prerequisites
 
+### Users
+
 * [R](https://www.r-project.org/)
 * [Java](http://openjdk.java.net/)
-* [rJava](https://cran.r-project.org/web/packages/rJava/index.html) [(Installation)](#Installing-rJava)
-* [devtools](https://cran.r-project.org/web/packages/devtools/index.html)
-* [Apache Maven](https://maven.apache.org/) (recommended)
-* [Git](https://git-scm.com/) (recommended)
+* R package: [rJava](https://cran.r-project.org/web/packages/rJava/index.html)
+* R package: [jpeg](https://cran.r-project.org/web/packages/jpeg/index.html)
 
-## Build/Install the romero.gateway R package
-* Install/Setup the software mentioned above
+### Developers
 
-### Automated
+Need additionally:
 
-* Download and run [install.R](install.R) script (requires Maven and Git):
-  
-  ```
-  Rscript install.R
-  ```
-  
-  You can specify a particular branch or version to build/install or perform a local build of the cloned repository. Run `Rscript install.R --help` to see more details.
+* R package: [devtools](https://cran.r-project.org/web/packages/devtools/index.html)
+* R package: [testthat](https://cran.r-project.org/web/packages/testthat/index.html) (optional)
+* [Apache Maven](https://maven.apache.org/)
+* [Git](https://git-scm.com/)
 
-### Manual
 
-* Download this repository: 
-  * Using Git: ```git clone https://github.com/ome/rOMERO-gateway.git```
-  * _Alternative_: Download as Zip and extract.
-* ```cd``` into the ```rOMERO-gateway``` directory
-* Download the dependencies
-  * Using Maven: Run ```mvn install```
-  * _Alternative_: Create ```inst/java``` directory. Download [OMERO.insight client](https://downloads.openmicroscopy.org/latest/omero/). Extract the zip file. Copy all files within ```libs``` directory into the previously created ```rOMERO/inst/java``` directory
-* Launch the ```R``` console
-* Load devtools library ```library(devtools)```
-* Build the package ```devtools::build()```
-* Install the romero.gateway package into your local R repository
-  ```
-  install.packages([PATH TO romero.gateway_x.y.z.tar.gz], repos = NULL, type="source")
-  ```
+## Install the romero.gateway R package
+
+### Windows
+
+Download the zip package matching your OMERO server from the [Release page](https://github.com/ome/rOMERO-gateway/releases)
+
+In RStudio "Install Packages" use option "Install from:" "Package Archive File" and select the romero.gateway zip file.
+
+Alternatively: In R console run `install.packages('romero.gateway_x.x.x.zip')`
+
+### Unix / OSX
+
+Download the tar.gz package matching your OMERO server from the [Release page](https://github.com/ome/rOMERO-gateway/releases)
+
+In RStudio "Install Packages" use option "Install from:" "Package Archive File" and select the romero.gateway tar.gz file.
+
+Alternatively: In R console run `install.packages('romero.gateway_x.x.x.tar.gz', type = 'source')`
+
+See [Tips for Unix users](#tips-for-unix-users) section if you are running into difficulties.
 
 ## Usage
+
 * Like any other R package load the package ```library(romero.gateway)```
 * Try some examples from the [examples directory](examples)
+* Another potential source of examples is the unit tests directory: [tests/testthat](tests/testthat)
 
-## Testing 
+## Build from source
+
+### install.R script
+
+This allows you to install a custom version or build from a custom branch.
+
+Use the [install.R](install.R) script:
+
+```
+  Rscript install.R
+```
+
+You can specify a particular branch or version to build/install or perform a local build of the cloned repository. Run `Rscript install.R --help` to see more details.
+
+### Manually
+
+* Download the dependencies
+  * Using Maven: Run `mvn install`
+  * Alternative: Create `inst/java` directory. Download OMERO.insight client. Extract the zip file. Copy all the files within the libs directory into the previously created `inst/java` directory
+* Load devtools library `library(devtools)`
+* Build the package `devtools::build()`
+
+## Unit tests
+
 * Install [testthat](https://cran.r-project.org/web/packages/testthat/index.html)
 * Spin up an OMERO server to test against
 * Adjust and run [test-data](.omeroci/test-data) script to populate 
@@ -54,9 +79,11 @@ the test server
 to populate the server)
 * Run ```devtools::test()```
 
-## Remarks
 
-#### Installing rJava
+## Tips for Unix users
+
+### Installing rJava
+
 Before installing the `rJava` package you probably have to set up Java for R first:
 ```
 # as root
@@ -64,9 +91,13 @@ export $JAVA_HOME=[path to JDK/JRE]
 R CMD javareconf
 ```
 
-#### Additional dependencies
+### Additional dependencies
+
 In order to build/install some necessary R packages, additional system libraries may
 have to be installed first. E.g. the R packages `httr` and `xml2` need the development libraries for
-`curl` and `xml2`, so for example on a Debian system you most likely have to install `libcurl4-dev`
+`curl` and `xml2`, so for example on a Debian system you probably have to install `libcurl4-dev`
 and `libxml2-dev` first.
+If you can't install an R package due to compile errors, most likely you are missing a development 
+package of some dependent library on your system.
+
 
