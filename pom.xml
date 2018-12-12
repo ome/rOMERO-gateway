@@ -18,7 +18,7 @@
     <groupId>org.openmicroscopy</groupId>
     <artifactId>romero-gateway</artifactId>
     <packaging>pom</packaging>
-    <version>0.4.3</version>
+    <version>0.4.4</version>
 
     <name>rOMERO-gateway</name>
     <description>OMERO R Gateway</description>

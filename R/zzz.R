@@ -1,16 +1,50 @@
 #' @import methods
 #' @importFrom utils packageVersion packageDescription
 .onAttach <- function(libname, pkgname) {
+  romeroVersion <- utils::packageVersion("romero.gateway")
+  omeroVersion <- utils::packageDescription("romero.gateway", fields = "OMERO_Version")
   
-  packageDir <- find.package(package='romero.gateway')
-  packageDir <- paste(packageDir, "/java", sep = '')
-  if (!file.exists(packageDir)) {
-    # package doesn't exist yet, i.e. this method is probably
-    # run by build task like document() or similar
-    packageDir <- "inst/java"
+  omeroLibs <- find.package(package='romero.gateway')
+  omeroLibs <- paste(omeroLibs, 'java', sep = '/')
+  if (!dir.exists(omeroLibs)) {
+    # java libs dir doesn't exist yet
+    dir.create(omeroLibs, recursive = TRUE)
   }
   
-  .jinit(classpath = dir(packageDir, full.names=TRUE ))
+  if (!file.exists(paste(omeroLibs, 'blitz.jar', sep = '/'))) {
+    # OMERO java libraries haven't been downloaded yet.
+    
+    baseURL <- paste('https://downloads.openmicroscopy.org/latest/omero', omeroVersion, sep = '')
+    zipFile <- 'OMERO.java.zip'
+    
+    message(paste('Downloading OMERO Java libraries from', baseURL))
+    message(paste('Installing them in', omeroLibs))
+    
+    dest <- paste(omeroLibs, zipFile, sep = '/')
+    download.file(paste(baseURL, zipFile, sep = '/'), destfile = dest)
+    unzip(dest, exdir = omeroLibs)
+    unzippedLibs <- NA
+    for (dir in list.dirs(path = omeroLibs)) {
+      x <- grep(paste(omeroLibs, "OMERO\\.java-.*", "libs", sep = '/'), dir)
+      if (length(x)) {
+        unzippedLibs <- dir
+        break
+      }
+    }
+    for (file in list.files(unzippedLibs)) {
+      cpFrom <- paste(unzippedLibs, file, sep = '/')
+      cpTo <-  paste(omeroLibs, file, sep = '/')
+      file.copy(from = cpFrom, to = cpTo)
+    }
+    file.remove(dest)
+    toDelete <- sub('/libs', '', unzippedLibs)
+    if (startsWith(toDelete, omeroLibs)) {
+      # make sure to not accidentely delete something else
+      unlink(toDelete, recursive = TRUE, force = TRUE)
+    }
+  }
+  
+  .jinit(classpath = dir(omeroLibs, full.names=TRUE ))
 
   # Unfortunately have to add this stuff to base env
   # because romero.gateway env is locked
@@ -74,10 +108,6 @@
   env$RectangleData <- J("omero.gateway.model.RectangleData")
   env$AffineTransform <- J("omero.model.AffineTransformI")
   
-  
-  
-  romeroVersion <- utils::packageVersion("romero.gateway")
-  omeroVersion <- utils::packageDescription("romero.gateway", fields = "OMERO_Version")
   msg <- paste("\n*** Welcome to rOMERO ", romeroVersion, " (~ OMERO ",omeroVersion,") ***\n", sep="")
   packageStartupMessage(msg)
 }

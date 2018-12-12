@@ -11,7 +11,8 @@
 ^tests$
 ^install.R$
 ^\.gitignore$
-^\.Rbuildignore$
 ^\.Rhistory$
 ^\.Rprofile$
 ^romero\.gateway.*$
+^inst$
+^java$
