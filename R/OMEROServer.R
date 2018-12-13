@@ -15,6 +15,10 @@ setClassUnion("jclassOrNULL", c("jobjRef", "NULL"))
 #' @exportClass OMEROServer
 #' @import rJava
 #' @importFrom utils read.csv read.table
+#' @examples
+#' \dontrun{
+#' server <- OMEROServer(username = 'root', password = 'xyz', host = 'localhost')
+#' }
 OMEROServer <- setClass(
   
   "OMEROServer",
@@ -51,6 +55,10 @@ OMEROServer <- setClass(
 #' @return The server in "connected" state (if successful)
 #' @export connect
 #' @exportMethod connect
+#' @examples
+#' \dontrun{
+#' server_connected <- connect(server)
+#' }
 setGeneric(name="connect",
            def=function(server, group=NA)
            {
@@ -64,6 +72,10 @@ setGeneric(name="connect",
 #' @return The server in "disconnected" state (if successful)
 #' @export disconnect
 #' @exportMethod disconnect
+#' @examples
+#' \dontrun{
+#' disconnect(server)
+#' }
 setGeneric(name="disconnect",
            def=function(server)
            {
@@ -78,6 +90,10 @@ setGeneric(name="disconnect",
 #' @return The server
 #' @export setGroupContext
 #' @exportMethod setGroupContext
+#' @examples
+#' \dontrun{
+#' server <- setGroupContext(server, 'lab_2')
+#' }
 setGeneric(name="setGroupContext",
            def=function(server, group)
            {
@@ -91,6 +107,10 @@ setGeneric(name="setGroupContext",
 #' @return The name of the group
 #' @export getGroupContext
 #' @exportMethod getGroupContext
+#' @examples
+#' \dontrun{
+#' current_group <- getGroupContext(server)
+#' }
 setGeneric(name="getGroupContext",
            def=function(server)
            {
@@ -105,6 +125,10 @@ setGeneric(name="getGroupContext",
 #' @return The Java Gateway
 #' @export getGateway
 #' @exportMethod getGateway
+#' @examples
+#' \dontrun{
+#' java_gw <- getGateway(server)
+#' }
 setGeneric(name="getGateway",
            def=function(server)
            {
@@ -118,6 +142,10 @@ setGeneric(name="getGateway",
 #' @return The SecurityContext
 #' @export getContext
 #' @exportMethod getContext
+#' @examples
+#' \dontrun{
+#' sec_ctx <- getContext(server)
+#' }
 setGeneric(name="getContext",
            def=function(server)
            {
@@ -133,6 +161,11 @@ setGeneric(name="getContext",
 #' @return The OME remote object @seealso \linkS4class{OMERO}
 #' @export loadObject
 #' @exportMethod loadObject
+#' @examples
+#' \dontrun{
+#' obj <- loadObject(server, "ImageData", 123)
+#' image <- cast(obj)
+#' }
 setGeneric(name="loadObject",
            def=function(server, type, id)
            {
@@ -153,6 +186,10 @@ setGeneric(name="loadObject",
 #' @return The dataframe constructed from the CSV file
 #' @export loadCSV
 #' @exportMethod loadCSV
+#' @examples
+#' \dontrun{
+#' df <- loadCSV(server, file_annotation_id)
+#' }
 setGeneric(name="loadCSV",
            def=function(server, id, header = TRUE, sep = ",", quote = "\"",
                         dec = ".", fill = TRUE, comment.char = "")
@@ -172,6 +209,10 @@ setGeneric(name="loadCSV",
 #' @return The annotations
 #' @export getAnnotations
 #' @exportMethod getAnnotations
+#' @examples
+#' \dontrun{
+#' annoations <- getAnnotations(image)
+#' }
 setGeneric(name="getAnnotations",
            def=function(object, type, id, typeFilter, nameFilter)
            {
@@ -188,6 +229,10 @@ setGeneric(name="getAnnotations",
 #' @return The search results (collection of OMERO objects) @seealso \linkS4class{OMERO}
 #' @export searchFor
 #' @exportMethod searchFor
+#' @examples
+#' \dontrun{
+#' found <- searchFor(server, "Project", scope = "Name", "MyProject")
+#' }
 setGeneric(name="searchFor",
            def=function(server, type, scope, query)
            {
@@ -201,6 +246,10 @@ setGeneric(name="searchFor",
 #' @return The screens @seealso \linkS4class{Screen}
 #' @export getScreens
 #' @exportMethod getScreens
+#' @examples
+#' \dontrun{
+#' screens <- getScreens(server)
+#' }
 setGeneric(name="getScreens",
            def=function(server)
            {
@@ -214,6 +263,11 @@ setGeneric(name="getScreens",
 #' @return The plates @seealso \linkS4class{Plate}
 #' @export getPlates
 #' @exportMethod getPlates
+#' @examples
+#' \dontrun{
+#' plates <- getPlates(server)
+#' plates <- getPlates(screen)
+#' }
 setGeneric(name="getPlates",
            def=function(object)
            {
@@ -227,6 +281,10 @@ setGeneric(name="getPlates",
 #' @return The projects @seealso \linkS4class{Project}
 #' @export getProjects
 #' @exportMethod getProjects
+#' @examples
+#' \dontrun{
+#' projects <- getProjects(server)
+#' }
 setGeneric(name="getProjects",
            def=function(server)
            {
@@ -240,6 +298,11 @@ setGeneric(name="getProjects",
 #' @return The datasets @seealso \linkS4class{Dataset}
 #' @export getDatasets
 #' @exportMethod getDatasets
+#' @examples
+#' \dontrun{
+#' datasets <- getDatasets(server)
+#' datasets <- getDatasets(project)
+#' }
 setGeneric(name="getDatasets",
            def=function(object)
            {

@@ -15,3 +15,8 @@ The projects @seealso \linkS4class{Project}
 \description{
 Get all projects of the logged in user
 }
+\examples{
+\dontrun{
+projects <- getProjects(server)
+}
+}

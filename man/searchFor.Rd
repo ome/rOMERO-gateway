@@ -21,3 +21,8 @@ The search results (collection of OMERO objects) @seealso \linkS4class{OMERO}
 \description{
 Search for OMERO objects
 }
+\examples{
+\dontrun{
+found <- searchFor(server, "Project", scope = "Name", "MyProject")
+}
+}

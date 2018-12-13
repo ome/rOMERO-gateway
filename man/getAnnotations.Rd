@@ -25,3 +25,8 @@ The annotations
 Get annotations attached to an OME object.
 Type, Namespace, Name, Content, ID, FileID (in case of file annotations)
 }
+\examples{
+\dontrun{
+annoations <- getAnnotations(image)
+}
+}

@@ -80,6 +80,10 @@ setMethod(
 #'        images is returned. @seealso \linkS4class{Image}
 #' @export getImages
 #' @exportMethod getImages
+#' @examples
+#' \dontrun{
+#' images <- getImages(screen)
+#' }
 setMethod(
   f = "getImages",
   signature = "Screen",

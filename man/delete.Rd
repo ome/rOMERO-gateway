@@ -12,3 +12,8 @@ delete(omero)
 \description{
 Deletes an OME object
 }
+\examples{
+\dontrun{
+delete(object)
+}
+}

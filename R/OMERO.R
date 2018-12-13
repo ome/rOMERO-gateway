@@ -37,6 +37,10 @@ OMERO <- setClass(
 #' @return The OMERO object casted to the proper type
 #' @export cast
 #' @exportMethod cast
+#' @examples
+#' \dontrun{
+#' plate <- cast(object)
+#' }
 setGeneric(
   name = "cast",
   def = function(omero)
@@ -51,6 +55,10 @@ setGeneric(
 #' @return The OMERO object ID
 #' @export getOMEROID
 #' @exportMethod getOMEROID
+#' @examples
+#' \dontrun{
+#' id <- getOMEROID(object)
+#' }
 setGeneric(
   name = "getOMEROID",
   def = function(omero)
@@ -65,6 +73,10 @@ setGeneric(
 #' @return The OMERO type
 #' @export getOMEROType
 #' @exportMethod getOMEROType
+#' @examples
+#' \dontrun{
+#' type <- getOMEROType(object)
+#' }
 setGeneric(
   name = "getOMEROType",
   def = function(omero)
@@ -78,6 +90,10 @@ setGeneric(
 #' @param omero The OME object
 #' @export delete
 #' @exportMethod delete
+#' @examples
+#' \dontrun{
+#' delete(object)
+#' }
 setGeneric(
   name = "delete",
   def = function(omero)
@@ -94,6 +110,10 @@ setGeneric(
 #' @return The OME object
 #' @export attachDataframe
 #' @exportMethod attachDataframe
+#' @examples
+#' \dontrun{
+#' attachDataframe(project, df, name="Some data")
+#' }
 setGeneric(
   name = "attachDataframe",
   def = function(omero, df, name="R Dataframe")
@@ -108,6 +128,10 @@ setGeneric(
 #' @return The names/ids of the attached dataframes
 #' @export availableDataframes
 #' @exportMethod availableDataframes
+#' @examples
+#' \dontrun{
+#' availableDataframes(project)
+#' }
 setGeneric(
   name = "availableDataframes",
   def = function(omero)
@@ -129,6 +153,10 @@ setGeneric(
 #' @return The dataframe
 #' @export loadDataframe
 #' @exportMethod loadDataframe
+#' @examples
+#' \dontrun{
+#' df <- loadDataframe(project, dataframe_id, rowFrom = 10, rowTo = 100)
+#' }
 setGeneric(
   name = "loadDataframe",
   def = function(omero, id, condition, rowFrom, rowTo, columns)
@@ -144,6 +172,10 @@ setGeneric(
 #' @return NA
 #' @export describeDataframe
 #' @exportMethod describeDataframe
+#' @examples
+#' \dontrun{
+#' describeDataframe(project)
+#' }
 setGeneric(
     name = "describeDataframe",
     def = function(omero, id)
@@ -159,6 +191,10 @@ setGeneric(
 #' @return The file annotation
 #' @export attachFile
 #' @exportMethod attachFile
+#' @examples
+#' \dontrun{
+#' file_annotation <- attachFile(project, file)
+#' }
 setGeneric(name="attachFile",
            def=function(omero, file)
            {
@@ -172,6 +208,10 @@ setGeneric(name="attachFile",
 #' @param id The file annotation(!) id
 #' @export deleteFile
 #' @exportMethod deleteFile
+#' @examples
+#' \dontrun{
+#' deleteFile(project, file_annotation_id)
+#' }
 setGeneric(
   name = "deleteFile",
   def = function(omero, id)
@@ -187,6 +227,12 @@ setGeneric(
 #' @return The images @seealso \linkS4class{Image}
 #' @export getImages
 #' @exportMethod getImages
+#' @examples
+#' \dontrun{
+#' images <- getImages(project)
+#' images <- getImages(dataset)
+#' images <- getImages(screen)
+#' }
 setGeneric(
   name = "getImages",
   def = function(omero, fieldIndex)

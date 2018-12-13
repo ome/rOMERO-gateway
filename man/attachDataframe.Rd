@@ -19,3 +19,8 @@ The OME object
 \description{
 Attaches a dataframe to an OME object
 }
+\examples{
+\dontrun{
+attachDataframe(project, df, name="Some data")
+}
+}

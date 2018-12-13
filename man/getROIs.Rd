@@ -29,3 +29,8 @@ x, y, w, h -> Rectangle
 theta: Rotation about theta
 text: An optional comment
 }
+\examples{
+\dontrun{
+roi_coords <- getROIs(image)
+}
+}

@@ -27,3 +27,8 @@ The dataframe
 \description{
 Load a dataframe attached to an OME object
 }
+\examples{
+\dontrun{
+df <- loadDataframe(project, dataframe_id, rowFrom = 10, rowTo = 100)
+}
+}

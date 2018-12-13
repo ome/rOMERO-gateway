@@ -1,5 +1,5 @@
 #' @import methods
-#' @importFrom utils packageVersion packageDescription
+#' @importFrom utils packageVersion packageDescription download.file unzip
 .onAttach <- function(libname, pkgname) {
   romeroVersion <- utils::packageVersion("romero.gateway")
   omeroVersion <- utils::packageDescription("romero.gateway", fields = "OMERO_Version")
@@ -16,9 +16,8 @@
     
     baseURL <- paste('http://downloads.openmicroscopy.org/latest/omero', omeroVersion, sep = '')
     zipFile <- 'OMERO.java.zip'
-    
-    message(paste('Downloading OMERO Java libraries from', baseURL))
-    message(paste('Installing them in', omeroLibs))
+    packageStartupMessage(paste('Downloading OMERO Java libraries from', baseURL))
+    packageStartupMessage(paste('Installing them in', omeroLibs))
     
     dest <- paste(omeroLibs, zipFile, sep = '/')
     download.file(paste(baseURL, zipFile, sep = '/'), destfile = dest)

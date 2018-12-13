@@ -25,3 +25,8 @@ Get the pixel values of an Image.
 An error will be thrown if invalid z, t or c values 
 are specified.
 }
+\examples{
+\dontrun{
+pixel_values <- getPixelValues(image)
+}
+}

@@ -15,3 +15,8 @@ The screens @seealso \linkS4class{Screen}
 \description{
 Get all screens of the logged in user
 }
+\examples{
+\dontrun{
+screens <- getScreens(server)
+}
+}

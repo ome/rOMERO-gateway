@@ -21,3 +21,8 @@ A list of image arrays [[i, j]] (one array per plate)
 \description{
 Get all images of a screen
 }
+\examples{
+\dontrun{
+images <- getImages(screen)
+}
+}

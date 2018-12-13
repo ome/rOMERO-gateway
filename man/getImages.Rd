@@ -17,3 +17,10 @@ The images @seealso \linkS4class{Image}
 \description{
 Get all images of a container (Dataset, Project, Screen, Plate or Well)
 }
+\examples{
+\dontrun{
+images <- getImages(project)
+images <- getImages(dataset)
+images <- getImages(screen)
+}
+}

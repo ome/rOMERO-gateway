@@ -14,3 +14,8 @@ deleteFile(omero, id)
 \description{
 Delete a file attached to an OME object
 }
+\examples{
+\dontrun{
+deleteFile(project, file_annotation_id)
+}
+}

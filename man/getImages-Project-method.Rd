@@ -16,3 +16,8 @@ The images @seealso \linkS4class{Image}
 \description{
 Get all images of a project
 }
+\examples{
+\dontrun{
+images <- getImages(project)
+}
+}

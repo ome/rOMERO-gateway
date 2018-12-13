@@ -35,6 +35,10 @@ Plate <- setClass(
 #' @return The wells @seealso \linkS4class{Well}
 #' @export
 #' @exportMethod getWells
+#' @examples
+#' \dontrun{
+#' wells <- getWells(plate)
+#' }
 setGeneric(
   name = "getWells",
   def = function(plate)
@@ -84,6 +88,10 @@ setMethod(
 #'        images is returned. @seealso \linkS4class{Image}
 #' @export
 #' @import rJava
+#' @examples
+#' \dontrun{
+#' images <- getImages(plate)
+#' }
 setMethod(
   f = "getImages",
   signature = "Plate",

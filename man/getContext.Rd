@@ -15,3 +15,8 @@ The SecurityContext
 \description{
 Get the current SecurityContext
 }
+\examples{
+\dontrun{
+sec_ctx <- getContext(server)
+}
+}

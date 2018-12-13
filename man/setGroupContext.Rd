@@ -17,3 +17,8 @@ The server
 \description{
 Set a different group context
 }
+\examples{
+\dontrun{
+server <- setGroupContext(server, 'lab_2')
+}
+}

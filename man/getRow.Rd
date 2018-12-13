@@ -15,3 +15,8 @@ The row index
 \description{
 Get the row index of the specific well
 }
+\examples{
+\dontrun{
+row <- getRow(well)
+}
+}

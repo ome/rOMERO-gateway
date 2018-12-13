@@ -15,3 +15,9 @@ The plates @seealso \linkS4class{Plate}
 \description{
 Get all plates of the logged in user
 }
+\examples{
+\dontrun{
+plates <- getPlates(server)
+plates <- getPlates(screen)
+}
+}

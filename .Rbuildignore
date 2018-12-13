@@ -16,3 +16,4 @@
 ^romero\.gateway.*$
 ^inst$
 ^java$
+^CHANGELOG.md$

@@ -36,6 +36,10 @@ Project <- setClass(
 #' @return The images @seealso \linkS4class{Image}
 #' @export getImages
 #' @exportMethod getImages
+#' @examples
+#' \dontrun{
+#' images <- getImages(project)
+#' }
 setMethod(
   f = "getImages",
   signature = "Project",

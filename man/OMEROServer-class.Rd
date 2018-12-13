@@ -30,3 +30,8 @@ Provides access to an OMERO server
 \item{\code{ctx}}{The current SecurityContext}
 }}
 
+\examples{
+\dontrun{
+server <- OMEROServer(username = 'root', password = 'xyz', host = 'localhost')
+}
+}
