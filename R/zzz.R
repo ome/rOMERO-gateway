@@ -14,7 +14,7 @@
   if (!file.exists(paste(omeroLibs, 'blitz.jar', sep = '/'))) {
     # OMERO java libraries haven't been downloaded yet.
     
-    baseURL <- paste('https://downloads.openmicroscopy.org/latest/omero', omeroVersion, sep = '')
+    baseURL <- paste('http://downloads.openmicroscopy.org/latest/omero', omeroVersion, sep = '')
     zipFile <- 'OMERO.java.zip'
     
     message(paste('Downloading OMERO Java libraries from', baseURL))
