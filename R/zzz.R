@@ -1,6 +1,6 @@
 #' @import methods
 #' @importFrom utils packageVersion packageDescription download.file unzip
-.onLoad <- function(libname, pkgname) {
+.onAttach <- function(libname, pkgname) {
   romeroVersion <- utils::packageVersion("romero.gateway")
   omeroVersion <- utils::packageDescription("romero.gateway", fields = "Description")
   reg <- regexec('OMERO[[:space:]]version:[[:space:]](?<version>[0-9]+\\.[0-9]+)', omeroVersion, perl=TRUE)
