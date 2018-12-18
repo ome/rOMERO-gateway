@@ -10,7 +10,6 @@ COPY R /src/R/
 COPY NAMESPACE /src/
 COPY DESCRIPTION /src/
 COPY man /src/man/
-COPY pom.xml /src/
 COPY tests /src/tests/
 COPY install.R /src/
 COPY .Rbuildignore /src/
