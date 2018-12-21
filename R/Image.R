@@ -116,6 +116,24 @@ setGeneric(
   }
 )
 
+#' Add a Mask ROI to an Image
+#' @param image The image
+#' @param z The Z plane (default: 1)
+#' @param t The timepoint (default: 1)
+#' @param mask The mask as binary array
+#' @export addMask
+#' @exportMethod addMask
+#' @examples
+#' \dontrun{
+#' addMask(image, binmask = maskdata)
+#' }
+setGeneric(
+  name = "addMask",
+  def = function(image, z = 1, t = 1, binmask)
+  {
+    standardGeneric("addMask")
+  }
+)
 
 #' Get the pixel values of an Image.
 #' An error will be thrown if invalid z, t or c values 
@@ -421,6 +439,52 @@ setMethod(
       roi$setImage(obj$asImage())
       roi$addShapeData(shape)
       
+      rois$add(roi)
+    }
+    invisible(fac$saveROIs(ctx, iid, rois))
+  }
+)
+
+#' Add a Mask ROI to an Image
+#' @param image The image
+#' @param z The Z plane (default: 1)
+#' @param t The timepoint (default: 1)
+#' @param mask The mask as binary array
+#' @export addMask
+#' @exportMethod addMask
+setMethod(
+  f = "addMask",
+  signature = "Image",
+  definition = function(image, z = 1, t = 1, binmask)
+  {
+    server <- image@server
+    obj <- image@dataobject
+    gateway <- getGateway(server)
+    ctx <- getContext(server)
+    
+    fac <- gateway$getFacility(ROIFacility$class)
+    iid <- obj$getId()
+    iid <- .jlong(iid)
+    
+    z <- as.integer(z - 1)
+    t <- as.integer(t - 1)
+    
+    
+    w <- dim(binmask)[1]
+    binmask <- t(binmask)
+    binmaskVector <- as.vector(binmask)
+    jarray <- .jarray(binmask,"[I")
+    util <- J("omero/gateway/util/Mask")
+    masks <- util$createCroppedMasks(jarray, w)
+    
+    rois <- new(ArrayList)
+    
+    it <- masks$iterator()
+    while (it$hasNext()) {
+      shape <- .jrcall(it, method = "next")
+      roi <- .jnew(class = "omero.gateway.model.ROIData")
+      roi$setImage(obj$asImage())
+      roi$addShapeData(shape)
       rois$add(roi)
     }
     invisible(fac$saveROIs(ctx, iid, rois))
