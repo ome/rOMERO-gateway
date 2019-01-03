@@ -15,3 +15,8 @@ The wells @seealso \linkS4class{Well}
 \description{
 Get the wells of the specific plate
 }
+\examples{
+\dontrun{
+wells <- getWells(plate)
+}
+}

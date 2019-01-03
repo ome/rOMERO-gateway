@@ -22,3 +22,8 @@ The images as array [[i, j]] where
 \description{
 Get all images of a plate
 }
+\examples{
+\dontrun{
+images <- getImages(plate)
+}
+}

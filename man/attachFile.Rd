@@ -17,3 +17,8 @@ The file annotation
 \description{
 Attach a file to an OME object
 }
+\examples{
+\dontrun{
+file_annotation <- attachFile(project, file)
+}
+}

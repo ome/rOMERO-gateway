@@ -15,3 +15,8 @@ The names/ids of the attached dataframes
 \description{
 Get the dataframes (name/id/annotationID) attached to an OME object
 }
+\examples{
+\dontrun{
+availableDataframes(project)
+}
+}

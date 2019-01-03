@@ -30,3 +30,8 @@ The dataframe constructed from the CSV file
 \description{
 Load a CSV file from the server
 }
+\examples{
+\dontrun{
+df <- loadCSV(server, file_annotation_id)
+}
+}

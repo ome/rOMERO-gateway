@@ -17,3 +17,8 @@ The OMERO object casted to the proper type
 Casts a general OMERO object into its proper
 type, e. g. Plate (if possible)
 }
+\examples{
+\dontrun{
+plate <- cast(object)
+}
+}

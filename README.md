@@ -17,7 +17,6 @@ Need additionally:
 
 * R package: [devtools](https://cran.r-project.org/web/packages/devtools/index.html)
 * R package: [testthat](https://cran.r-project.org/web/packages/testthat/index.html) (optional)
-* [Apache Maven](https://maven.apache.org/)
 * [Git](https://git-scm.com/)
 
 
@@ -63,9 +62,8 @@ You can specify a particular branch or version to build/install or perform a loc
 
 ### Manually
 
-* Download the dependencies
-  * Using Maven: Run `mvn install`
-  * Alternative: Create `inst/java` directory. Download OMERO.insight client. Extract the zip file. Copy all the files within the libs directory into the previously created `inst/java` directory
+* Clone this Github repository `git clone https://github.com/ome/rOMERO-gateway.git`
+* Cd into the directory and start R console `cd rOMERO-gateway` `R`
 * Load devtools library `library(devtools)`
 * Build the package `devtools::build()`
 

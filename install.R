@@ -104,17 +104,6 @@ if (!localBuild) {
   print('Performing local romero.gateway build')
 }
 
-# Run Maven to fetch the java dependencies
-mvnArgs <- c('install')
-if (quiet) {
-  mvnArgs <- c(mvnArgs, '--quiet')
-}
-ret <- system2('mvn', args = mvnArgs)
-if ( ret != 0) {
-  print('Maven execution failed.')
-  quit(save = 'no', status = ret, runLast = FALSE)
-}
-
 # Build the romero.gateway package
 packageFile <- devtools::build(path = '.', quiet = quiet)
 if (is.null(packageFile)) {

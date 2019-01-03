@@ -19,3 +19,8 @@ The thumbnail
 \description{
 Get the thumbnail for an Image (as JPEG)
 }
+\examples{
+\dontrun{
+jpegThumbnail <- getThumbnail(image)
+}
+}

@@ -19,3 +19,9 @@ The OME remote object @seealso \linkS4class{OMERO}
 \description{
 Load an object from the server
 }
+\examples{
+\dontrun{
+obj <- loadObject(server, "ImageData", 123)
+image <- cast(obj)
+}
+}

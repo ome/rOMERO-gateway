@@ -15,3 +15,9 @@ The datasets @seealso \linkS4class{Dataset}
 \description{
 Get all datasets of the logged in user
 }
+\examples{
+\dontrun{
+datasets <- getDatasets(server)
+datasets <- getDatasets(project)
+}
+}

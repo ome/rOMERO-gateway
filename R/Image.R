@@ -38,6 +38,10 @@ Image <- setClass(
 #' @return The thumbnail
 #' @export getThumbnail
 #' @exportMethod getThumbnail
+#' @examples
+#' \dontrun{
+#' jpegThumbnail <- getThumbnail(image)
+#' }
 setGeneric(
   name = "getThumbnail",
   def = function(image, width = 96, height = 96)
@@ -52,6 +56,10 @@ setGeneric(
 #' @return The channel names
 #' @export getChannelNames
 #' @exportMethod getChannelNames
+#' @examples
+#' \dontrun{
+#' channelNames <- getChannelNames(image)
+#' }
 setGeneric(
   name = "getChannelNames",
   def = function(image)
@@ -72,6 +80,10 @@ setGeneric(
 #' @return The coordinates as dataframe (x, y, rx, ry, w, h, theta, text)
 #' @export getROIs
 #' @exportMethod getROIs
+#' @examples
+#' \dontrun{
+#' roi_coords <- getROIs(image)
+#' }
 setGeneric(
   name = "getROIs",
   def = function(image, z = 1, t = 1)
@@ -92,6 +104,10 @@ setGeneric(
 #' @param coords The coordinates as dataframe (x, y, rx, ry, w, h, theta, text)
 #' @export addROIs
 #' @exportMethod addROIs
+#' @examples
+#' \dontrun{
+#' addROIs(image, coords = coordinates)
+#' }
 setGeneric(
   name = "addROIs",
   def = function(image, z = 1, t = 1, coords)
@@ -111,6 +127,10 @@ setGeneric(
 #' @return The pixel values as two-dimensional array [x][y]
 #' @export getPixelValues
 #' @exportMethod getPixelValues
+#' @examples
+#' \dontrun{
+#' pixel_values <- getPixelValues(image)
+#' }
 setGeneric(
   name = "getPixelValues",
   def = function(image, z, t, c)

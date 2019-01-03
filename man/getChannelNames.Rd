@@ -15,3 +15,8 @@ The channel names
 \description{
 Get the channel names of an Image
 }
+\examples{
+\dontrun{
+channelNames <- getChannelNames(image)
+}
+}

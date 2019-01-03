@@ -17,3 +17,8 @@ NA
 \description{
 Describe a dataframe attached to an OME object
 }
+\examples{
+\dontrun{
+describeDataframe(project)
+}
+}

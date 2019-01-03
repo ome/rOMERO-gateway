@@ -5,3 +5,5 @@
 *.Rproj
 .omero
 inst/java
+java
+

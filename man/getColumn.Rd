@@ -15,3 +15,8 @@ The column index
 \description{
 Get the column index of the specific well
 }
+\examples{
+\dontrun{
+col <- getColumn(well)
+}
+}

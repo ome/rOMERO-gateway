@@ -35,6 +35,10 @@ Well <- setClass(
 #' @return The row index
 #' @export getRow
 #' @exportMethod getRow
+#' @examples
+#' \dontrun{
+#' row <- getRow(well)
+#' }
 setGeneric(
   name = "getRow",
   def = function(well)
@@ -49,6 +53,10 @@ setGeneric(
 #' @return The column index
 #' @export getColumn
 #' @exportMethod getColumn
+#' @examples
+#' \dontrun{
+#' col <- getColumn(well)
+#' }
 setGeneric(
   name = "getColumn",
   def = function(well)
@@ -67,6 +75,10 @@ setGeneric(
 #' @export getImages
 #' @exportMethod getImages
 #' @import rJava
+#' @examples
+#' \dontrun{
+#' images <- getImages(well)
+#' }
 setMethod(
   f = "getImages",
   signature = "Well",

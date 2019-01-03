@@ -15,3 +15,8 @@ The OMERO type
 \description{
 Get the type of the OME object
 }
+\examples{
+\dontrun{
+type <- getOMEROType(object)
+}
+}

@@ -18,3 +18,8 @@ The server in "connected" state (if successful)
 \description{
 Connect to an OMERO server
 }
+\examples{
+\dontrun{
+server_connected <- connect(server)
+}
+}

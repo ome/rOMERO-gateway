@@ -15,3 +15,8 @@ The server in "disconnected" state (if successful)
 \description{
 Disconnect from an OMERO server
 }
+\examples{
+\dontrun{
+disconnect(server)
+}
+}

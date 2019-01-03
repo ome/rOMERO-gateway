@@ -15,3 +15,8 @@ The name of the group
 \description{
 Get the current group context
 }
+\examples{
+\dontrun{
+current_group <- getGroupContext(server)
+}
+}

@@ -28,3 +28,8 @@ x, y, w, h -> Rectangle
 theta: Rotation about theta
 text: An optional comment
 }
+\examples{
+\dontrun{
+addROIs(image, coords = coordinates)
+}
+}

@@ -15,3 +15,8 @@ The OMERO object ID
 \description{
 Get the ID of the OME object
 }
+\examples{
+\dontrun{
+id <- getOMEROID(object)
+}
+}

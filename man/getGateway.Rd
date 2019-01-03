@@ -15,3 +15,8 @@ The Java Gateway
 \description{
 Get the reference to the Java Gatway
 }
+\examples{
+\dontrun{
+java_gw <- getGateway(server)
+}
+}
