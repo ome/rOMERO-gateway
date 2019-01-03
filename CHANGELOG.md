@@ -1,3 +1,10 @@
+0.4.4 (January 2019)
+--------------------
+
+This release includes:
+
+- removed Java Libraries
+
 0.4.3 (November 2018)
 ---------------------
 
