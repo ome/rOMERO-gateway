@@ -19,10 +19,24 @@ Need additionally:
 * R package: [testthat](https://cran.r-project.org/web/packages/testthat/index.html) (optional)
 * [Git](https://git-scm.com/)
 
-
 ## Install the romero.gateway R package
 
-### Windows
+### CRAN (recommended)
+
+Install the package from CRAN:
+```
+  install.packages('romero.gateway')
+```
+
+### From package file
+
+If you need to install an older version of the package, because your OMERO server has an older version.
+
+OMERO version | romero.gateway version
+--- | --- 
+5.4 | all
+
+#### Windows
 
 Download the zip package matching your OMERO server from the [Release page](https://github.com/ome/rOMERO-gateway/releases)
 
@@ -30,7 +44,7 @@ In RStudio "Install Packages" use option "Install from:" "Package Archive File" 
 
 Alternatively: In R console run `install.packages('romero.gateway_x.x.x.zip')`
 
-### Unix / OSX
+#### Unix / OSX
 
 Download the tar.gz package matching your OMERO server from the [Release page](https://github.com/ome/rOMERO-gateway/releases)
 
