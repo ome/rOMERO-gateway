@@ -30,7 +30,8 @@ Install the package from CRAN:
 
 ### From package file
 
-If you need to install an older version of the package, because your OMERO server has an older version.
+If you need to install an older version of the package because your OMERO server has an older version,
+you can install directly from the package file.
 
 OMERO version | romero.gateway version
 --- | --- 
