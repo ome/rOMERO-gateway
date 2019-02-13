@@ -1,5 +1,5 @@
 #' @import methods
-#' @importFrom utils packageVersion packageDescription download.file unzip
+#' @importFrom utils packageVersion packageDescription unzip
 #' @importFrom httr GET write_disk
 .onAttach <- function(libname, pkgname) {
   romeroVersion <- utils::packageVersion("romero.gateway")
