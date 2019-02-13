@@ -20,8 +20,13 @@
     baseURL <- paste('https://downloads.openmicroscopy.org/latest/omero', omeroVersion, sep = '')
     zipFile <- 'OMERO.java.zip'
     
-    packageStartupMessage('Have to download OMERO Java libraries ', baseURL, '/', zipFile, '\nProceed? [y/n]')
-    acc <- readLines(con = stdin(), n=1, ok=TRUE)
+    getLibs <- Sys.getenv("OMERO_LIBS_DOWNLOAD", unset = NA)
+    if (!is.na(getLibs) && as.logical(getLibs) == TRUE) {
+      acc <- 'y'
+    } else {
+      packageStartupMessage('Have to download OMERO Java libraries ', baseURL, '/', zipFile, '\nProceed? [y/n]')
+      acc <- readLines(con = stdin(), n=1, ok=TRUE)
+    }
     
     if (length(acc) > 0 && (acc[[1]] == 'y' || acc[[1]] == 'Y')) {
       packageStartupMessage('Downloading...')
