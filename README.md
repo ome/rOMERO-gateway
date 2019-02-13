@@ -34,7 +34,7 @@ Download the zip package.
 
 In RStudio "Install Packages" use option "Install from:" "Package Archive File" and select the romero.gateway zip file.
 
-Alternatively: In R console run `install.packages('romero.gateway_x.x.x.zip')`
+Alternatively: In R console run `install.packages("https://github.com/ome/rOMERO-gateway/releases/download/vx.x.x/romero.gateway_x.x.x.zip", repos = NULL)`
 
 ### Unix / OSX
 
@@ -42,7 +42,7 @@ Download the tar.gz package.
 
 In RStudio "Install Packages" use option "Install from:" "Package Archive File" and select the romero.gateway tar.gz file.
 
-Alternatively: In R console run `install.packages('romero.gateway_x.x.x.tar.gz', type = 'source')`
+Alternatively: In R console run `install.packages("https://github.com/ome/rOMERO-gateway/releases/download/vx.x.x/romero.gateway_x.x.x.tar.gz", type='source', repos = NULL)`
 
 See [Tips for Unix users](#tips-for-unix-users) section if you are running into difficulties.
 
