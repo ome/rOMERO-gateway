@@ -10,6 +10,7 @@ R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [
 * [Java](http://openjdk.java.net/)
 * R package: [rJava](https://cran.r-project.org/web/packages/rJava/index.html)
 * R package: [jpeg](https://cran.r-project.org/web/packages/jpeg/index.html)
+* R package: [httr](https://cran.r-project.org/web/packages/httr/index.html)
 
 ### Developers
 
@@ -21,33 +22,23 @@ Need additionally:
 
 ## Install the romero.gateway R package
 
-### CRAN (recommended)
-
-Install the package from CRAN:
-```
-  install.packages('romero.gateway')
-```
-
-### From package file
-
-If you need to install an older version of the package because your OMERO server has an older version,
-you can install directly from the package file.
+Download the latest romero.gateway version which is compatible with your OMERO server version from the [Release page](https://github.com/ome/rOMERO-gateway/releases)
 
 OMERO version | romero.gateway version
 --- | --- 
 5.4 | all
 
-#### Windows
+### Windows
 
-Download the zip package matching your OMERO server from the [Release page](https://github.com/ome/rOMERO-gateway/releases)
+Download the zip package.
 
 In RStudio "Install Packages" use option "Install from:" "Package Archive File" and select the romero.gateway zip file.
 
 Alternatively: In R console run `install.packages('romero.gateway_x.x.x.zip')`
 
-#### Unix / OSX
+### Unix / OSX
 
-Download the tar.gz package matching your OMERO server from the [Release page](https://github.com/ome/rOMERO-gateway/releases)
+Download the tar.gz package.
 
 In RStudio "Install Packages" use option "Install from:" "Package Archive File" and select the romero.gateway tar.gz file.
 
