@@ -44,13 +44,13 @@
       }
       for (file in list.files(unzippedLibs)) {
         cpFrom <- paste(unzippedLibs, file, sep = '/')
-        cpTo <-  paste(omeroLibs, file, sep = '/')
+        cpTo <- paste(omeroLibs, file, sep = '/')
         file.copy(from = cpFrom, to = cpTo)
       }
       file.remove(dest)
       toDelete <- sub('/libs', '', unzippedLibs)
       if (startsWith(toDelete, omeroLibs)) {
-        # make sure to not accidentely delete something else
+        # make sure to not accidentally delete something else
         unlink(toDelete, recursive = TRUE, force = TRUE)
       }
       packageStartupMessage('Finished. OMERO Java libraries saved in ', omeroLibs)
