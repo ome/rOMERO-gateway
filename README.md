@@ -61,10 +61,11 @@ This allows you to install a custom version or build from a custom branch.
 Use the [install.R](install.R) script:
 
 ```
+  curl -o install.R https://raw.githubusercontent.com/ome/rOMERO-gateway/master/install.R 
   Rscript install.R
 ```
 
-You can specify a particular branch or version to build/install or perform a local build of the cloned repository. Run `Rscript install.R --help` to see more details.
+This will build and install the current master branch by default. But you can specify a particular branch or version to build or perform a local build of the cloned repository. Run `Rscript install.R --help` to see more details.
 
 ### Manually
 
