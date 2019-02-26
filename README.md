@@ -10,6 +10,7 @@ R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [
 * [Java](http://openjdk.java.net/)
 * R package: [rJava](https://cran.r-project.org/web/packages/rJava/index.html)
 * R package: [jpeg](https://cran.r-project.org/web/packages/jpeg/index.html)
+* R package: [httr](https://cran.r-project.org/web/packages/httr/index.html)
 
 ### Developers
 
@@ -19,24 +20,29 @@ Need additionally:
 * R package: [testthat](https://cran.r-project.org/web/packages/testthat/index.html) (optional)
 * [Git](https://git-scm.com/)
 
-
 ## Install the romero.gateway R package
+
+Download the latest romero.gateway version which is compatible with your OMERO server version from the [Release page](https://github.com/ome/rOMERO-gateway/releases)
+
+OMERO version | romero.gateway version
+--- | --- 
+5.4 | all
 
 ### Windows
 
-Download the zip package matching your OMERO server from the [Release page](https://github.com/ome/rOMERO-gateway/releases)
+Download the zip package.
 
 In RStudio "Install Packages" use option "Install from:" "Package Archive File" and select the romero.gateway zip file.
 
-Alternatively: In R console run `install.packages('romero.gateway_x.x.x.zip')`
+Alternatively: In R console run `install.packages("https://github.com/ome/rOMERO-gateway/releases/download/vx.x.x/romero.gateway_x.x.x.zip", repos = NULL)`
 
 ### Unix / OSX
 
-Download the tar.gz package matching your OMERO server from the [Release page](https://github.com/ome/rOMERO-gateway/releases)
+Download the tar.gz package.
 
 In RStudio "Install Packages" use option "Install from:" "Package Archive File" and select the romero.gateway tar.gz file.
 
-Alternatively: In R console run `install.packages('romero.gateway_x.x.x.tar.gz', type = 'source')`
+Alternatively: In R console run `install.packages("https://github.com/ome/rOMERO-gateway/releases/download/vx.x.x/romero.gateway_x.x.x.tar.gz", type='source', repos = NULL)`
 
 See [Tips for Unix users](#tips-for-unix-users) section if you are running into difficulties.
 
@@ -55,10 +61,11 @@ This allows you to install a custom version or build from a custom branch.
 Use the [install.R](install.R) script:
 
 ```
+  curl -o install.R https://raw.githubusercontent.com/ome/rOMERO-gateway/master/install.R 
   Rscript install.R
 ```
 
-You can specify a particular branch or version to build/install or perform a local build of the cloned repository. Run `Rscript install.R --help` to see more details.
+This will build and install the current master branch by default. But you can specify a particular branch or version to build or perform a local build of the cloned repository. Run `Rscript install.R --help` to see more details.
 
 ### Manually
 
