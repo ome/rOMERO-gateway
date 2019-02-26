@@ -60,4 +60,5 @@ USER t
 WORKDIR /src
 
 RUN Rscript install.R --local
+ENV OMERO_LIBS_DOWNLOAD=TRUE
 CMD ["/src/tests/runtest"]

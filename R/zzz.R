@@ -1,5 +1,6 @@
 #' @import methods
-#' @importFrom utils packageVersion packageDescription download.file unzip
+#' @importFrom utils packageVersion packageDescription unzip
+#' @importFrom httr GET write_disk
 .onAttach <- function(libname, pkgname) {
   romeroVersion <- utils::packageVersion("romero.gateway")
   omeroVersion <- utils::packageDescription("romero.gateway", fields = "Description")
@@ -16,33 +17,46 @@
   
   if (!file.exists(paste(omeroLibs, 'blitz.jar', sep = '/'))) {
     # OMERO java libraries haven't been downloaded yet.
-    
-    baseURL <- paste('http://downloads.openmicroscopy.org/latest/omero', omeroVersion, sep = '')
+    baseURL <- paste('https://downloads.openmicroscopy.org/latest/omero', omeroVersion, sep = '')
     zipFile <- 'OMERO.java.zip'
-    packageStartupMessage(paste('Downloading OMERO Java libraries from', baseURL))
-    packageStartupMessage(paste('Installing them in', omeroLibs))
     
-    dest <- paste(omeroLibs, zipFile, sep = '/')
-    download.file(paste(baseURL, zipFile, sep = '/'), destfile = dest)
-    unzip(dest, exdir = omeroLibs)
-    unzippedLibs <- NA
-    for (dir in list.dirs(path = omeroLibs)) {
-      x <- grep(paste(omeroLibs, "OMERO\\.java-.*", "libs", sep = '/'), dir)
-      if (length(x)) {
-        unzippedLibs <- dir
-        break
+    getLibs <- Sys.getenv("OMERO_LIBS_DOWNLOAD", unset = NA)
+    if (!is.na(getLibs) && as.logical(getLibs) == TRUE) {
+      acc <- 'y'
+    } else {
+      packageStartupMessage('Have to download OMERO Java libraries ', baseURL, '/', zipFile, '\nProceed? [y/n]')
+      acc <- readLines(con = stdin(), n=1, ok=TRUE)
+    }
+    
+    if (length(acc) > 0 && (acc[[1]] == 'y' || acc[[1]] == 'Y')) {
+      packageStartupMessage('Downloading...')
+      dest <- paste(omeroLibs, zipFile, sep = '/')
+      GET(paste(baseURL, zipFile, sep = '/'), write_disk(dest, overwrite=TRUE))
+      packageStartupMessage('Extracting...')
+      unzip(dest, exdir = omeroLibs)
+      unzippedLibs <- NA
+      for (dir in list.dirs(path = omeroLibs)) {
+        x <- grep(paste(omeroLibs, "OMERO\\.java-.*", "libs", sep = '/'), dir)
+        if (length(x)) {
+          unzippedLibs <- dir
+          break
+        }
       }
-    }
-    for (file in list.files(unzippedLibs)) {
-      cpFrom <- paste(unzippedLibs, file, sep = '/')
-      cpTo <-  paste(omeroLibs, file, sep = '/')
-      file.copy(from = cpFrom, to = cpTo)
-    }
-    file.remove(dest)
-    toDelete <- sub('/libs', '', unzippedLibs)
-    if (startsWith(toDelete, omeroLibs)) {
-      # make sure to not accidentely delete something else
-      unlink(toDelete, recursive = TRUE, force = TRUE)
+      for (file in list.files(unzippedLibs)) {
+        cpFrom <- paste(unzippedLibs, file, sep = '/')
+        cpTo <- paste(omeroLibs, file, sep = '/')
+        file.copy(from = cpFrom, to = cpTo)
+      }
+      file.remove(dest)
+      toDelete <- sub('/libs', '', unzippedLibs)
+      if (startsWith(toDelete, omeroLibs)) {
+        # make sure to not accidentally delete something else
+        unlink(toDelete, recursive = TRUE, force = TRUE)
+      }
+      packageStartupMessage('Finished. OMERO Java libraries saved in ', omeroLibs)
+    } else {
+      packageStartupMessage('Skipped. Note: romero.gateway will not work without the OMERO Java libraries.')
+      return()
     }
   }
   
