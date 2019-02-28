@@ -14,7 +14,7 @@
 
 \item{t}{The timepoint (default: 1)}
 
-\item{mask}{The mask as binary array}
+\item{binmask}{The mask as binary array}
 }
 \description{
 Add a Mask ROI to an Image

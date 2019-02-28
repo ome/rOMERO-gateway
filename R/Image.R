@@ -120,7 +120,7 @@ setGeneric(
 #' @param image The image
 #' @param z The Z plane (default: 1)
 #' @param t The timepoint (default: 1)
-#' @param mask The mask as binary array
+#' @param binmask The mask as binary array
 #' @export addMask
 #' @exportMethod addMask
 #' @examples
@@ -449,7 +449,7 @@ setMethod(
 #' @param image The image
 #' @param z The Z plane (default: 1)
 #' @param t The timepoint (default: 1)
-#' @param mask The mask as binary array
+#' @param binmask The mask as binary array
 #' @export addMask
 #' @exportMethod addMask
 setMethod(
