@@ -1,3 +1,10 @@
+0.4.5 (May 2019)
+----------------
+
+- improved the download process for the OMERO
+  Java libraries
+- disabled staged install for R 3.6 compatibility
+
 0.4.4 (January 2019)
 --------------------
 
