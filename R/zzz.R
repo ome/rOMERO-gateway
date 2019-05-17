@@ -15,7 +15,7 @@
     dir.create(omeroLibs, recursive = TRUE)
   }
   
-  if (!file.exists(paste(omeroLibs, 'blitz.jar', sep = '/'))) {
+  if (!file.exists(paste(omeroLibs, 'omero-gateway.jar', sep = '/'))) {
     # OMERO java libraries haven't been downloaded yet.
     baseURL <- paste('https://downloads.openmicroscopy.org/latest/omero', omeroVersion, sep = '')
     zipFile <- 'OMERO.java.zip'
