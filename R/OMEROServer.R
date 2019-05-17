@@ -52,6 +52,8 @@ OMEROServer <- setClass(
 #' @param server The server
 #' @param group The group context (group name)
 #'              (optional, default: user's default group)
+#' @param versioncheck Pass FALSE to deactivate the client/server version
+#'                     compatibility check (optional, default: TRUE)
 #' @return The server in "connected" state (if successful)
 #' @export connect
 #' @exportMethod connect
@@ -60,7 +62,7 @@ OMEROServer <- setClass(
 #' server_connected <- connect(server)
 #' }
 setGeneric(name="connect",
-           def=function(server, group=NA)
+           def=function(server, group=NA, versioncheck=TRUE)
            {
              standardGeneric("connect")
            }
@@ -320,7 +322,7 @@ setGeneric(name="getDatasets",
 #' @exportMethod connect
 setMethod(f="connect",
           signature="OMEROServer",
-          definition=function(server, group)
+          definition=function(server, group, versioncheck)
           {
             log <- new(SimpleLogger)
             gateway <- new (Gateway, log)
@@ -344,7 +346,9 @@ setMethod(f="connect",
             
             lc <- new(LoginCredentials, username, password, hostname, as.integer(portnumber))
             lc$setApplicationName("rOMERO")
-            
+            if (!versioncheck) {
+              .jcall(lc, returnSig = "V", method = 'setCheckVersion', FALSE)
+            }
             user <- gateway$connect(lc)
             
             server@gateway <- gateway
