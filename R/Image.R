@@ -445,7 +445,8 @@ setMethod(
   }
 )
 
-#' Add a Mask ROI to an Image
+#' Add Mask ROIs to an Image. Expects a binary
+#' mask array binmask covering the whole image.
 #' @param image The image
 #' @param z The Z plane (default: 1)
 #' @param t The timepoint (default: 1)
