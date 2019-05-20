@@ -5,7 +5,8 @@
 \alias{connect,OMEROServer-method}
 \title{Connect to an OMERO server}
 \usage{
-\S4method{connect}{OMEROServer}(server, group = NA)
+\S4method{connect}{OMEROServer}(server, group = NA,
+  versioncheck = TRUE)
 }
 \arguments{
 \item{server}{The server}

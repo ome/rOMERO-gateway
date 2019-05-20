@@ -4,13 +4,16 @@
 \alias{connect}
 \title{Connect to an OMERO server}
 \usage{
-connect(server, group = NA)
+connect(server, group = NA, versioncheck = TRUE)
 }
 \arguments{
 \item{server}{The server}
 
 \item{group}{The group context (group name)
 (optional, default: user's default group)}
+
+\item{versioncheck}{Pass FALSE to deactivate the client/server version
+compatibility check (optional, default: TRUE)}
 }
 \value{
 The server in "connected" state (if successful)

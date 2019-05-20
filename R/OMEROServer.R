@@ -347,7 +347,11 @@ setMethod(f="connect",
             lc <- new(LoginCredentials, username, password, hostname, as.integer(portnumber))
             lc$setApplicationName("rOMERO")
             if (!versioncheck) {
-              .jcall(lc, returnSig = "V", method = 'setCheckVersion', FALSE)
+              tryCatch({
+                .jcall(lc, returnSig = "V", method = 'setCheckVersion', FALSE)
+              }, error = function(e) {
+                warning('Ignoring argument versioncheck. Disabling version check needs OMERO >= 5.5.0.')
+              })
             }
             user <- gateway$connect(lc)
             
