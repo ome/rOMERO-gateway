@@ -350,7 +350,7 @@ setMethod(f="connect",
               tryCatch({
                 .jcall(lc, returnSig = "V", method = 'setCheckVersion', FALSE)
               }, error = function(e) {
-                warning('Ignoring argument versioncheck. Disabling version check needs OMERO >= 5.5.0.')
+                message('Ignoring argument versioncheck. Disabling version check needs OMERO >= 5.5.0.')
               })
             }
             user <- gateway$connect(lc)
