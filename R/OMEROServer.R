@@ -317,6 +317,8 @@ setGeneric(name="getDatasets",
 #' @param server The server
 #' @param group The group context (group name)
 #'              (optional, default: user's default group)
+#' @param versioncheck Pass FALSE to deactivate the client/server version
+#'                     compatibility check (optional, default: TRUE)
 #' @return The server in "connected" state (if successful)
 #' @export connect
 #' @exportMethod connect
