@@ -23,8 +23,10 @@ USER $NB_UID
 # build/install rOMERO
 ENV _JAVA_OPTIONS="-Xss2560k -Xmx2g"
 RUN cd /opt/romero && \
-    curl -sf https://raw.githubusercontent.com/ome/rOMERO-gateway/master/install.R --output install.R && \
-    bash -c "source activate r-omero && Rscript install.R --version=ROMERO_VERSION --user=$ROMERO_BRANCH_USER --branch=$ROMERO_BRANCH --quiet"
+    curl -sf https://raw.githubusercontent.com/ome/rOMERO-gateway/master/install.R --output install.R
+RUN if [ -z ${ROMERO_VERSION} ]; then \
+    bash -c "source activate r-omero && Rscript /opt/romero/install.R --user=$ROMERO_BRANCH_USER --branch=$ROMERO_BRANCH --quiet"; else \
+    bash -c "source activate r-omero && Rscript /opt/romero/install.R --version=$ROMERO_VERSION --quiet"; fi
 
 ENV OMERO_LIBS_DOWNLOAD=TRUE
 RUN bash -c "source activate r-omero && echo \"library('romero.gateway')\" | R --no-save"
