@@ -5,6 +5,7 @@ MAINTAINER ome-devel@lists.openmicroscopy.org.uk
 ARG ROMERO_VERSION=
 ARG ROMERO_BRANCH_USER=ome
 ARG ROMERO_BRANCH=master
+ARG INSTALL_SCRIPT_URL=https://raw.githubusercontent.com/ome/rOMERO-gateway/master/install.R
 
 # R-kernel and R-OMERO prerequisites
 ADD environment-r-omero.yml .setup/
@@ -23,7 +24,7 @@ USER $NB_UID
 # build/install rOMERO
 ENV _JAVA_OPTIONS="-Xss2560k -Xmx2g"
 RUN cd /opt/romero && \
-    curl -sf https://raw.githubusercontent.com/ome/rOMERO-gateway/master/install.R --output install.R
+    curl -sf $INSTALL_SCRIPT_URL --output install.R
 RUN if [ -z ${ROMERO_VERSION} ]; then \
     bash -c "source activate r-omero && Rscript /opt/romero/install.R --user=$ROMERO_BRANCH_USER --branch=$ROMERO_BRANCH --quiet"; else \
     bash -c "source activate r-omero && Rscript /opt/romero/install.R --version=$ROMERO_VERSION --quiet"; fi
