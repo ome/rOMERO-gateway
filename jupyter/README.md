@@ -15,7 +15,8 @@ Run the docker image:
 docker run -it -p 8888:8888 romero
 ```
 
-Go to the respective URL in your browser and create a new "OMERO R" notebook!
+Go to the respective URL in your browser and open the `Get_Started` notebook in `notebooks`,
+or create a new 'OMERO R' notebook from scratch!
 
 Notes:
 - If you want to build a specific version or branch use:

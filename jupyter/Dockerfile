@@ -31,3 +31,6 @@ RUN if [ -z ${ROMERO_VERSION} ]; then \
 
 ENV OMERO_LIBS_DOWNLOAD=TRUE
 RUN bash -c "source activate r-omero && echo \"library('romero.gateway')\" | R --no-save"
+
+COPY --chown=1000:100 Get_Started.ipynb notebooks/
+
