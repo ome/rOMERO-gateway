@@ -1,3 +1,5 @@
+# Install some common, useful R packages. These are
+# not all strictly necessary for romero.gateway.
 channels:
 - bioconda
 - conda-forge
