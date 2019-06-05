@@ -1,0 +1,25 @@
+# Install some common, useful R packages. These are
+# not all strictly necessary for romero.gateway.
+channels:
+- bioconda
+- conda-forge
+- defaults
+dependencies:
+- bioconductor-ebimage
+- openjdk=8.0.*
+- r-assertthat
+- r-base=3.5.*
+- r-devtools
+- r-git2r
+- r-httr
+- r-irdisplay
+- r-irkernel
+- r-jpeg
+- r-repr
+- r-rjava
+- r-roxygen2
+- r-testthat
+- r-tidyverse
+- r-xml2
+- r-getpass
+prefix: /opt/conda/envs/r-omero
