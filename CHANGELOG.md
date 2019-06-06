@@ -1,3 +1,9 @@
+0.4.6 (June 2019)
+-----------------
+- fixed bug in Image.getPixelValues() method which returned
+  distorted array of pixel values for images with non-square
+  dimensions
+
 0.4.5 (May 2019)
 ----------------
 
