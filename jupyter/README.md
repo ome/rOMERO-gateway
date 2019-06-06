@@ -21,8 +21,8 @@ or create a new 'OMERO R' notebook from scratch!
 Notes:
 - If you want to build a specific version or branch use:
   ```
-  docker build --build-arg ROMERO_VERSION=0.4.5 .
-  docker build --build-arg ROMERO_BRANCH_USER=ome --build-arg ROMERO_BRANCH=master .
+  docker build -t romero --build-arg ROMERO_VERSION=0.4.5 .
+  docker build -t romero --build-arg ROMERO_BRANCH_USER=ome --build-arg ROMERO_BRANCH=master .
   ```
 - The Dockerfile uses the  [install.R](../install.R) script from the master branch.
   You can specify a different script with the `INSTALL_SCRIPT_URL` parameter.

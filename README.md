@@ -50,7 +50,7 @@ See [Tips for Unix users](#tips-for-unix-users) section if you are running into 
 
 With [Docker](https://www.docker.com/) and [Jupyter](https://jupyter.org/) there is a quick and easy way to
 get an R OMERO enviroment set up and running in your browser. Ideal to quickly try out some snippets. Go to
-(jupyter)[jupyter] directory and see the instructions there.
+[jupyter](jupyter) directory and see the instructions there.
 
 ## Usage
 
