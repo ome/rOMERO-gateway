@@ -1,3 +1,12 @@
+0.4.6 (June 2019)
+-----------------
+- fixed bug in Image.getPixelValues() method which returned
+  distorted array of pixel values for images with non-square
+  dimensions (PR #66)
+- added a Dockerfile to the repository to spin up a Jupyter server 
+  with R kernel and romero.gateway to make it easier to test R/OMERO
+  code snippets, see 'jupyter' directory (PR #68)
+
 0.4.5 (May 2019)
 ----------------
 
