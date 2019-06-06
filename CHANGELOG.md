@@ -2,7 +2,7 @@
 -----------------
 - fixed bug in Image.getPixelValues() method which returned
   distorted array of pixel values for images with non-square
-  dimensions
+  dimensions (PR #66)
 
 0.4.5 (May 2019)
 ----------------
