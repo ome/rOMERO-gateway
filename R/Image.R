@@ -474,7 +474,7 @@ setMethod(
     w <- dim(binmask)[1]
     binmask <- t(binmask)
     binmaskVector <- as.vector(binmask)
-    jarray <- .jarray(binmask,"[I")
+    jarray <- .jarray(binmaskVector,"[I")
     util <- J("omero/gateway/util/Mask")
     masks <- util$createCroppedMasks(jarray, w)
     
