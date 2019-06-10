@@ -5,7 +5,7 @@ Date: 2019-06-06
 Title: OMERO R Gateway
 Description: R Wrapper around the OMERO Java Gateway, which
   enables access to an OMERO server within R.
-  Supported OMERO version: 5.4 .
+  Supported OMERO version: 5.5 .
 Maintainer: Dominik Lindner <d.lindner@dundee.ac.uk>
 Authors@R: c(person("Dominik", "Lindner", role = c("aut", "cre", "ctb"),
                  email = "d.lindner@dundee.ac.uk"),
