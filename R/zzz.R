@@ -124,4 +124,7 @@
   env$EllipseData <- J("omero.gateway.model.EllipseData")
   env$RectangleData <- J("omero.gateway.model.RectangleData")
   env$AffineTransform <- J("omero.model.AffineTransformI")
+  
+  msg <- paste("\n*** Welcome to rOMERO ", romeroVersion, " ***\n", sep="")
+  packageStartupMessage(msg)
 }
