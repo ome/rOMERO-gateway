@@ -4,7 +4,7 @@
 \alias{connect}
 \title{Connect to an OMERO server}
 \usage{
-connect(server, group = NA, versioncheck = TRUE)
+connect(server, group = NA, versioncheck = FALSE)
 }
 \arguments{
 \item{server}{The server}

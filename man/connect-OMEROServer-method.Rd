@@ -6,7 +6,7 @@
 \title{Connect to an OMERO server}
 \usage{
 \S4method{connect}{OMEROServer}(server, group = NA,
-  versioncheck = TRUE)
+  versioncheck = FALSE)
 }
 \arguments{
 \item{server}{The server}
@@ -14,8 +14,8 @@
 \item{group}{The group context (group name)
 (optional, default: user's default group)}
 
-\item{versioncheck}{Pass FALSE to deactivate the client/server version
-compatibility check (optional, default: TRUE)}
+\item{versioncheck}{Pass TRUE to deactivate the client/server version
+compatibility check (optional, default: FALSE)}
 }
 \value{
 The server in "connected" state (if successful)

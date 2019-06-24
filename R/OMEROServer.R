@@ -62,7 +62,7 @@ OMEROServer <- setClass(
 #' server_connected <- connect(server)
 #' }
 setGeneric(name="connect",
-           def=function(server, group=NA, versioncheck=TRUE)
+           def=function(server, group=NA, versioncheck=FALSE)
            {
              standardGeneric("connect")
            }
@@ -317,8 +317,8 @@ setGeneric(name="getDatasets",
 #' @param server The server
 #' @param group The group context (group name)
 #'              (optional, default: user's default group)
-#' @param versioncheck Pass FALSE to deactivate the client/server version
-#'                     compatibility check (optional, default: TRUE)
+#' @param versioncheck Pass TRUE to deactivate the client/server version
+#'                     compatibility check (optional, default: FALSE)
 #' @return The server in "connected" state (if successful)
 #' @export connect
 #' @exportMethod connect
