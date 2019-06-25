@@ -1,3 +1,6 @@
+env:
+  - OMERO_SERVER_VERSION=5.5
+
 sudo: required
 
 language: python
