@@ -37,6 +37,8 @@ In RStudio "Install Packages" use option "Install from:" "Package Archive File" 
 
 Alternatively: In R console run `install.packages("https://github.com/ome/rOMERO-gateway/releases/download/vx.x.x/romero.gateway_x.x.x.zip", repos = NULL)`
 
+See [Tips for Windows users](#tips-for-windows-users) section if you are running into difficulties.
+
 ### Unix / OSX
 
 Download the tar.gz package.
@@ -112,4 +114,17 @@ and `libxml2-dev` first.
 If you can't install an R package due to compile errors, most likely you are missing a development 
 package of some dependent library on your system.
 
+## Tips for Windows users
+
+### Installing rJava
+
+You need to have a Java SDK installed. Latest version which is supported is 11.
+Download for example the Adopt OpenJDK 11 from https://adoptopenjdk.net/ 
+
+Make sure that the java executable is on your `Path` and `JAVA_HOME` is set,
+see 'Environment Variables' settings:
+![Environment Variables](screenshot.png)
+
+Then install `rJava` as well as the additional dependencies for the R gateway
+`httr` and `jpeg` from CRAN. Finally install the `romero-gateway` from the zip file.
 
