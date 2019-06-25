@@ -1,7 +1,7 @@
 0.4.7 (June 2019)
 -----------------
-- update to OMERO 5.5
-- preserve backward compatibility to OMERO 5.4
+- updated to OMERO 5.5
+- preserved backward compatibility to OMERO 5.4
 
 0.4.6 (June 2019)
 -----------------
