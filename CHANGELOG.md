@@ -1,3 +1,8 @@
+0.4.7 (June 2019)
+-----------------
+- updated to OMERO 5.5
+- preserved backward compatibility to OMERO 5.4
+
 0.4.6 (June 2019)
 -----------------
 - fixed bug in Image.getPixelValues() method which returned

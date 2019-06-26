@@ -6,6 +6,7 @@
 ^jupyter$
 ^pom.xml$
 ^README.md$
+^screenshot.png
 ^\.travis.yml$
 ^\.omeroci$
 ^tests$
