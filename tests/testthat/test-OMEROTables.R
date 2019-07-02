@@ -49,4 +49,13 @@ test_that("Test OMERO deleteFile",{
   expect_that(nrow(available), equals(0))
 })
 
+test_that("Test OMERO attachDataframe with namespace",{
+  image <- attachDataframe(image, iris, name='Iris dataset', ns="blup")
+  dfs <- availableDataframes(image)
+  expect_that(nrow(dfs), equals(1))
+  fid <- dfs$AnnotationID[1]
+  fa <- loadObject(server, "omero.gateway.model.FileAnnotationData", fid)
+  expect_that(fa@dataobject$getNameSpace, equals("blup"))
+})
+
 disconnect(server)

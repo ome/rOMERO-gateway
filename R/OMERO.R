@@ -107,16 +107,17 @@ setGeneric(
 #' @param omero The OME object
 #' @param df The dataframe
 #' @param name An optional name
+#' @param ns An optional namespace
 #' @return The OME object
 #' @export attachDataframe
 #' @exportMethod attachDataframe
 #' @examples
 #' \dontrun{
-#' attachDataframe(project, df, name="Some data")
+#' attachDataframe(project, df, name="Results", ns="openmicroscopy.org/omero/bulk_annotations")
 #' }
 setGeneric(
   name = "attachDataframe",
-  def = function(omero, df, name="R Dataframe")
+  def = function(omero, df, name="R Dataframe", ns=NA)
   {
     standardGeneric("attachDataframe")
   }
@@ -340,13 +341,14 @@ setMethod(
 #' @param omero The OME object
 #' @param df The dataframe
 #' @param name An optional name
+#' @param ns An optional namespace
 #' @return The OME object
 #' @export attachDataframe
 #' @exportMethod attachDataframe
 setMethod(
   f = "attachDataframe",
   signature = "OMERO",
-  definition = function(omero, df, name)
+  definition = function(omero, df, name, ns)
   {
    if(!is.data.frame(df)) {
      return(FALSE)
@@ -403,6 +405,14 @@ setMethod(
     fac <- gateway$getFacility(TablesFacility$class)
     
     tabledata <- fac$addTable(ctx, omero@dataobject, name, table)
+    
+    if (!is.na(ns)) {
+      fid <- tabledata$getOriginalFileId()
+      fa <- loadObject(server, "omero.gateway.model.FileAnnotationData", fid)
+      fa@dataobject$setNameSpace(ns)
+      dm <- gateway$getFacility(DataManagerFacility$class)
+      fa@dataobject <- dm$saveAndReturnObject(ctx, fa@dataobject)
+    }
     
     return(omero)
   }
