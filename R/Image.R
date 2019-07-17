@@ -99,8 +99,9 @@ setGeneric(
 #' theta: Rotation about theta
 #' text: An optional comment
 #' @param image The image
-#' @param z The Z plane (default: 1)
-#' @param t The timepoint (default: 1)
+#' @param c The channel (default:0 (all))
+#' @param z The Z plane (default: 0 (all))
+#' @param t The timepoint (default: 0 (all))
 #' @param coords The coordinates as dataframe (x, y, rx, ry, w, h, theta, text)
 #' @export addROIs
 #' @exportMethod addROIs
@@ -110,7 +111,7 @@ setGeneric(
 #' }
 setGeneric(
   name = "addROIs",
-  def = function(image, z = 1, t = 1, coords)
+  def = function(image, c = 0, z = 0, t = 0, coords)
   {
     standardGeneric("addROIs")
   }
@@ -118,8 +119,9 @@ setGeneric(
 
 #' Add a Mask ROI to an Image
 #' @param image The image
-#' @param z The Z plane (default: 1)
-#' @param t The timepoint (default: 1)
+#' @param c The channel (default:0 (all))
+#' @param z The Z plane (default: 0 (all))
+#' @param t The timepoint (default: 0 (all))
 #' @param binmask The mask as binary array
 #' @export addMask
 #' @exportMethod addMask
@@ -129,7 +131,7 @@ setGeneric(
 #' }
 setGeneric(
   name = "addMask",
-  def = function(image, z = 1, t = 1, binmask)
+  def = function(image, c = 0, z = 0, t = 0, binmask)
   {
     standardGeneric("addMask")
   }
@@ -338,15 +340,16 @@ setMethod(
 #' theta: Rotation about theta
 #' text: An optional comment
 #' @param image The image
-#' @param z The Z plane (default: 1)
-#' @param t The timepoint (default: 1)
+#' @param c The channel (default: 0 (all))
+#' @param z The Z plane (default: 0 (all))
+#' @param t The timepoint (default: 0 (all))
 #' @param coords The coordinates as dataframe (x, y, rx, ry, w, h, theta, text)
 #' @export addROIs
 #' @exportMethod addROIs
 setMethod(
   f = "addROIs",
   signature = "Image",
-  definition = function(image, z = 1, t = 1, coords)
+  definition = function(image, c = 0, z = 0, t = 0, coords)
   {
     server <- image@server
     obj <- image@dataobject
@@ -357,6 +360,7 @@ setMethod(
     iid <- obj$getId()
     iid <- .jlong(iid)
     
+    c <- as.integer(c - 1)
     z <- as.integer(z - 1)
     t <- as.integer(t - 1)
     
@@ -432,8 +436,12 @@ setMethod(
       if (!is.na(text)) 
         shape$setText(text)
       
-      shape$setZ(z)
-      shape$setT(t)
+      if (c > -1)
+        shape$setC(c)
+      if (z > -1)
+        shape$setZ(z)
+      if (t > -1)
+        shape$setT(t)
       
       roi <- .jnew(class = "omero.gateway.model.ROIData")
       roi$setImage(obj$asImage())
@@ -448,15 +456,16 @@ setMethod(
 #' Add Mask ROIs to an Image. Expects a binary
 #' mask array binmask covering the whole image.
 #' @param image The image
-#' @param z The Z plane (default: 1)
-#' @param t The timepoint (default: 1)
+#' @param c The channel (default:0 (all))
+#' @param z The Z plane (default: 0 (all))
+#' @param t The timepoint (default: 0 (all))
 #' @param binmask The mask as binary array
 #' @export addMask
 #' @exportMethod addMask
 setMethod(
   f = "addMask",
   signature = "Image",
-  definition = function(image, z = 1, t = 1, binmask)
+  definition = function(image, c = 0, z = 0, t = 0, binmask)
   {
     server <- image@server
     obj <- image@dataobject
@@ -467,22 +476,29 @@ setMethod(
     iid <- obj$getId()
     iid <- .jlong(iid)
     
+    c <- as.integer(c - 1)
     z <- as.integer(z - 1)
     t <- as.integer(t - 1)
-    
     
     w <- dim(binmask)[1]
     binmask <- t(binmask)
     binmaskVector <- as.vector(binmask)
+    binmaskVector <- as.integer(binmaskVector)
     jarray <- .jarray(binmaskVector,"[I")
     util <- J("omero/gateway/util/Mask")
-    masks <- util$createCroppedMasks(jarray, w)
+    masks <- util$createCroppedMasks(jarray, as.integer(w))
     
     rois <- new(ArrayList)
     
     it <- masks$iterator()
     while (it$hasNext()) {
       shape <- .jrcall(it, method = "next")
+      if (c > -1)
+        shape$setC(c)
+      if (z > -1)
+        shape$setZ(z)
+      if (t > -1)
+        shape$setT(t)
       roi <- .jnew(class = "omero.gateway.model.ROIData")
       roi$setImage(obj$asImage())
       roi$addShapeData(shape)

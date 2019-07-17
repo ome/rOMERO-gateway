@@ -9,14 +9,16 @@ x, y, w, h -> Rectangle
 theta: Rotation about theta
 text: An optional comment}
 \usage{
-addROIs(image, z = 1, t = 1, coords)
+addROIs(image, c = 0, z = 0, t = 0, coords)
 }
 \arguments{
 \item{image}{The image}
 
-\item{z}{The Z plane (default: 1)}
+\item{c}{The channel (default:0 (all))}
 
-\item{t}{The timepoint (default: 1)}
+\item{z}{The Z plane (default: 0 (all))}
+
+\item{t}{The timepoint (default: 0 (all))}
 
 \item{coords}{The coordinates as dataframe (x, y, rx, ry, w, h, theta, text)}
 }
