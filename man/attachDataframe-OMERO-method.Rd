@@ -5,7 +5,8 @@
 \alias{attachDataframe,OMERO-method}
 \title{Attaches a dataframe to an OME object}
 \usage{
-\S4method{attachDataframe}{OMERO}(omero, df, name = "R Dataframe")
+\S4method{attachDataframe}{OMERO}(omero, df, name = "R Dataframe",
+  ns = NA)
 }
 \arguments{
 \item{omero}{The OME object}
@@ -13,6 +14,8 @@
 \item{df}{The dataframe}
 
 \item{name}{An optional name}
+
+\item{ns}{An optional namespace for the file annotation}
 }
 \value{
 The OME object

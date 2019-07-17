@@ -4,7 +4,7 @@
 \alias{attachDataframe}
 \title{Attaches a dataframe to an OME object}
 \usage{
-attachDataframe(omero, df, name = "R Dataframe")
+attachDataframe(omero, df, name = "R Dataframe", ns = NA)
 }
 \arguments{
 \item{omero}{The OME object}
@@ -12,6 +12,8 @@ attachDataframe(omero, df, name = "R Dataframe")
 \item{df}{The dataframe}
 
 \item{name}{An optional name}
+
+\item{ns}{An optional namespace for the file annotation}
 }
 \value{
 The OME object
