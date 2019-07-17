@@ -3,19 +3,23 @@
 \docType{methods}
 \name{addMask,Image-method}
 \alias{addMask,Image-method}
-\title{Add a Mask ROI to an Image}
+\title{Add Mask ROIs to an Image. Expects a binary
+mask array binmask covering the whole image.}
 \usage{
-\S4method{addMask}{Image}(image, z = 1, t = 1, binmask)
+\S4method{addMask}{Image}(image, c = 0, z = 0, t = 0, binmask)
 }
 \arguments{
 \item{image}{The image}
 
-\item{z}{The Z plane (default: 1)}
+\item{c}{The channel (default:0 (all))}
 
-\item{t}{The timepoint (default: 1)}
+\item{z}{The Z plane (default: 0 (all))}
+
+\item{t}{The timepoint (default: 0 (all))}
 
 \item{binmask}{The mask as binary array}
 }
 \description{
-Add a Mask ROI to an Image
+Add Mask ROIs to an Image. Expects a binary
+mask array binmask covering the whole image.
 }

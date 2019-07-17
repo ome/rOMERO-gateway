@@ -4,14 +4,16 @@
 \alias{addMask}
 \title{Add a Mask ROI to an Image}
 \usage{
-addMask(image, z = 1, t = 1, binmask)
+addMask(image, c = 0, z = 0, t = 0, binmask)
 }
 \arguments{
 \item{image}{The image}
 
-\item{z}{The Z plane (default: 1)}
+\item{c}{The channel (default:0 (all))}
 
-\item{t}{The timepoint (default: 1)}
+\item{z}{The Z plane (default: 0 (all))}
+
+\item{t}{The timepoint (default: 0 (all))}
 
 \item{binmask}{The mask as binary array}
 }
