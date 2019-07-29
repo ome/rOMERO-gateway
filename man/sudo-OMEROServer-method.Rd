@@ -12,7 +12,7 @@
 
 \item{username}{The user to sudo as (use NA to disable the sudo context again)}
 
-\item{group}{The name of the group to work in}
+\item{groupname}{The name of the group to work in}
 }
 \value{
 The server

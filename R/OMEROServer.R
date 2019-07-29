@@ -109,8 +109,8 @@ setGeneric(name="setGroupContext",
 #' Sudo (act as another user)
 #' 
 #' @param server The server
-#' @param username The user to sudo as
-#' @param group The name of the group to work in
+#' @param username The user to sudo as (use NA to disable the sudo context again)
+#' @param groupname The name of the group to work in
 #' @return The server
 #' @export sudo
 #' @exportMethod sudo
@@ -442,7 +442,7 @@ setMethod(f="setGroupContext",
 #' 
 #' @param server The server
 #' @param username The user to sudo as (use NA to disable the sudo context again)
-#' @param group The name of the group to work in
+#' @param groupname The name of the group to work in
 #' @return The server
 #' @export sudo
 #' @exportMethod sudo
