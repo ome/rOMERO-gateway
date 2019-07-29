@@ -88,6 +88,7 @@
   env$LoginCredentials <- J("omero.gateway.LoginCredentials")
   env$SecurityContext <- J("omero.gateway.SecurityContext")
   env$Gateway <- J("omero.gateway.Gateway")
+  env$AdminFacility <- J("omero.gateway.facility.AdminFacility")
   env$BrowseFacility <- J("omero.gateway.facility.BrowseFacility")
   env$ROIFacility <- J("omero.gateway.facility.ROIFacility")
   env$MetadataFacility <- J("omero.gateway.facility.MetadataFacility")

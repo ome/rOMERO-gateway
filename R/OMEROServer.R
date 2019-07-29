@@ -11,6 +11,7 @@ setClassUnion("jclassOrNULL", c("jobjRef", "NULL"))
 #' @slot gateway Reference to the Gateway
 #' @slot user The logged in user
 #' @slot ctx The current SecurityContext
+#' @slot sudoCtx Optional Sudo SecurityContext
 #' @export OMEROServer
 #' @exportClass OMEROServer
 #' @import rJava
@@ -31,7 +32,8 @@ OMEROServer <- setClass(
     credentialsFile = "character",
     gateway = "jclassOrNULL",
     user = "jclassOrNULL",
-    ctx = "jclassOrNULL"
+    ctx = "jclassOrNULL",
+    sudoCtx = "jclassOrNULL"
   ),
   
   prototype = list(
@@ -42,7 +44,8 @@ OMEROServer <- setClass(
     credentialsFile = character(0),
     gateway = NULL,
     user = NULL,
-    ctx = NULL
+    ctx = NULL,
+    sudoCtx = NULL
   )
   
 )
@@ -100,6 +103,25 @@ setGeneric(name="setGroupContext",
            def=function(server, group)
            {
              standardGeneric("setGroupContext")
+           }
+)
+
+#' Sudo (act as another user)
+#' 
+#' @param server The server
+#' @param username The user to sudo as
+#' @param group The name of the group to work in
+#' @return The server
+#' @export sudo
+#' @exportMethod sudo
+#' @examples
+#' \dontrun{
+#' server <- sudo(server, 'johnj', 'lab_2')
+#' }
+setGeneric(name="sudo",
+           def=function(server, username, groupname=NA)
+           {
+             standardGeneric("sudo")
            }
 )
 
@@ -416,6 +438,56 @@ setMethod(f="setGroupContext",
            }
 )
 
+#' Sudo (act as another user)
+#' 
+#' @param server The server
+#' @param username The user to sudo as (use NA to disable the sudo context again)
+#' @param group The name of the group to work in
+#' @return The server
+#' @export sudo
+#' @exportMethod sudo
+#' @examples
+#' \dontrun{
+#' server <- sudo(server, 'johnj', 'lab_2')
+#' }
+setMethod(f="sudo",
+          signature="OMEROServer",
+          definition=function(server, username, groupname=NA)
+          {
+            gateway <- getGateway(server)
+            ctx <- getContext(server)
+            if (is.na(username)) {
+              server@sudoCtx <- NULL
+              return(invisible(server))
+            }
+            admin <- gateway$getFacility(AdminFacility$class)
+            sudoUser <- admin$lookupExperimenter(ctx, as.character(username))
+            if (sudoUser == .jnull(class = "omero/gateway/model/ExperimenterData")) {
+              warning(paste("User", username, "not found"))
+              return(invisible(server)) 
+            }
+            if (is.na(groupname)) {
+              grpId <- ctx$getGroupID()
+            }
+            else {
+              grp <- admin$lookupGroup(ctx, as.character(groupname));
+              if (grp == .jnull(class = "omero/gateway/model/GroupData")) {
+                warning(paste("Group", groupname, "not found"))
+                return(invisible(server)) 
+              }
+              grpId <- grp$getId()
+            }
+            
+            newCtx <- new (SecurityContext, .jlong(grpId))
+            newCtx$setExperimenter(sudoUser)
+            newCtx$sudo()
+            
+            server@sudoCtx <- newCtx
+            
+            return(invisible(server))
+          }
+)
+
 #' Get the current group context
 #' 
 #' @param server The server
@@ -460,7 +532,10 @@ setMethod(f="getContext",
           signature="OMEROServer",
           definition=function(server)
           {
-            return(server@ctx)
+            if (!is.null(server@sudoCtx))
+              return (server@sudoCtx)
+            else
+              return(server@ctx)
           }
 )
 
