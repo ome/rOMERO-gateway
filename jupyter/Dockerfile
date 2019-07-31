@@ -1,4 +1,4 @@
-FROM imagedata/jupyter-docker:0.9.0
+FROM jupyter/base-notebook:latest
 MAINTAINER ome-devel@lists.openmicroscopy.org.uk
 
 # The branch to build the romero.gateway from
@@ -7,19 +7,26 @@ ARG ROMERO_BRANCH_USER=ome
 ARG ROMERO_BRANCH=master
 ARG INSTALL_SCRIPT_URL=https://raw.githubusercontent.com/ome/rOMERO-gateway/master/install.R
 
+USER root
+RUN apt-get update -y && \
+    apt-get install -y -q \
+        build-essential \
+        curl \
+        git \
+        libxrender1 \
+        libsm6
+RUN mkdir /opt/romero /opt/omero && \
+    fix-permissions /opt/romero /opt/omero
+USER $NB_UID
+
+# Autoupdate notebooks https://github.com/data-8/nbgitpuller
+RUN pip install git+https://github.com/data-8/gitautosync && \
+    jupyter serverextension enable --py nbgitpuller
+
 # R-kernel and R-OMERO prerequisites
 ADD environment-r-omero.yml .setup/
 RUN conda env update -n r-omero -q -f .setup/environment-r-omero.yml && \
     /opt/conda/envs/r-omero/bin/Rscript -e "IRkernel::installspec(displayname='OMERO R')"
-
-USER root
-RUN mkdir /opt/romero /opt/omero && \
-    fix-permissions /opt/romero /opt/omero
-# R requires these two packages at runtime
-RUN apt-get install -y -q \
-    libxrender1 \
-    libsm6
-USER $NB_UID
 
 # build/install rOMERO
 ENV _JAVA_OPTIONS="-Xss2560k -Xmx2g"
@@ -33,4 +40,6 @@ ENV OMERO_LIBS_DOWNLOAD=TRUE
 RUN bash -c "source activate r-omero && echo \"library('romero.gateway')\" | R --no-save"
 
 COPY --chown=1000:100 Get_Started.ipynb notebooks/
+
+CMD ["start-notebook.sh"]
 
