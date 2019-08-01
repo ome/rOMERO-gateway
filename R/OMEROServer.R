@@ -109,8 +109,9 @@ setGeneric(name="setGroupContext",
 #' Sudo (act as another user)
 #' 
 #' @param server The server
-#' @param username The user to sudo as (use NA to disable the sudo context again)
-#' @param groupname The name of the group to work in
+#' @param username The user to sudo as (use NA to disable the sudo mode again)
+#' @param groupname The name of the group to work in (optional, default: sudo user's
+#'                  default group)
 #' @return The server
 #' @export sudo
 #' @exportMethod sudo
@@ -174,6 +175,26 @@ setGeneric(name="getContext",
            def=function(server)
            {
              standardGeneric("getContext")
+           }
+)
+
+#' Get the current user. This is either the
+#' logged in user or the 'sudo' user if in 
+#' 'sudo' mode.
+#' 
+#' @param server The server
+#' @return The current user 
+#' @export getUser
+#' @exportMethod getUser
+#' @examples
+#' \dontrun{
+#' user <- getUser(server)
+#' message(paste(user$getUserName(), "is logged in"))
+#' }
+setGeneric(name="getUser",
+           def=function(server)
+           {
+             standardGeneric("getUser")
            }
 )
 
@@ -427,9 +448,17 @@ setMethod(f="setGroupContext",
           signature="OMEROServer",
           definition=function(server, group)
            {
-             for (g in as.list(server@user$getGroups())) {
+            user <- getUser(server)
+             for (g in as.list(user$getGroups())) {
                if (g$getName() == group) {
-                 server@ctx <- new (SecurityContext, .jlong(g$getId()))
+               newCtx <- new (SecurityContext, .jlong(g$getId()))
+                 if(!is.null(server@sudoCtx)) {
+                   newCtx$sudo()
+                   newCtx$setExperimenter(user)
+                   server@sudoCtx <- newCtx
+                 } else {
+                   server@ctx <- newCtx
+                 }
                  return(invisible(server))
                }
              }
@@ -438,11 +467,32 @@ setMethod(f="setGroupContext",
            }
 )
 
+#' Get the current group context
+#' 
+#' @param server The server
+#' @return The name of the group
+#' @export getGroupContext
+#' @exportMethod getGroupContext
+setMethod(f="getGroupContext",
+          signature="OMEROServer",
+          definition=function(server)
+          {
+            for (g in as.list(getUser(server)$getGroups())) {
+              myId <- getContext(server)$getGroupID()
+              if (g$getId() == myId) {
+                return(g$getName())
+              }
+            }
+            return(NA)
+          }
+)
+
 #' Sudo (act as another user)
 #' 
 #' @param server The server
-#' @param username The user to sudo as (use NA to disable the sudo context again)
-#' @param groupname The name of the group to work in
+#' @param username The user to sudo as (use NA to disable the sudo mode again)
+#' @param groupname The name of the group to work in (optional, default: sudo user's
+#'                  default group)
 #' @return The server
 #' @export sudo
 #' @exportMethod sudo
@@ -467,7 +517,7 @@ setMethod(f="sudo",
               return(invisible(server)) 
             }
             if (is.na(groupname)) {
-              grpId <- ctx$getGroupID()
+              grpId <- sudoUser$getGroupId()
             }
             else {
               grp <- admin$lookupGroup(ctx, as.character(groupname));
@@ -487,26 +537,6 @@ setMethod(f="sudo",
             return(invisible(server))
           }
 )
-
-#' Get the current group context
-#' 
-#' @param server The server
-#' @return The name of the group
-#' @export getGroupContext
-#' @exportMethod getGroupContext
-setMethod(f="getGroupContext",
-          signature="OMEROServer",
-          definition=function(server)
-          {
-            for (g in as.list(server@user$getGroups())) {
-              if (g$getId() == server@ctx$getGroupID()) {
-                return(g$getName())
-              }
-            }
-            return(NA)
-          }
-)
-
 
 #' Get the reference to the Java Gatway
 #' 
@@ -536,6 +566,25 @@ setMethod(f="getContext",
               return (server@sudoCtx)
             else
               return(server@ctx)
+          }
+)
+
+#' Get the current user. This is either the
+#' logged in user or the 'sudo' user if in 
+#' 'sudo' mode.
+#' 
+#' @param server The server
+#' @return The current user 
+#' @export getUser
+#' @exportMethod getUser
+setMethod(f="getUser",
+          signature="OMEROServer",
+          definition=function(server)
+          {
+            if (!is.null(server@sudoCtx))
+              return (server@sudoCtx$getExperimenterData())
+            else
+              return(server@user)
           }
 )
 

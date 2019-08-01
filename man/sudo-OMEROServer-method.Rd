@@ -10,9 +10,10 @@
 \arguments{
 \item{server}{The server}
 
-\item{username}{The user to sudo as (use NA to disable the sudo context again)}
+\item{username}{The user to sudo as (use NA to disable the sudo mode again)}
 
-\item{groupname}{The name of the group to work in}
+\item{groupname}{The name of the group to work in (optional, default: sudo user's
+default group)}
 }
 \value{
 The server
