@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:latest
+FROM jupyter/base-notebook:307ad2bb5fce
 MAINTAINER ome-devel@lists.openmicroscopy.org.uk
 
 # The branch to build the romero.gateway from
