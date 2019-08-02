@@ -22,10 +22,8 @@
     zipFile <- 'OMERO.java.zip'
     
     getLibs <- Sys.getenv("OMERO_LIBS_DOWNLOAD", unset = NA)
-    if (!is.na(getLibs) && getLibs != 'merge' && as.logical(getLibs) == TRUE) {
-      acc <- 'y'
-    } else if (!is.na(getLibs) && getLibs == 'merge') {
-      git_info <- GET('https://merge-ci.openmicroscopy.org/jenkins/job/OMERO-build/lastBuild/artifact/src/target/')
+    if (!is.na(getLibs) && startsWith(tolower(getLibs), 'http')) {
+      git_info <- GET(getLibs)
       git_info <- content(git_info, "text")
       ex <- "(OMERO\\.java-\\S+\\.zip)"
       r <- gregexpr(ex, git_info)
@@ -33,8 +31,11 @@
       zipFile <- res[[1]][[2]]
       baseURL <- "https://merge-ci.openmicroscopy.org/jenkins/job/OMERO-build/lastBuild/artifact/src/target"
       acc <- 'y'
-    }else {
-      packageStartupMessage('Have to download OMERO Java libraries ', baseURL, '/', zipFile, '\nProceed? [y/n]')
+    }
+    else if (!is.na(getLibs) && as.logical(getLibs) == TRUE) {
+      acc <- 'y'
+    } else {
+      packageStartupMessage('Have to download OMERO Java libraries from downloads.openmicroscopy.org.\nProceed? [y/n]')
       acc <- readLines(con = stdin(), n=1, ok=TRUE)
     }
     
