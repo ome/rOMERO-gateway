@@ -24,13 +24,21 @@
     getLibs <- Sys.getenv("OMERO_LIBS_DOWNLOAD", unset = NA)
     if (!is.na(getLibs) && startsWith(tolower(getLibs), 'http')) {
       git_info <- GET(getLibs)
-      git_info <- content(git_info, "text")
-      ex <- "(OMERO\\.java-\\S+\\.zip)"
-      r <- gregexpr(ex, git_info)
-      res <- regmatches(git_info, r)
-      zipFile <- res[[1]][[2]]
-      baseURL <- "https://merge-ci.openmicroscopy.org/jenkins/job/OMERO-build/lastBuild/artifact/src/target"
-      acc <- 'y'
+      status <- status_code(git_info)
+      if (status != 200) {
+        packageStartupMessage("Request failed. ", getLibs, " returned ", status)
+        acc <- 'n'
+      } else {
+        git_info <- content(git_info, "text")
+        ex <- "(OMERO\\.java-\\S+\\.zip)"
+        r <- gregexpr(ex, git_info)
+        res <- regmatches(git_info, r)
+        zipFile <- res[[1]][[2]]
+        baseURL <- getLibs
+        if (endsWith(getLibs, '/'))
+          baseURL <- substr(baseURL, 1, nchar(baseURL)-1)
+        acc <- 'y'
+      }
     }
     else if (!is.na(getLibs) && as.logical(getLibs) == TRUE) {
       acc <- 'y'
