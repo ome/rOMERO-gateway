@@ -28,6 +28,8 @@ Provides access to an OMERO server
 \item{\code{user}}{The logged in user}
 
 \item{\code{ctx}}{The current SecurityContext}
+
+\item{\code{sudoCtx}}{Optional Sudo SecurityContext}
 }}
 
 \examples{
