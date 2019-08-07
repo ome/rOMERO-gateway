@@ -23,6 +23,8 @@
     
     getLibs <- Sys.getenv("OMERO_LIBS_DOWNLOAD", unset = NA)
     if (!is.na(getLibs) && startsWith(tolower(getLibs), 'http')) {
+      # Allows using Java libs from merge-ci builds, e.g.
+      # https://merge-ci.openmicroscopy.org/jenkins/job/OMERO-build/lastBuild/
       git_info <- GET(getLibs)
       status <- status_code(git_info)
       if (status != 200) {
@@ -30,13 +32,15 @@
         acc <- 'n'
       } else {
         git_info <- content(git_info, "text")
-        ex <- "(OMERO\\.java-\\S+\\.zip)"
+        ex <- ">(OMERO\\.java-\\S+\\.zip)<"
         r <- gregexpr(ex, git_info)
         res <- regmatches(git_info, r)
-        zipFile <- res[[1]][[2]]
+        zipFile <- substr(res[[1]], 2, nchar(res[[1]])-1)
         baseURL <- getLibs
         if (endsWith(getLibs, '/'))
-          baseURL <- substr(baseURL, 1, nchar(baseURL)-1)
+          baseURL <- paste(baseURL, "artifact/src/target", sep = '')
+        else
+          baseURL <- paste(baseURL, "artifact/src/target", sep = '/') 
         acc <- 'y'
       }
     }
