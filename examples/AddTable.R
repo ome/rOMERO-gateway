@@ -19,6 +19,10 @@ server <- connect(server)
 datasetId <- 1
 dataset <- loadObject(server, "DatasetData", datasetId)
 
+# Create a dataframe with one row per image, like:
+# Image, SomeValue, AnotherValue
+# 1, 'Some value', 'Another Value'
+# ...
 imgIds <- c()
 values1 <- c()
 values2 <- c()
@@ -28,5 +32,10 @@ for (img in getImages(dataset)) {
   values2 <- c(values2, paste("Another value for image",img@dataobject$getName()))
 }
 
+# Attach it as dataframe with namespace 'openmicroscopy.org/omero/bulk_annotations'
+# to make it available to OMERO.web
 df <- data.frame(Image = imgIds, SomeValue = values1, AnotherValue = values2)
 attachDataframe(dataset, df, "Example data", ns = "openmicroscopy.org/omero/bulk_annotations")
+
+# Go to OMERO.web client, select an image and you should see its values
+# in the 'Tables' tab.
