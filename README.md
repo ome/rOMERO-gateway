@@ -26,8 +26,9 @@ Download the latest romero.gateway version which is compatible with your OMERO s
 
 OMERO version | romero.gateway version
 --- | --- 
+5.6 | 0.4.8
 5.5 | 0.4.7
-5.4 | all
+5.4 | <= 0.4.7
 
 ### Windows
 
