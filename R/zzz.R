@@ -22,17 +22,40 @@
     zipFile <- 'OMERO.java.zip'
     
     getLibs <- Sys.getenv("OMERO_LIBS_DOWNLOAD", unset = NA)
-    if (!is.na(getLibs) && as.logical(getLibs) == TRUE) {
+    if (!is.na(getLibs) && startsWith(tolower(getLibs), 'http')) {
+      # Allows using Java libs from merge-ci builds, e.g.
+      # https://merge-ci.openmicroscopy.org/jenkins/job/OMERO-build/lastBuild/
+      git_info <- GET(getLibs)
+      status <- status_code(git_info)
+      if (status != 200) {
+        packageStartupMessage("Request failed. ", getLibs, " returned ", status)
+        acc <- 'n'
+      } else {
+        git_info <- content(git_info, "text")
+        ex <- ">(OMERO\\.java-\\S+\\.zip)<"
+        r <- gregexpr(ex, git_info)
+        res <- regmatches(git_info, r)
+        zipFile <- substr(res[[1]], 2, nchar(res[[1]])-1)
+        baseURL <- getLibs
+        if (endsWith(getLibs, '/'))
+          baseURL <- paste(baseURL, "artifact/src/target", sep = '')
+        else
+          baseURL <- paste(baseURL, "artifact/src/target", sep = '/') 
+        acc <- 'y'
+      }
+    }
+    else if (!is.na(getLibs) && as.logical(getLibs) == TRUE) {
       acc <- 'y'
     } else {
-      packageStartupMessage('Have to download OMERO Java libraries ', baseURL, '/', zipFile, '\nProceed? [y/n]')
+      packageStartupMessage('Have to download OMERO Java libraries from downloads.openmicroscopy.org.\nProceed? [y/n]')
       acc <- readLines(con = stdin(), n=1, ok=TRUE)
     }
     
     if (length(acc) > 0 && (acc[[1]] == 'y' || acc[[1]] == 'Y')) {
-      packageStartupMessage('Downloading...')
       dest <- paste(omeroLibs, zipFile, sep = '/')
-      GET(paste(baseURL, zipFile, sep = '/'), write_disk(dest, overwrite=TRUE))
+      dlURL <- paste(baseURL, zipFile, sep = '/')
+      packageStartupMessage(paste('Downloading', dlURL, '...'))
+      GET(dlURL, write_disk(dest, overwrite=TRUE))
       packageStartupMessage('Extracting...')
       unzip(dest, exdir = omeroLibs)
       unzippedLibs <- NA
