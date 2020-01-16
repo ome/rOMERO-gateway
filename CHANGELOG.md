@@ -2,6 +2,10 @@
 --------------------
 
 - updated to OMERO 5.6
+- attachDataframe method supports setting the namespace
+- OMERO_LIBS_DOWNLOAD environment variable can be used to specify
+  a custom URL from where to download the OMERO Java libs
+- OMEROServer supports the 'sudo' functionality
 
 0.4.7 (June 2019)
 -----------------
