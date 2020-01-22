@@ -1,12 +1,12 @@
 env:
-  - OMERO_SERVER_VERSION=5.5
+  - OMERO_SERVER_VERSION=5.6
 
 sudo: required
 
 language: python
 
 python:
-  - "2.7"
+  - "3.6"
 
 services:
   - docker

@@ -1,10 +1,21 @@
+0.4.8 (January 2020)
+--------------------
+
+- updated to OMERO 5.6
+- attachDataframe method supports setting the namespace
+- OMERO_LIBS_DOWNLOAD environment variable can be used to specify
+  a custom URL from where to download the OMERO Java libs
+- OMEROServer supports the 'sudo' functionality
+
 0.4.7 (June 2019)
 -----------------
+
 - updated to OMERO 5.5
 - preserved backward compatibility to OMERO 5.4
 
 0.4.6 (June 2019)
 -----------------
+
 - fixed bug in Image.getPixelValues() method which returned
   distorted array of pixel values for images with non-square
   dimensions (PR #66)

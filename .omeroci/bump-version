@@ -10,24 +10,25 @@ from datetime import date
 desc_file = join(dirname(__file__), pardir, "DESCRIPTION")
 pom_file = join(dirname(__file__), pardir, "pom.xml")
 
+
 def processDesc(version, omeroversion):
     today = date.today()
     try:
         f = input(files=(desc_file), inplace=1)
         for line in f:
             if line.startswith("Date:"):
-                print "Date: %s" % today
+                print("Date: %s" % today)
             elif line.startswith("Version:") \
                     and version is not None:
-                print "Version: %s" % version
+                print("Version: %s" % version)
             elif line.startswith("OMERO_Version:") \
                     and omeroversion is not None:
-                print "OMERO_Version: %s" % omeroversion
+                print("OMERO_Version: %s" % omeroversion)
             else:
-		print line,
-
+                print(line,)
     finally:
         f.close()
+
 
 def processPom(version, omeroversion):
     inVersion = False
@@ -37,23 +38,23 @@ def processPom(version, omeroversion):
         for line in f:
             if inVersion and version is not None\
                     and "version" in line:
-                print "    <version>%s</version>" % version
+                print("    <version>%s</version>" % version)
                 inVersion = False
             elif inOmeroVersion and omeroversion is not None\
                     and "version" in line:
-                print "        <version>%s</version>" % omeroversion
+                print("        <version>%s</version>" % omeroversion)
                 inOmeroVersion = False
             elif "pom-omero-client" in line:
                 inOmeroVersion = True
-                print line,
+                print(line,)
             elif "romero-gateway" in line:
                 inVersion = True
-                print line,
+                print(line,)
             else:
-		print line,
-
+                print(line,)
     finally:
         f.close()
+
 
 if __name__ == "__main__":
     parser = ArgumentParser()
@@ -62,6 +63,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if args.v is None and args.o is None:
         print("Usage: ./bumpversion [-v VERSION] [-o OMERO_VERSION]")
-    else: 
+    else:
         processDesc(args.v, args.o)
         processPom(args.v, args.o)
