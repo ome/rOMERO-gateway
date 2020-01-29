@@ -38,7 +38,7 @@ OMEROServer <- setClass(
   
   prototype = list(
     host = character(0),
-    port= 4064L,
+    port = 0,
     username = character(0),
     password = character(0),
     credentialsFile = character(0),
@@ -377,19 +377,19 @@ setMethod(f="connect",
               username <- cred["omero.user", 1]
               password <- cred["omero.pass", 1]
               hostname <- cred["omero.host", 1]
-              portnumber <- cred["omero.port", 1]
+              portnumber <- as.integer(cred["omero.port", 1])
+            }
+            else {
+              username <- server@username
+              password <- server@password
+              hostname <- server@host
+              portnumber <- as.integer(server@port)
             }
             
-            if (length(server@username)>0)
-              username <- server@username
-            if (length(server@password)>0)
-              password <- server@password
-            if (length(server@host)>0)
-              hostname <- server@host
-            if (server@port>0)
-              portnumber <- server@port
-            
-            lc <- new(LoginCredentials, username, password, hostname, as.integer(portnumber))
+            if (portnumber > 0)
+              lc <- new(LoginCredentials, username, password, hostname, portnumber)
+            else
+              lc <- new(LoginCredentials, username, password, hostname)
             lc$setApplicationName("rOMERO")
             if (!versioncheck) {
               tryCatch({
