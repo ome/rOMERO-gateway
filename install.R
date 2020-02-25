@@ -47,7 +47,7 @@ if (length(args) > 0) {
 libs <- c('rJava', 'devtools', 'testthat', 'roxygen2', 'xml2', 'httr', 'git2r', 'jpeg')
 toInstall <- libs[!(libs %in% installed.packages()[,"Package"])]
 if (length(toInstall) > 0) {
-  install.packages(toInstall, repos = 'http://cran.us.r-project.org', quiet = quiet)
+  install.packages(toInstall, repos = 'https://cran.r-project.org/', quiet = quiet)
 }
 
 # Load packages
