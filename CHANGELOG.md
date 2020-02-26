@@ -1,3 +1,8 @@
+0.4.9 (February 2020)
+---------------------
+
+- fix issue when connection to websocket URLs
+
 0.4.8 (January 2020)
 --------------------
 
