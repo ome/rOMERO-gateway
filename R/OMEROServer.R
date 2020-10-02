@@ -72,6 +72,8 @@ setGeneric(name="connect",
 )
 
 #' Disconnect from an OMERO server
+#' Note: You cannot reconnect using the same OMEROServer instance,
+#' you have to create a new OMEROServer!
 #' 
 #' @param server The server
 #' @return The server in "disconnected" state (if successful)
@@ -417,11 +419,15 @@ setMethod(f="connect",
             if (is.null(server@ctx))
               server@ctx <- new (SecurityContext, .jlong(user$getGroupId()))
             
+            server@password <- "***"
+            
             return(server)
           }
 )
 
 #' Disconnect from an OMERO server
+#' Note: You cannot reconnect using the same OMEROServer instance,
+#' you have to create a new OMEROServer!
 #' 
 #' @param server The server
 #' @return The server in "disconnected" state (if successful)
