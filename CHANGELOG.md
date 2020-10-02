@@ -1,3 +1,9 @@
+0.4.10 (October 2020)
+---------------------
+
+- fix issue that login password could accidentally be printed
+  in console
+
 0.4.9 (February 2020)
 ---------------------
 
