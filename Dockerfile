@@ -1,6 +1,6 @@
 # Build the local source. Not yet optimized but
 # leaves development tools in place.
-FROM r-base
+FROM r-base:3.4.0
 
 # Manually copy the files relevant for the build.
 # This speeds up the build process while the docker
