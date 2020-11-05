@@ -1,6 +1,6 @@
 # Build the local source. Not yet optimized but
 # leaves development tools in place.
-FROM r-base:3.4.0
+FROM r-base
 
 # Manually copy the files relevant for the build.
 # This speeds up the build process while the docker
@@ -16,7 +16,7 @@ COPY .Rbuildignore /src/
 
 # Dependencies necessary for install.R
 RUN echo "deb-src http://deb.debian.org/debian testing main" >> /etc/apt/sources.list
-RUN apt-get update && apt-get -y upgrade
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
 RUN apt-get -y install libssl-dev libxml2-dev libcurl4-gnutls-dev
 
 #########################################################################################
