@@ -1,5 +1,7 @@
 # OMERO R Gateway
 
+[![Actions Status](https://github.com/ome/rOMERO-gateway/workflows/OMERO/badge.svg)](https://github.com/ome/rOMERO-gateway/actions)
+
 R wrapper around the OMERO Java Gateway, to enable access to OMERO via R using [rJava](https://cran.r-project.org/web/packages/rJava/index.html).
 
 ## Prerequisites
