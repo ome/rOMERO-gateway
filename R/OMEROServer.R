@@ -794,7 +794,7 @@ setMethod(f="getScreens",
             
             browse <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
             
-            jscreens <- browse$getHierarchy(ctx, ScreenData$class, .jlong(-1))
+            jscreens <- browse$getHierarchy(ctx, J("omero.gateway.model.ScreenData")$class, .jlong(-1))
             
             screens <- c()
             it <- jscreens$iterator()
