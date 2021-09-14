@@ -22,7 +22,7 @@ Project <- setClass(
     if(is.null(object@dataobject)) {
       return("OMERO object is missing!")
     }
-    if(!.jinstanceof(object@dataobject, ProjectData)) {
+    if(!.jinstanceof(object@dataobject, J("omero.gateway.model.ProjectData"))) {
       return("OMERO object is not an instance of ProjectData!")
     }
     return(TRUE)
@@ -50,10 +50,10 @@ setMethod(
     gateway <- getGateway(server)
     ctx <- getContext(server)
     
-    fac <- gateway$getFacility(BrowseFacility$class)
+    fac <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
     
-    id <- new(Long, .jlong(obj$getId()))
-    jlist <- Collections$singletonList(id)
+    id <- new(J("java.lang.Long"), .jlong(obj$getId()))
+    jlist <- J("java.util.Collections")$singletonList(id)
     
     jimgs <- fac$getImagesForProjects(ctx, jlist)
     result <- c()
@@ -83,11 +83,11 @@ setMethod(f="getDatasets",
             gateway <- getGateway(object@server)
             ctx <- getContext(object@server)
             
-            fac <- gateway$getFacility(BrowseFacility$class)
+            fac <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
             
-            id <- new(Long, .jlong(obj$getId()))
-            jlist <- Collections$singletonList(id)
-            jprojects <- fac$getHierarchy(ctx, ProjectData$class, jlist, .jnull())
+            id <- new(J("java.lang.Long"), .jlong(obj$getId()))
+            jlist <- J("java.util.Collections")$singletonList(id)
+            jprojects <- fac$getHierarchy(ctx, J("omero.gateway.model.ProjectData")$class, jlist, .jnull())
             
             it <- jprojects$iterator()
             jproject <- .jrcall(it, method = "next")
@@ -95,7 +95,7 @@ setMethod(f="getDatasets",
             it <- jproject$getDatasets()$iterator()
             while(it$hasNext()) {
               jdataset <- .jrcall(it, method = "next")
-              if(.jinstanceof(jdataset, DatasetData)) {
+              if(.jinstanceof(jdataset, J("omero.gateway.model.DatasetData"))) {
                 dataset <- Dataset(server=object@server, dataobject=jdataset)
                 datasets <- c(datasets, dataset)
               }

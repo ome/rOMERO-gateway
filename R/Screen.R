@@ -22,7 +22,7 @@ Screen <- setClass(
     if(is.null(object@dataobject)) {
       return("OMERO object is missing!")
     }
-    if(!.jinstanceof(object@dataobject, ScreenData)) {
+    if(!.jinstanceof(object@dataobject, J("omero.gateway.model.ScreenData"))) {
       return("OMERO object is not an instance of ScreenData!")
     }
     return(TRUE)
@@ -45,12 +45,12 @@ setMethod(
     obj <- object@dataobject
     gateway <- getGateway(server)
     ctx <- getContext(server)
-    browse <- gateway$getFacility(BrowseFacility$class)
+    browse <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
     
     if(is.null(obj$getPlates())) {
-      jlist <- new(ArrayList)
-      jlist$add(new(Long, .jlong(obj$getId())))
-      set <- browse$loadHierarchy(ctx, ScreenData$class,
+      jlist <- new(J("java.util.ArrayList"))
+      jlist$add(new(J("java.lang.Long"), .jlong(obj$getId())))
+      set <- browse$loadHierarchy(ctx, J("omero.gateway.model.ScreenData")$class,
                                    jlist, .jnull())
       it <- set$iterator()
       loaded <- .jrcall(it, method = "next")

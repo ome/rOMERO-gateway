@@ -22,7 +22,7 @@ Well <- setClass(
     if(is.null(object@dataobject)) {
       return("OMERO object is missing!")
     }
-    if(!.jinstanceof(object@dataobject, WellData)) {
+    if(!.jinstanceof(object@dataobject, J("omero.gateway.model.WellData"))) {
       return("OMERO object is not an instance of WellData!")
     }
     return(TRUE)

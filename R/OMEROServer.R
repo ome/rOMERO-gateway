@@ -371,8 +371,8 @@ setMethod(f="connect",
           signature="OMEROServer",
           definition=function(server, group, versioncheck)
           {
-            log <- new(SimpleLogger)
-            gateway <- new (Gateway, log)
+            log <- new(J("omero.log.SimpleLogger"))
+            gateway <- new (J("omero.gateway.Gateway"), log)
 
             if (length(server@credentialsFile)>0) {
               cred <- read.table(server@credentialsFile, header=FALSE, sep="=", row.names=1, strip.white=TRUE, na.strings="NA", stringsAsFactors=FALSE)
@@ -389,9 +389,9 @@ setMethod(f="connect",
             }
             
             if (portnumber > 0)
-              lc <- new(LoginCredentials, username, password, hostname, portnumber)
+              lc <- new(J("omero.gateway.LoginCredentials"), username, password, hostname, portnumber)
             else
-              lc <- new(LoginCredentials, username, password, hostname)
+              lc <- new(J("omero.gateway.LoginCredentials"), username, password, hostname)
             lc$setApplicationName("rOMERO")
             if (!versioncheck) {
               tryCatch({
@@ -408,7 +408,7 @@ setMethod(f="connect",
             if (!is.na(group)) {
               for (g in as.list(user$getGroups())) {
                 if (g$getName() == group) {
-                  server@ctx <- new (SecurityContext, .jlong(g$getId()))
+                  server@ctx <- new (J("omero.gateway.SecurityContext"), .jlong(g$getId()))
                   break
                 }
               }
@@ -417,7 +417,7 @@ setMethod(f="connect",
             }
             
             if (is.null(server@ctx))
-              server@ctx <- new (SecurityContext, .jlong(user$getGroupId()))
+              server@ctx <- new (J("omero.gateway.SecurityContext"), .jlong(user$getGroupId()))
             
             server@password <- "***"
             
@@ -457,7 +457,7 @@ setMethod(f="setGroupContext",
             user <- getUser(server)
              for (g in as.list(user$getGroups())) {
                if (g$getName() == group) {
-               newCtx <- new (SecurityContext, .jlong(g$getId()))
+               newCtx <- new (J("omero.gateway.SecurityContext"), .jlong(g$getId()))
                  if(!is.null(server@sudoCtx)) {
                    newCtx$sudo()
                    newCtx$setExperimenter(user)
@@ -516,7 +516,7 @@ setMethod(f="sudo",
               server@sudoCtx <- NULL
               return(invisible(server))
             }
-            admin <- gateway$getFacility(AdminFacility$class)
+            admin <- gateway$getFacility(J("omero.gateway.facility.AdminFacility")$class)
             sudoUser <- admin$lookupExperimenter(ctx, as.character(username))
             if (sudoUser == .jnull(class = "omero/gateway/model/ExperimenterData")) {
               warning(paste("User", username, "not found"))
@@ -534,7 +534,7 @@ setMethod(f="sudo",
               grpId <- grp$getId()
             }
             
-            newCtx <- new (SecurityContext, .jlong(grpId))
+            newCtx <- new (J("omero.gateway.SecurityContext"), .jlong(grpId))
             newCtx$setExperimenter(sudoUser)
             newCtx$sudo()
             
@@ -608,28 +608,28 @@ setMethod(f="loadObject",
           {
             gateway <- getGateway(server)
             ctx <- getContext(server)
-            browse <- gateway$getFacility(BrowseFacility$class)
+            browse <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
             if (type == 'ImageData') {
               object <- browse$getImage(ctx, .jlong(id))
             }
             else if (type == 'ProjectData' || type == 'DatasetData' || type == 'PlateData' || type == 'ScreenData') {
-              ids <- new (ArrayList)
-              ids$add(new (Long, .jlong(id)))
+              ids <- new (J("java.util.ArrayList"))
+              ids$add(new (J("java.lang.Long"), .jlong(id)))
               if (type == 'ProjectData')
-                clazz <- ProjectData$class
+                clazz <- J("omero.gateway.model.ProjectData")$class
               if (type == 'DatasetData')
-                clazz <- DatasetData$class
+                clazz <- J("omero.gateway.model.DatasetData")$class
               if (type == 'ScreenData')
-                clazz <- ScreenData$class
+                clazz <- J("omero.gateway.model.ScreenData")$class
               if (type == 'PlateData')
-                clazz <- PlateData$class
+                clazz <- J("omero.gateway.model.PlateData")$class
               tmp <- browse$getHierarchy(ctx, clazz, ids, .jnull(class = 'omero/sys/Parameters'))
               it <- tmp$iterator()
               object <- .jrcall(it, method = "next")
             }
             else if(type == 'WellData') {
-              ids <- new (ArrayList)
-              ids$add(new (Long, .jlong(id)))
+              ids <- new (J("java.util.ArrayList"))
+              ids$add(new (J("java.lang.Long"), .jlong(id)))
               tmp <- browse$getWells(ctx, ids)
               it <- tmp$iterator()
               object <- .jrcall(it, method = "next")
@@ -662,7 +662,7 @@ setMethod(f="loadCSV",
           {
             gateway <- getGateway(server)
             ctx <- getContext(server)
-            browse <- gateway$getFacility(BrowseFacility$class)
+            browse <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
             
             orgFile <- browse$findIObject(ctx, "OriginalFile", .jlong(id))
             
@@ -730,39 +730,39 @@ setMethod(f="searchFor",
           {
             gateway <- getGateway(server)
             ctx <- getContext(server)
-            sf <- gateway$getFacility(SearchFacility$class)
+            sf <- gateway$getFacility(J("omero.gateway.facility.SearchFacility")$class)
             
-            types <- new(ArrayList)
-            scopes <- new(HashSet)
+            types <- new(J("java.util.ArrayList"))
+            scopes <- new(J("java.util.HashSet"))
 
             typeName <- attr(type, 'className')[1]
-            clazz <- ImageData$class
+            clazz <- J("omero.gateway.model.ImageData")$class
             if(typeName == 'Project')
-              clazz <- ProjectData$class
+              clazz <- J("omero.gateway.model.ProjectData")$class
             else if(typeName == 'Dataset')
-              clazz <- DatasetData$class
+              clazz <- J("omero.gateway.model.DatasetData")$class
             else if(typeName == 'Screen')
-              clazz <- ScreenData$class
+              clazz <- J("omero.gateway.model.ScreenData")$class
             else if(typeName == 'Plate')
-              clazz <- PlateData$class
+              clazz <- J("omero.gateway.model.PlateData")$class
             else if(typeName == 'Well')
-              clazz <- WellData$class
+              clazz <- J("omero.gateway.model.WellData")$class
             types$add(clazz)
             
             sscope <- NA
             if(!missing(scope)) {
               if(scope == 'Name')
-                sscope <- SearchScope$NAME
+                sscope <- J("omero.gateway.model.SearchScope")$NAME
               else if(scope == 'Description')
-                sscope <- SearchScope$DESCRIPTION
+                sscope <- J("omero.gateway.model.SearchScope")$DESCRIPTION
               else if(scope == 'Annotation')
-                sscope <- SearchScope$ANNOTATION
+                sscope <- J("omero.gateway.model.SearchScope")$ANNOTATION
               
               if(!missing(sscope))
                 scopes$add(sscope)
             }
           
-            params <- new(SearchParameters, scopes,  types, query)
+            params <- new(J("omero.gateway.model.SearchParameters"), scopes,  types, query)
             
             src <- sf$search(ctx, params)
             jlist <- src$getDataObjects(as.integer(-1), .jnull(class = 'java/lang/Class'))
@@ -792,7 +792,7 @@ setMethod(f="getScreens",
             gateway <- getGateway(server)
             ctx <- getContext(server)
             
-            browse <- gateway$getFacility(BrowseFacility$class)
+            browse <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
             
             jscreens <- browse$getHierarchy(ctx, ScreenData$class, .jlong(-1))
             
@@ -800,7 +800,7 @@ setMethod(f="getScreens",
             it <- jscreens$iterator()
             while(it$hasNext()) {
               jscreen <- .jrcall(it, method = "next")
-              if(.jinstanceof(jscreen, ScreenData)) {
+              if(.jinstanceof(jscreen, J("omero.gateway.model.ScreenData"))) {
                 screen <- Screen(server=server, dataobject=jscreen)
                 screens <- c(screens, screen)
               }
@@ -822,15 +822,15 @@ setMethod(f="getPlates",
             gateway <- getGateway(object)
             ctx <- getContext(object)
             
-            browse <- gateway$getFacility(BrowseFacility$class)
+            browse <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
             
-            jplates <- browse$getHierarchy(ctx, PlateData$class, .jlong(-1))
+            jplates <- browse$getHierarchy(ctx, J("omero.gateway.model.PlateData")$class, .jlong(-1))
             
             plates <- c()
             it <- jplates$iterator()
             while(it$hasNext()) {
               jplate <- .jrcall(it, method = "next")
-              if(.jinstanceof(jplate, PlateData)) {
+              if(.jinstanceof(jplate, J("omero.gateway.model.PlateData"))) {
                 jscreens <- jplate$getScreens()
                 if (is.jnull(jscreens)) {
                   plate <- Plate(server=object, dataobject=jplate)
@@ -856,15 +856,15 @@ setMethod(f="getProjects",
             gateway <- getGateway(server)
             ctx <- getContext(server)
             
-            browse <- gateway$getFacility(BrowseFacility$class)
+            browse <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
             
-            jprojects <- browse$getHierarchy(ctx, ProjectData$class, .jlong(-1))
+            jprojects <- browse$getHierarchy(ctx, J("omero.gateway.model.ProjectData")$class, .jlong(-1))
             
             projects <- c()
             it <- jprojects$iterator()
             while(it$hasNext()) {
               jproject <- .jrcall(it, method = "next")
-              if(.jinstanceof(jproject, ProjectData)) {
+              if(.jinstanceof(jproject, J("omero.gateway.model.ProjectData"))) {
                 project <- Project(server=server, dataobject=jproject)
                 projects <- c(projects, project)
               }
@@ -887,15 +887,15 @@ setMethod(f="getDatasets",
             gateway <- getGateway(object)
             ctx <- getContext(object)
             
-            browse <- gateway$getFacility(BrowseFacility$class)
+            browse <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
             
-            jdatasets <- browse$getHierarchy(ctx, DatasetData$class, .jlong(-1))
+            jdatasets <- browse$getHierarchy(ctx, J("omero.gateway.model.DatasetData")$class, .jlong(-1))
             
             datasets <- c()
             it <- jdatasets$iterator()
             while(it$hasNext()) {
               jdataset <- .jrcall(it, method = "next")
-              if(.jinstanceof(jdataset, DatasetData)) {
+              if(.jinstanceof(jdataset, J("omero.gateway.model.DatasetData"))) {
                 dataset <- Dataset(server=object, dataobject=jdataset)
                 datasets <- c(datasets, dataset)
               }

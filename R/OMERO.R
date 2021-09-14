@@ -24,7 +24,7 @@ OMERO <- setClass(
     if(is.null(object@dataobject)) {
       return("OMERO object is missing!")
     }
-    if(!.jinstanceof(object@dataobject, DataObject)) {
+    if(!.jinstanceof(object@dataobject, J("omero.gateway.model.DataObject"))) {
       return("OMERO object is not an instance of DataObject!")
     }
     return(TRUE)
@@ -328,7 +328,7 @@ setMethod(
     gateway <- getGateway(server)
     ctx <- getContext(server)
     
-    fac <- gateway$getFacility(DataManagerFacility$class)
+    fac <- gateway$getFacility(J("omero.gateway.facility.DataManagerFacility")$class)
     cb <- fac$delete(ctx, obj$asIObject())
     # Wait max 30 sec
     cb$loop(as.integer(100), .jlong(300))
@@ -357,52 +357,54 @@ setMethod(
     types <- sapply(df, typeof) 
     classes <- sapply(df, class)
     
-    jlistheaders <- new (ArrayList)
+    TableDataColumn <- J("omero.gateway.model.TableDataColumn")
+    
+    jlistheaders <- new (J("java.util.ArrayList"))
     for(i in 1:length(types)) {
       if(types[i]=="double")
-        jlistheaders$add(new (TableDataColumn, headers[i], i, Double$class)) 
+        jlistheaders$add(new (TableDataColumn, headers[i], i, J("java.lang.Double")$class)) 
       else if(types[i]=="integer")
         if(classes[i]=="factor")
-          jlistheaders$add(new (TableDataColumn, headers[i], i, String$class)) 
+          jlistheaders$add(new (TableDataColumn, headers[i], i, J("java.lang.String")$class)) 
         else
-          jlistheaders$add(new (TableDataColumn, headers[i], i, Long$class)) 
+          jlistheaders$add(new (TableDataColumn, headers[i], i, J("java.lang.Long")$class)) 
       else if(types[i]=="logical")
-        jlistheaders$add(new (TableDataColumn, headers[i], i, Boolean$class))
+        jlistheaders$add(new (TableDataColumn, headers[i], i, J("java.lang.Boolean")$class))
       else
-        jlistheaders$add(new (TableDataColumn, headers[i], i, String$class))
+        jlistheaders$add(new (TableDataColumn, headers[i], i, J("java.lang.String")$class))
     }
     
     nCols <- length(headers)
     nRows <- nrow(df)
     
     # TODO: Bad performace using Java ArrayLists, replace with arrays 
-    jlistdata <- new (ArrayList)
+    jlistdata <- new (J("java.util.ArrayList"))
     for(i in 1:nCols) {
-      jlistcoldata <- new (ArrayList)
+      jlistcoldata <- new (J("java.util.ArrayList"))
       for(j in 1:nrow(df)) {
         if(types[i]=="double")
-          value <- new (Double, as.double(df[j,i]))
+          value <- new (J("java.lang.Double"), as.double(df[j,i]))
         else if(types[i]=="integer")
           if(classes[i]=="factor")
-            value <- new(String, as.character(df[j,i]))
+            value <- new(J("java.lang.String"), as.character(df[j,i]))
           else
-            value <- new(Long, as.character(df[j,i]))
+            value <- new(J("java.lang.Long"), as.character(df[j,i]))
         else if(types[i]=="logical")
-          value <- new (Boolean, as.logical(df[j,i]))
+          value <- new (J("java.lang.Boolean"), as.logical(df[j,i]))
         else
-          value <- new (String, as.character(df[j,i]))
+          value <- new (J("java.lang.String"), as.character(df[j,i]))
         jlistcoldata$add(value)
       }
       jlistdata$add(jlistcoldata)
     }
     
-    table <- new (TableData, .jcast(jlistheaders, new.class = "java/util/List"),
+    table <- new (J("omero.gateway.model.TableData"), .jcast(jlistheaders, new.class = "java/util/List"),
                   .jcast(jlistdata, new.class = "java/util/List"))
     
     server <- omero@server
     gateway <- getGateway(server)
     ctx <- getContext(server)
-    fac <- gateway$getFacility(TablesFacility$class)
+    fac <- gateway$getFacility(J("omero.gateway.facility.TablesFacility")$class)
     
     if (!is.na(ns))
       tabledata <- fac$addTable(ctx, omero@dataobject, name, as.character(ns), table)
@@ -427,7 +429,7 @@ setMethod(
     server <- omero@server
     gateway <- getGateway(server)
     ctx <- getContext(server)
-    fac <- gateway$getFacility(TablesFacility$class)
+    fac <- gateway$getFacility(J("omero.gateway.facility.TablesFacility")$class)
     
     files <- fac$getAvailableTables(ctx, omero@dataobject)
     
@@ -468,13 +470,13 @@ setMethod(
     server <- omero@server
     gateway <- getGateway(server)
     ctx <- getContext(server)
-    fac <- gateway$getFacility(TablesFacility$class)
+    fac <- gateway$getFacility(J("omero.gateway.facility.TablesFacility")$class)
 
     if (!missing(condition)) {
         rows <- fac$query(ctx, .jlong(id), condition)
-        jlist <- new (ArrayList)
+        jlist <- new (J("java.util.ArrayList"))
         for (row in rows) {
-          jlist$add(new (Long, .jlong(row)))
+          jlist$add(new (J("java.lang.Long"), .jlong(row)))
         }
         tabledata <- fac$getTable(ctx, .jlong(id), jlist)
     }
@@ -551,7 +553,7 @@ setMethod(
     server <- omero@server
     gateway <- getGateway(server)
     ctx <- getContext(server)
-    fac <- gateway$getFacility(TablesFacility$class)
+    fac <- gateway$getFacility(J("omero.gateway.facility.TablesFacility")$class)
     
     info <- fac$getTableInfo(ctx, .jlong(id))
     
@@ -597,9 +599,9 @@ setMethod(f="attachFile",
             gateway <- getGateway(server)
             ctx <- getContext(server)
             
-            dm <- gateway$getFacility(DataManagerFacility$class)
+            dm <- gateway$getFacility(J("omero.gateway.facility.DataManagerFacility")$class)
             
-            jf <- new(JFile, as.character(file))
+            jf <- new(J("java.io.File"), as.character(file))
             
             future <- dm$attachFile(ctx, jf, .jnull(), .jnull(), .jnull(), omero@dataobject)
             anno <- future$get()
@@ -625,7 +627,7 @@ setMethod(f="getAnnotations",
             obj <- object@dataobject
             gateway <- getGateway(server)
             ctx <- getContext(server)
-            fac <- gateway$getFacility(MetadataFacility$class)
+            fac <- gateway$getFacility(J("omero.gateway.facility.MetadataFacility")$class)
             
             jannos <- NULL
             
@@ -634,8 +636,8 @@ setMethod(f="getAnnotations",
             }
             else {
               className <- paste("omero.gateway.model", typeFilter, sep=".")
-              clazz <- Class$forName(className)
-              jlist <- new (ArrayList)
+              clazz <- J("java.lang.Class")$forName(className)
+              jlist <- new (J("java.util.ArrayList"))
               jlist$add(clazz)
               jannos <- fac$getAnnotations(ctx, obj, jlist, .jnull())
             }
@@ -698,7 +700,7 @@ setMethod(
     gateway <- getGateway(server)
     ctx <- getContext(server)
     
-    browse <- gateway$getFacility(BrowseFacility$class)
+    browse <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
     annotation <- browse$findObject(ctx, 'FileAnnotationData', .jlong(id))
     delete(OMERO(server=server, dataobject=annotation))
   }
