@@ -96,10 +96,15 @@ the test server
 to populate the server)
 * Run ```devtools::test()```
 
+## Troubleshooting rJava
 
-## Tips for Unix users
+The latest R/rJava packages usually don't cause any problems. But older versions 
+have been known for troubles. 
+In these cases try this:
 
-### Installing rJava
+### Unix users
+
+#### Installing rJava
 
 Before installing the `rJava` package you probably have to set up Java for R first:
 ```
@@ -108,7 +113,7 @@ export $JAVA_HOME=[path to JDK/JRE]
 R CMD javareconf
 ```
 
-### Additional dependencies
+#### Additional dependencies
 
 In order to build/install some necessary R packages, additional system libraries may
 have to be installed first. E.g. the R packages `httr` and `xml2` need the development libraries for
@@ -117,9 +122,9 @@ and `libxml2-dev` first.
 If you can't install an R package due to compile errors, most likely you are missing a development 
 package of some dependent library on your system.
 
-## Tips for Windows users
+### Windows users
 
-### Installing rJava
+#### Installing rJava
 
 You need to have a Java SDK installed. Latest version which is supported is 11.
 Download for example the Adopt OpenJDK 11 from https://adoptopenjdk.net/ 
