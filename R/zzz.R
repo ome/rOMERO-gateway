@@ -87,9 +87,12 @@
   .jinit(classpath = dir(omeroLibs, full.names=TRUE ))
 
   # Unfortunately have to add this stuff to base env
-  # because romero.gateway env is locked
-  env <- baseenv()
-  
+  # because romero.gateway env is locked.
+  # Update: With R 4.1.0 the base env is locked too,
+  # have to use global env instead.
+  # Todo: Remove all global exports completely.
+  env <- globalenv()
+
   # Genereal Java classes
   env$Collection <- J("java.util.Collection")
   env$Collections <- J("java.util.Collections")
