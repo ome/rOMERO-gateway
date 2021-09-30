@@ -23,7 +23,7 @@ Image <- setClass(
     if(is.null(object@dataobject)) {
       return("OMERO object is missing!")
     }
-    if(!.jinstanceof(object@dataobject, ImageData)) {
+    if(!.jinstanceof(object@dataobject, J("omero.gateway.model.ImageData"))) {
       return("OMERO object is not an instance of ImageData!")
     }
     return(TRUE)
@@ -164,8 +164,8 @@ setMethod(
     pixId <- dpix$getId()
     store$setPixelsId(.jlong(pixId))
     
-    x <- rtypes$rint(as.integer(width))
-    y <- rtypes$rint(as.integer(height))
+    x <- J("omero.rtypes")$rint(as.integer(width))
+    y <- J("omero.rtypes")$rint(as.integer(height))
     bytes <- store$getThumbnail(x, y)
     
     img <- readJPEG(bytes)
@@ -189,7 +189,7 @@ setMethod(
     gateway <- getGateway(server)
     ctx <- getContext(server)
     
-    fac <- gateway$getFacility(MetadataFacility$class)
+    fac <- gateway$getFacility(J("omero.gateway.facility.MetadataFacility")$class)
     iid <- image@dataobject$getId()
     jchannels <- fac$getChannelData(ctx, .jlong(iid))
     channels <- c()
@@ -224,7 +224,7 @@ setMethod(
     gateway <- getGateway(server)
     ctx <- getContext(server)
     
-    fac <- gateway$getFacility(ROIFacility$class)
+    fac <- gateway$getFacility(J("omero.gateway.facility.ROIFacility")$class)
     iid <- obj$getId()
     iid <- .jlong(iid)
     
@@ -254,7 +254,7 @@ setMethod(
             th <- acos(as.numeric(th))
           }
           
-          if (.jinstanceof(shape, PointData)) {
+          if (.jinstanceof(shape, J("omero.gateway.model.PointData"))) {
             p <- .jcast(shape, new.class = "omero.gateway.model.PointData")
             x <- p$getX()
             x <- as.numeric(x)
@@ -268,7 +268,7 @@ setMethod(
             text <- as.character(text)
             rois <- rbind(rois, c(x, y, NA, NA, NA, NA, th, text))
           }
-          if (.jinstanceof(shape, EllipseData)) {
+          if (.jinstanceof(shape, J("omero.gateway.model.EllipseData"))) {
             p <- .jcast(shape, new.class = "omero.gateway.model.EllipseData")
             x <- p$getX()
             x <- as.numeric(x)
@@ -286,7 +286,7 @@ setMethod(
             text <- as.character(text)
             rois <- rbind(rois, c(x, y, rx, ry, NA, NA, th, text))
           }
-          if (.jinstanceof(shape, RectangleData)) {
+          if (.jinstanceof(shape, J("omero.gateway.model.RectangleData"))) {
             p <- .jcast(shape, new.class = "omero.gateway.model.RectangleData")
             x <- p$getX()
             x <- as.numeric(x)
@@ -335,14 +335,14 @@ setMethod(
     gateway <- getGateway(server)
     ctx <- getContext(server)
     
-    fac <- gateway$getFacility(ROIFacility$class)
+    fac <- gateway$getFacility(J("omero.gateway.facility.ROIFacility")$class)
     iid <- obj$getId()
     iid <- .jlong(iid)
     
     z <- as.integer(z - 1)
     t <- as.integer(t - 1)
     
-    rois <- new(ArrayList)
+    rois <- new(J("java.util.ArrayList"))
     for (row in 1:nrow(coords)) {
       
       x <- coords[row, "x"]
@@ -459,7 +459,7 @@ setMethod(
       c <- 1
     }
     
-    fac <- gateway$getFacility(RawDataFacility$class)
+    fac <- gateway$getFacility(J("omero.gateway.facility.RawDataFacility")$class)
     pixelsObj <- obj$getDefaultPixels()
     
     plane <- fac$getPlane(ctx, pixelsObj, as.integer(z-1), as.integer(t-1), as.integer(c-1))

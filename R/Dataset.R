@@ -22,7 +22,7 @@ Dataset <- setClass(
     if(is.null(object@dataobject)) {
       return("OMERO object is missing!")
     }
-    if(!.jinstanceof(object@dataobject, DatasetData)) {
+    if(!.jinstanceof(object@dataobject, J("omero.gateway.model.DatasetData"))) {
       return("OMERO object is not an instance of DatasetData!")
     }
     return(TRUE)
@@ -45,10 +45,10 @@ setMethod(
     gateway <- getGateway(server)
     ctx <- getContext(server)
     
-    fac <- gateway$getFacility(BrowseFacility$class)
+    fac <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
     
-    id <- new(Long, .jlong(obj$getId()))
-    jlist <- Collections$singletonList(id)
+    id <- new(J("java.lang.Long"), .jlong(obj$getId()))
+    jlist <- J("java.util.Collections")$singletonList(id)
     
     jimgs <- fac$getImagesForDatasets(ctx, jlist)
     result <- c()

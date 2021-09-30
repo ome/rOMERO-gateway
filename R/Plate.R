@@ -22,7 +22,7 @@ Plate <- setClass(
     if(is.null(object@dataobject)) {
       return("OMERO object is missing!")
     }
-    if(!.jinstanceof(object@dataobject, PlateData)) {
+    if(!.jinstanceof(object@dataobject, J("omero.gateway.model.PlateData"))) {
       return("OMERO object is not an instance of PlateData!")
     }
     return(TRUE)
@@ -61,7 +61,7 @@ setMethod(
     server <- plate@server
     gateway <- getGateway(server)
     ctx <- getContext(server)
-    browse <- gateway$getFacility(BrowseFacility$class)
+    browse <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
     jwells <- browse$getWells(ctx, .jlong(getOMEROID(plate)))
     
     wells <- c()
