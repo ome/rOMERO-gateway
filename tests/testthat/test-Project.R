@@ -35,5 +35,4 @@ test_that("Test Project getDatasets",{
   expect_that(id, equals(datasetID))
 })
 
-
-
+server <- disconnect(server)

@@ -18,3 +18,5 @@ test_that("Test Well getImages",{
   clazz <- class(imgs[[1]])[[1]]
   expect_that(clazz, equals('Image'))
 })
+
+server <- disconnect(server)

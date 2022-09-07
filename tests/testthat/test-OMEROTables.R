@@ -49,4 +49,4 @@ test_that("Test OMERO deleteFile",{
   expect_that(nrow(available), equals(0))
 })
 
-disconnect(server)
+server <- disconnect(server)
