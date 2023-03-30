@@ -137,6 +137,6 @@ test_that("Test OMEROServer group context",{
 })
 
 test_that("Test OMEROServer disconnect",{
-  disconnect(server)
+  server <- disconnect(server)
   expect_that(server@gateway$isConnected(), equals(FALSE))
 })

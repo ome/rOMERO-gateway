@@ -35,3 +35,5 @@ test_that("Test OMEROServer getAnnotations specific",{
   annos <- getAnnotations(image, typeFilter = 'FileAnnotationData', nameFilter = fAnnoName)
   expect_that(nrow(annos), equals(1))
 })
+
+server <- disconnect(server)

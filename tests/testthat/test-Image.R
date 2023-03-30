@@ -55,3 +55,4 @@ test_that("Test Image add/getROIS",{
   expect_equal(gotRois, rois)
 })
 
+server <- disconnect(server)

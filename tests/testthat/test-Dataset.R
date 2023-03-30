@@ -20,3 +20,4 @@ test_that("Test Dataset getImages",{
   expect_that(clazz, equals('Image'))
 })
 
+server <- disconnect(server)
