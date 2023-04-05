@@ -608,31 +608,24 @@ setMethod(f="loadObject",
           {
             gateway <- getGateway(server)
             ctx <- getContext(server)
-            browse <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
+            lf <- gateway$getFacility(J("omero.gateway.facility.LoadFacility")$class)
             if (type == 'ImageData') {
-              object <- browse$getImage(ctx, .jlong(id))
+              object <- lf$getImage(ctx, .jlong(id))
             }
-            else if (type == 'ProjectData' || type == 'DatasetData' || type == 'PlateData' || type == 'ScreenData') {
-              ids <- new (J("java.util.ArrayList"))
-              ids$add(new (J("java.lang.Long"), .jlong(id)))
-              if (type == 'ProjectData')
-                clazz <- J("omero.gateway.model.ProjectData")$class
-              if (type == 'DatasetData')
-                clazz <- J("omero.gateway.model.DatasetData")$class
-              if (type == 'ScreenData')
-                clazz <- J("omero.gateway.model.ScreenData")$class
-              if (type == 'PlateData')
-                clazz <- J("omero.gateway.model.PlateData")$class
-              tmp <- browse$getHierarchy(ctx, clazz, ids, .jnull(class = 'omero/sys/Parameters'))
-              it <- tmp$iterator()
-              object <- .jrcall(it, method = "next")
+            else if (type == 'ProjectData') {
+              object <- lf$getProject(ctx, .jlong(id))
+            }
+            else if (type == 'ScreenData') {
+              object <- lf$getScreen(ctx, .jlong(id))
+            }
+            else if (type == 'DatasetData') {
+              object <- lf$getDataset(ctx, .jlong(id))
+            }
+            else if (type == 'PlateData') {
+              object <- lf$getPlate(ctx, .jlong(id))
             }
             else if(type == 'WellData') {
-              ids <- new (J("java.util.ArrayList"))
-              ids$add(new (J("java.lang.Long"), .jlong(id)))
-              tmp <- browse$getWells(ctx, ids)
-              it <- tmp$iterator()
-              object <- .jrcall(it, method = "next")
+              object <- lf$getWell(ctx, .jlong(id))
             }
             else { 
               object <- browse$findObject(ctx, type, .jlong(id))
