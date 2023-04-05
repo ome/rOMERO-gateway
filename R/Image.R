@@ -193,9 +193,8 @@ setMethod(
     iid <- image@dataobject$getId()
     jchannels <- fac$getChannelData(ctx, .jlong(iid))
     channels <- c()
-    it <- jchannels$iterator()
-    while(it$hasNext()) {
-      jchannel <- .jrcall(it, method = "next")
+    jchannelslist <- as.list(jchannels)
+    for (jchannel in jchannelslist) {
       channels <- c(channels, jchannel$getName())
     }
     return(channels)
@@ -233,17 +232,14 @@ setMethod(
     
     roiresults <- fac$loadROIsByPlane(ctx, iid, z, t)
     rois <- data.frame(x = c(0), y = c(0), rx = c(0), ry = c(0), w = c(0), h = c(0), theta = c(0), text = c('remove'), stringsAsFactors = FALSE)
-    it <- roiresults$iterator()
-    while (it$hasNext()) {
-      roiresult <- .jrcall(it, method = "next")
+    roiresultslist <- as.list(roiresults)
+    for (roiresult in roiresultslist) {
       roidatas <- roiresult$getROIs()
-      it2 <- roidatas$iterator()
-      while (it2$hasNext()) {
-        roidata <- .jrcall(it2, method = "next")
+      roidataslist <- as.list(roidatas)
+      for (roidata in roidataslist) {
         shapes <- roidata$getShapes(z, t)
-        it3 <- shapes$iterator()
-        while (it3$hasNext()) {
-          shape <- .jrcall(it3, method = "next")
+        shapeslist <- as.list(shapes)
+        for (shape in shapeslist) {
           shape <- .jcast(shape, new.class = "omero.gateway.model.ShapeData")
           trans <- shape$getTransform()
           th <- NA

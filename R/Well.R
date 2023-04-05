@@ -91,10 +91,9 @@ setMethod(
     if (missing(fieldIndex)) {
       size <- as.integer(jfields$size())
       fields <- list(size)
-      it <- jfields$iterator()
+      jfieldslist = as.list(jfields)
       i <- 1
-      while(it$hasNext()) {
-        jfield <- .jrcall(it, method = "next")
+      for (jfield in jfieldslist) {
         jimg <- jfield$getImage()
         img <- Image(server=server, dataobject=jimg)
         fields[[i]] <-img

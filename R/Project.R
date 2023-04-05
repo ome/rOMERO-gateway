@@ -57,9 +57,8 @@ setMethod(
     
     jimgs <- fac$getImagesForProjects(ctx, jlist)
     result <- c()
-    it <- jimgs$iterator()
-    while(it$hasNext()) {
-      jimg <- .jrcall(it, method = "next")
+    jimgslist <- as.list(jimgs)
+    for (jimg in jimgslist) {
       img <- Image(server=server, dataobject=jimg)
       result <- c(result, img)
     }
@@ -89,12 +88,11 @@ setMethod(f="getDatasets",
             jlist <- J("java.util.Collections")$singletonList(id)
             jprojects <- fac$getHierarchy(ctx, J("omero.gateway.model.ProjectData")$class, jlist, .jnull())
             
-            it <- jprojects$iterator()
-            jproject <- .jrcall(it, method = "next")
+            tmplist <- as.list(jprojects)
+            jproject <- tmplist[[1]]
             datasets <- c()
-            it <- jproject$getDatasets()$iterator()
-            while(it$hasNext()) {
-              jdataset <- .jrcall(it, method = "next")
+            jdatasetlist <- as.list(jproject$getDatasets())
+            for (jdataset in jdatasetlist) {
               if(.jinstanceof(jdataset, J("omero.gateway.model.DatasetData"))) {
                 dataset <- Dataset(server=object@server, dataobject=jdataset)
                 datasets <- c(datasets, dataset)

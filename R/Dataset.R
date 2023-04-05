@@ -52,9 +52,8 @@ setMethod(
     
     jimgs <- fac$getImagesForDatasets(ctx, jlist)
     result <- c()
-    it <- jimgs$iterator()
-    while(it$hasNext()) {
-      jimg <- .jrcall(it, method = "next")
+    jimgslist <- as.list(jimgs)
+    for (jimg in jimgslist) {
       img <- Image(server=server, dataobject=jimg)
       result <- c(result, img)
     }

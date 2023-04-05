@@ -436,9 +436,8 @@ setMethod(
     Name <- c()
     ID <- c()
     AnnotationID <- c()
-    it <- files$iterator()
-    while(it$hasNext()) {
-      file <- .jrcall(it, method = "next")
+    filelist <- as.list(files)
+    for (file in filelist) {
       Name <- c(Name, file$getFileName())
       ID <- c(ID, file$getFileID())
       AnnotationID <- c(AnnotationID, file$getId())
@@ -644,9 +643,8 @@ setMethod(f="getAnnotations",
             
             result <- data.frame(Type = character(), Namespace = character(), Name = character(), Content = character(), ID = numeric(), FileID = numeric())
             
-            it <- jannos$iterator()
-            while(it$hasNext()) {
-              anno <- .jrcall(it, method = "next")
+            jannoslist <- as.list(jannos)
+            for (anno in jannoslist) {
               javclass <- anno$getClass()
               annotype <- javclass$getName()
               annotype <- gsub("omero\\.gateway\\.model\\.", "", annotype)
