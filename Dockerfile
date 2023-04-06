@@ -40,7 +40,7 @@ RUN echo "/usr/lib/jvm/java-11-openjdk-amd64/" > /etc/ld.so.conf.d/rJava.conf
 RUN /sbin/ldconfig
 
 ## Install rJava package
-RUN install2.r --error rJava \
+RUN install2.r --error rJava pkgdown devtools \
   && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 ##
 ##
