@@ -16,7 +16,7 @@ Authors@R: c(person("Dominik", "Lindner", role = c("aut", "cre", "ctb"),
              person("Balaji", "Ramalingam", role = "ctb",
                  email = "b.ramalingam@dundee.ac.uk"))
 Depends:
-    R (>= 4.2.3),
+    R (>= 4.2.0),
     methods (>= 3.3.0),
     rJava (>= 1.0-6),
     jpeg (>= 0.1-8),
