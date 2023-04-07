@@ -17,7 +17,7 @@ COPY .Rbuildignore /src/
 # Dependencies necessary for install.R
 RUN echo "deb-src http://deb.debian.org/debian testing main" >> /etc/apt/sources.list
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
-RUN apt-get -y install libssl-dev libxml2-dev libcurl4-gnutls-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
+RUN apt-get -y install libssl-dev libxml2-dev libcurl4-gnutls-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libgit2-dev
 
 #########################################################################################
 ## Necessary for running maven
