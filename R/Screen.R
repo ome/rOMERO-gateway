@@ -52,17 +52,16 @@ setMethod(
       jlist$add(new(J("java.lang.Long"), .jlong(obj$getId())))
       set <- browse$loadHierarchy(ctx, J("omero.gateway.model.ScreenData")$class,
                                    jlist, .jnull())
-      it <- set$iterator()
-      loaded <- .jrcall(it, method = "next")
+      tmplist <- as.list(set)
+      loaded <- tmplist[[1]]
     }
     else
       loaded <- obj
     
     plates <- c()
     jplates <- loaded$getPlates()
-    it <- jplates$iterator()
-    while(it$hasNext()) {
-      jplate <- .jrcall(it, method = "next")
+    jplateslist <- as.list(jplates)
+    for (jplate in jplateslist) {
       plate <- Plate(server = server, dataobject = jplate)
       plates <- c(plates, plate)
     }

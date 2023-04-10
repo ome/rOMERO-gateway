@@ -65,9 +65,8 @@ setMethod(
     jwells <- browse$getWells(ctx, .jlong(getOMEROID(plate)))
     
     wells <- c()
-    it <- jwells$iterator()
-    while(it$hasNext()) {
-      jwell <- .jrcall(it, method = "next")
+    jwellslist <- as.list(jwells)
+    for (jwell in jwellslist) {
       if (jwell$asWell()$sizeOfWellSamples() > 0) {
         well <- Well(server=server, dataobject=jwell)
         wells <- c(wells, well)

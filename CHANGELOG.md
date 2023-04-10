@@ -1,3 +1,11 @@
+0.4.12 (April 2023)
+-------------------
+- fix IllegalAccessExceptions (PR #102)
+
+0.4.11 (October 2021)
+---------------------
+- fix variable exports (PRs #95, #96)
+
 0.4.10 (October 2020)
 ---------------------
 

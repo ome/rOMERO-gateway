@@ -608,31 +608,24 @@ setMethod(f="loadObject",
           {
             gateway <- getGateway(server)
             ctx <- getContext(server)
-            browse <- gateway$getFacility(J("omero.gateway.facility.BrowseFacility")$class)
+            lf <- gateway$getFacility(J("omero.gateway.facility.LoadFacility")$class)
             if (type == 'ImageData') {
-              object <- browse$getImage(ctx, .jlong(id))
+              object <- lf$getImage(ctx, .jlong(id))
             }
-            else if (type == 'ProjectData' || type == 'DatasetData' || type == 'PlateData' || type == 'ScreenData') {
-              ids <- new (J("java.util.ArrayList"))
-              ids$add(new (J("java.lang.Long"), .jlong(id)))
-              if (type == 'ProjectData')
-                clazz <- J("omero.gateway.model.ProjectData")$class
-              if (type == 'DatasetData')
-                clazz <- J("omero.gateway.model.DatasetData")$class
-              if (type == 'ScreenData')
-                clazz <- J("omero.gateway.model.ScreenData")$class
-              if (type == 'PlateData')
-                clazz <- J("omero.gateway.model.PlateData")$class
-              tmp <- browse$getHierarchy(ctx, clazz, ids, .jnull(class = 'omero/sys/Parameters'))
-              it <- tmp$iterator()
-              object <- .jrcall(it, method = "next")
+            else if (type == 'ProjectData') {
+              object <- lf$getProject(ctx, .jlong(id))
+            }
+            else if (type == 'ScreenData') {
+              object <- lf$getScreen(ctx, .jlong(id))
+            }
+            else if (type == 'DatasetData') {
+              object <- lf$getDataset(ctx, .jlong(id))
+            }
+            else if (type == 'PlateData') {
+              object <- lf$getPlate(ctx, .jlong(id))
             }
             else if(type == 'WellData') {
-              ids <- new (J("java.util.ArrayList"))
-              ids$add(new (J("java.lang.Long"), .jlong(id)))
-              tmp <- browse$getWells(ctx, ids)
-              it <- tmp$iterator()
-              object <- .jrcall(it, method = "next")
+              object <- lf$getWell(ctx, .jlong(id))
             }
             else { 
               object <- browse$findObject(ctx, type, .jlong(id))
@@ -768,9 +761,8 @@ setMethod(f="searchFor",
             jlist <- src$getDataObjects(as.integer(-1), .jnull(class = 'java/lang/Class'))
             
             result <- c()
-            it <- jlist$iterator()
-            while(it$hasNext()) {
-              dataobj <- .jrcall(it, method = "next")
+            jlistlist <- as.list(jlist)
+            for (dataobj in jlistlist) {
               obj <- OMERO(server=server, dataobject=dataobj)
               result <- c(result, cast(obj))
             }
@@ -797,9 +789,8 @@ setMethod(f="getScreens",
             jscreens <- browse$getHierarchy(ctx, J("omero.gateway.model.ScreenData")$class, .jlong(-1))
             
             screens <- c()
-            it <- jscreens$iterator()
-            while(it$hasNext()) {
-              jscreen <- .jrcall(it, method = "next")
+            jscreenslist <- as.list(jscreens)
+            for (jscreen in jscreenslist) {
               if(.jinstanceof(jscreen, J("omero.gateway.model.ScreenData"))) {
                 screen <- Screen(server=server, dataobject=jscreen)
                 screens <- c(screens, screen)
@@ -827,9 +818,8 @@ setMethod(f="getPlates",
             jplates <- browse$getHierarchy(ctx, J("omero.gateway.model.PlateData")$class, .jlong(-1))
             
             plates <- c()
-            it <- jplates$iterator()
-            while(it$hasNext()) {
-              jplate <- .jrcall(it, method = "next")
+            jplateslist <- as.list(jplates)
+            for (jplate in jplateslist) {
               if(.jinstanceof(jplate, J("omero.gateway.model.PlateData"))) {
                 jscreens <- jplate$getScreens()
                 if (is.jnull(jscreens)) {
@@ -861,9 +851,8 @@ setMethod(f="getProjects",
             jprojects <- browse$getHierarchy(ctx, J("omero.gateway.model.ProjectData")$class, .jlong(-1))
             
             projects <- c()
-            it <- jprojects$iterator()
-            while(it$hasNext()) {
-              jproject <- .jrcall(it, method = "next")
+            jprojectslist <- as.list(jprojects)
+            for (jproject in jprojectslist) {
               if(.jinstanceof(jproject, J("omero.gateway.model.ProjectData"))) {
                 project <- Project(server=server, dataobject=jproject)
                 projects <- c(projects, project)
@@ -892,9 +881,8 @@ setMethod(f="getDatasets",
             jdatasets <- browse$getHierarchy(ctx, J("omero.gateway.model.DatasetData")$class, .jlong(-1))
             
             datasets <- c()
-            it <- jdatasets$iterator()
-            while(it$hasNext()) {
-              jdataset <- .jrcall(it, method = "next")
+            jdatasetslist <- as.list(jdatasets)
+            for (jdataset in jdatasetslist) {
               if(.jinstanceof(jdataset, J("omero.gateway.model.DatasetData"))) {
                 dataset <- Dataset(server=object, dataobject=jdataset)
                 datasets <- c(datasets, dataset)
