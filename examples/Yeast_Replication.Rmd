@@ -1,0 +1,116 @@
+## Model yeast cell replication from timelapse image
+
+Using the image [YDA306_AGA1y_PRM1r_Mating](https://idr.openmicroscopy.org/webclient/?show=image-3491334) from IDR to model the replication of yeast cells.
+
+### Load libraries
+
+```{r}
+library(romero.gateway)
+library(EBImage)
+```
+
+### Connect to server
+
+```{r}
+server <- OMEROServer(host = 'wss://idr.openmicroscopy.org/omero-ws', port = 443L, username='public', password='public')
+server <- connect(server)
+paste('Successfully logged in as', server@user$getUserName())
+```
+
+### Load image
+
+```{r}
+imageId <- 3491334
+image <- loadObject(server, "ImageData", imageId)
+```
+
+### Set \# of timepoints and interval
+
+(this information could be retrieved from the server too, but lets keep it simple)
+
+```{r}
+tmax <- 42  # number of timepoints
+tInMinutes <- 5  # separation between timepoints in minutes
+```
+
+### Get the pixel values and display image
+
+```{r}
+t <- as.integer(tmax / 2) # use half-time point
+pixels <- getPixelValues(image, 1, t, 2)
+ebi <- EBImage::Image(data = pixels, colormode = 'Grayscale')
+img <- normalize(ebi)
+EBImage::display(img)
+```
+
+### Threshold the image
+
+```{r}
+threshImg <- thresh(img, w=20, h=20, offset=0.05)
+threshImg <- medianFilter(threshImg, 3)
+threshImg <- fillHull(threshImg)
+threshImg <- bwlabel(threshImg)
+EBImage::display(colorLabels(threshImg))
+```
+
+### Count the number of cells
+
+```{r}
+count <- range(threshImg)
+count[2]
+```
+
+### Wrap up thresholding and counting into a function
+
+```{r}
+countCells <- function (t) {
+  pixels <- getPixelValues(image, 1, t, 2)
+  ebi <- EBImage::Image(data = pixels, colormode = 'Grayscale')
+  img <- normalize(ebi)
+  threshImg <- thresh(img, w=20, h=20, offset=0.05)
+  threshImg <- medianFilter(threshImg, 3)
+  threshImg <- fillHull(threshImg)
+  threshImg <- bwlabel(threshImg)
+  count <- range(threshImg)
+  as.integer(count[2])
+}
+```
+
+### Analyse all time points
+
+```{r}
+timepoints <- (1:tmax) # analyze every time point
+#timepoints <- seq(1,tmax,7) # only use every seventh time point (faster)
+df <- data.frame(TimePoint=timepoints)
+df$CellCount <- sapply(df$TimePoint, countCells)
+df$TimePoint <- sapply(df$TimePoint, function(x) x * tInMinutes)
+df
+```
+
+### Plot the result
+
+```{r}
+plot(df$TimePoint, df$CellCount, ylab = "Number of cells", xlab = "Time (in min)")
+```
+
+### Fit a model
+
+```{r}
+model <- lm(log(df$CellCount)~ df$TimePoint)
+print(summary(model))
+```
+
+### Lets see how well it fits visually
+
+```{r}
+plotTime <- as.list(df[,1])
+predCounts <- exp(predict(model,plotTime))
+plot(df$TimePoint, df$CellCount, ylab = "Number of cells", xlab = "Time (in min)")
+lines(plotTime, predCounts,lwd=2, col = "red")
+```
+
+### Disconnect from the server again
+
+```{r}
+disconnect(server)
+```
