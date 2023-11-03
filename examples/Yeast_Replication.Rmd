@@ -79,8 +79,8 @@ countCells <- function (t) {
 ### Analyse all time points
 
 ```{r}
-timepoints <- (1:tmax) # analyze every time point
-#timepoints <- seq(1,tmax,7) # only use every seventh time point (faster)
+#timepoints <- (1:tmax) # analyze every time point
+timepoints <- seq(1,tmax,4) # only use every fourth time point (faster)
 df <- data.frame(TimePoint=timepoints)
 df$CellCount <- sapply(df$TimePoint, countCells)
 df$TimePoint <- sapply(df$TimePoint, function(x) x * tInMinutes)
@@ -99,6 +99,8 @@ plot(df$TimePoint, df$CellCount, ylab = "Number of cells", xlab = "Time (in min)
 model <- lm(log(df$CellCount)~ df$TimePoint)
 print(summary(model))
 ```
+
+This gives us a model for the number of yeast cells N at time point t (in min): $N = e^{4.72710 + 0.00374 * t}$ .
 
 ### Lets see how well it fits visually
 
